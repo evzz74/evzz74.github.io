@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) 1 2 sudo apt update sudo apt install fish macOS 1 brew install fish Windows (WSL) 1 2 sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+<title>FISH语言学习</title>
+
+<link rel='canonical' href='https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="FISH语言学习">
+<meta property='og:description' content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) 1 2 sudo apt update sudo apt install fish macOS 1 brew install fish Windows (WSL) 1 2 sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+<meta property='og:url' content='https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/'>
+<meta property='og:site_name' content='AnJoy&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='教程' /><meta property='article:tag' content='FISH' /><meta property='article:published_time' content='2025-10-29T20:25:25&#43;08:00'/><meta property='article:modified_time' content='2025-12-02T13:34:21&#43;00:00'/>
+<meta name="twitter:title" content="FISH语言学习">
+<meta name="twitter:description" content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) 1 2 sudo apt update sudo apt install fish macOS 1 brew install fish Windows (WSL) 1 2 sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_1616eb653592b5e4.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AnJoy&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/121854846?spm_id_from=333.1007.0.0'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/AnJoy0723'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是fish">什么是FISH？</a></li>
+    <li><a href="#安装fish">安装FISH</a>
+      <ol>
+        <li><a href="#linux-ubuntudebian">Linux (Ubuntu/Debian)</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#windows-wsl">Windows (WSL)</a></li>
+      </ol>
+    </li>
+    <li><a href="#基础语法">基础语法</a>
+      <ol>
+        <li><a href="#1-变量赋值和引用">1. 变量赋值和引用</a></li>
+        <li><a href="#2-环境变量">2. 环境变量</a></li>
+        <li><a href="#3-命令替换">3. 命令替换</a></li>
+        <li><a href="#4-引号规则">4. 引号规则</a></li>
+      </ol>
+    </li>
+    <li><a href="#控制结构">控制结构</a>
+      <ol>
+        <li><a href="#1-条件判断-if">1. 条件判断 (if)</a></li>
+        <li><a href="#2-循环-for">2. 循环 (for)</a></li>
+        <li><a href="#3-循环-while">3. 循环 (while)</a></li>
+        <li><a href="#4-开关语句-switch">4. 开关语句 (switch)</a></li>
+      </ol>
+    </li>
+    <li><a href="#函数">函数</a>
+      <ol>
+        <li><a href="#定义函数">定义函数</a></li>
+      </ol>
+    </li>
+    <li><a href="#常用内置命令">常用内置命令</a>
+      <ol>
+        <li><a href="#文件和目录操作">文件和目录操作</a></li>
+        <li><a href="#查看命令">查看命令</a></li>
+        <li><a href="#文本处理">文本处理</a></li>
+        <li><a href="#网络命令">网络命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#实际示例">实际示例</a>
+      <ol>
+        <li><a href="#1-系统监控脚本">1. 系统监控脚本</a></li>
+        <li><a href="#2-批量文件重命名">2. 批量文件重命名</a></li>
+        <li><a href="#3-日志分析脚本">3. 日志分析脚本</a></li>
+        <li><a href="#4-项目自动部署脚本">4. 项目自动部署脚本</a></li>
+      </ol>
+    </li>
+    <li><a href="#智能补全">智能补全</a></li>
+    <li><a href="#常用技巧">常用技巧</a>
+      <ol>
+        <li><a href="#1-别名设置">1. 别名设置</a></li>
+        <li><a href="#2-配置fish">2. 配置FISH</a></li>
+        <li><a href="#3-历史记录">3. 历史记录</a></li>
+      </ol>
+    </li>
+    <li><a href="#学习资源">学习资源</a>
+      <ol>
+        <li><a href="#官方资源">官方资源</a></li>
+        <li><a href="#在线工具">在线工具</a></li>
+        <li><a href="#社区资源">社区资源</a></li>
+        <li><a href="#推荐书籍">推荐书籍</a></li>
+        <li><a href="#练习项目">练习项目</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/fish%E8%AF%AD%E8%A8%80/" >
+                FISH语言
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">FISH语言学习</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 29, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="fish语言学习教程">FISH语言学习教程
+</h1><h2 id="什么是fish">什么是FISH？
+</h2><p>FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：</p>
+<ul>
+<li><strong>智能补全</strong>：强大的自动补全功能，可以补全命令、参数、文件路径等</li>
+<li><strong>美观界面</strong>：支持颜色、表情符号和富文本显示</li>
+<li><strong>脚本友好</strong>：简洁的语法，适合编写自动化脚本</li>
+<li><strong>易于使用</strong>：比传统shell更直观的设计</li>
+<li><strong>跨平台</strong>：支持Linux、macOS和Windows（WSL）</li>
+</ul>
+<h2 id="安装fish">安装FISH
+</h2><h3 id="linux-ubuntudebian">Linux (Ubuntu/Debian)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install fish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="macos">macOS
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install fish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="windows-wsl">Windows (WSL)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install fish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置FISH为默认shell：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> /usr/bin/fish <span class="p">|</span> sudo tee -a /etc/shells
+</span></span><span class="line"><span class="cl">chsh -s /usr/bin/fish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="基础语法">基础语法
+</h2><h3 id="1-变量赋值和引用">1. 变量赋值和引用
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 赋值（注意等号两边不能有空格）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;张三&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">age</span> <span class="m">25</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 引用变量（使用$符号）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s2">&#34;我叫 </span><span class="nv">$name</span><span class="s2"> 今年 </span><span class="nv">$age</span><span class="s2"> 岁&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 临时变量（仅当前命令有效）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> /usr/local/bin  <span class="c"># export效果
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-环境变量">2. 环境变量
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 设置环境变量
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">EDITOR</span> <span class="s2">&#34;vim&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> /custom/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 查看环境变量
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="nv">$PATH</span>
+</span></span><span class="line"><span class="cl"><span class="nf">env</span>  <span class="c"># 显示所有环境变量
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-命令替换">3. 命令替换
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 将命令输出赋值给变量
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">current_dir</span> <span class="o">(</span><span class="nf">pwd</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">today</span> <span class="o">(</span><span class="nf">date</span> +%Y-%m-%d<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">file_count</span> <span class="o">(</span><span class="nf">ls</span> -<span class="m">1</span> <span class="o">|</span> <span class="nf">wc</span> <span class="na">-l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;当前目录: </span><span class="nv">$current_dir</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;今天日期: </span><span class="nv">$today</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;文件数量: </span><span class="nv">$file_count</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-引号规则">4. 引号规则
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 双引号：允许变量扩展
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;世界&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;你好, </span><span class="nv">$name</span><span class="s2">&#34;</span>  <span class="c"># 输出: 你好, 世界
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="c"># 单引号：禁止变量扩展
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s1">&#39;你好, $name&#39;</span>  <span class="c"># 输出: 你好, $name
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="c"># 转义字符
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s2">&#34;路径: /home/user/dir with space&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="控制结构">控制结构
+</h2><h3 id="1-条件判断-if">1. 条件判断 (if)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 基本语法
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;成年人&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;未成年人&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 多条件判断
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span><span class="p">;</span> <span class="k">and</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-lt</span> <span class="m">60</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;工作年龄&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">60</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;退休年龄&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;未成年&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 文件测试
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;file.txt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;file.txt 是一个普通文件&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="na">-d</span> <span class="s2">&#34;directory&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;directory 是一个目录&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 字符串比较
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="s2">&#34;</span><span class="nv">$name</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;admin&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;欢迎管理员&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-循环-for">2. 循环 (for)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 遍历列表
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">for</span> <span class="nv">file</span> <span class="k">in</span> *.txt
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;处理文件: </span><span class="nv">$file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 遍历数字序列
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="o">(</span><span class="nf">seq</span> <span class="m">1</span> <span class="m">5</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;数字: </span><span class="nv">$i</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 遍历数组
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">fruits</span> apple banana orange
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nv">fruit</span> <span class="k">in</span> <span class="nv">$fruits</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;我喜欢 </span><span class="nv">$fruit</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-循环-while">3. 循环 (while)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="k">count</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="k">test</span> <span class="nv">$count</span> <span class="na">-le</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;计数: </span><span class="nv">$count</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="k">count</span> <span class="o">(</span><span class="nb">math</span> <span class="nv">$count</span> + <span class="m">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-开关语句-switch">4. 开关语句 (switch)
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">os</span> <span class="s2">&#34;linux&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">switch</span> <span class="nv">$os</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s2">&#34;linux&#34;</span> <span class="s2">&#34;ubuntu&#34;</span> <span class="s2">&#34;centos&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;Linux系统&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s2">&#34;mac&#34;</span> <span class="s2">&#34;darwin&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;macOS系统&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s2">&#34;windows&#34;</span> <span class="s2">&#34;msys&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;Windows系统&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s2">&#34;*&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;未知系统&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="函数">函数
+</h2><h3 id="定义函数">定义函数
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 基本函数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">greet</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;你好, </span><span class="nv">$argv</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 带参数的函数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">add</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">a</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">b</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nb">math</span> <span class="nv">$a</span> + <span class="nv">$b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 函数示例
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">greet</span> <span class="s2">&#34;世界&#34;</span>  <span class="c"># 调用函数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">add</span> <span class="m">10</span> <span class="m">20</span>     <span class="c"># 输出: 30
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="c"># 复杂函数示例
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">backup_file</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[1]&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">set</span> <span class="nv">backup</span> <span class="o">(</span><span class="nf">date</span> +%Y%m%d_%H%M%S<span class="o">)</span>_<span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">cp</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="nv">$backup</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;备份完成: </span><span class="nv">$backup</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;文件不存在: </span><span class="nv">$argv</span><span class="s2">[1]&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">backup_file</span> <span class="s2">&#34;important.txt&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="常用内置命令">常用内置命令
+</h2><h3 id="文件和目录操作">文件和目录操作
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 列出文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">ls</span> <span class="na">-la</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 创建目录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">mkdir</span> new_directory
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 复制文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">cp</span> source.txt destination.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 移动/重命名
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">mv</span> old_name.txt new_name.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 删除文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">rm</span> file.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 删除目录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">rmdir</span> empty_directory
+</span></span><span class="line"><span class="cl"><span class="nf">rm</span> <span class="na">-rf</span> non_empty_directory
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看命令">查看命令
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 查看文件内容
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">cat</span> file.txt
+</span></span><span class="line"><span class="cl"><span class="nf">less</span> file.txt
+</span></span><span class="line"><span class="cl"><span class="nf">head</span> <span class="na">-n</span> <span class="m">10</span> file.txt  <span class="c"># 前10行
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">tail</span> <span class="na">-n</span> <span class="m">10</span> file.txt  <span class="c"># 后10行
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="文本处理">文本处理
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 搜索文本
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">grep</span> <span class="s2">&#34;pattern&#34;</span> file.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 排序
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sort</span> file.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 去重
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">uniq</span> file.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 统计行数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">wc</span> <span class="na">-l</span> file.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="网络命令">网络命令
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 测试网络连接
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">ping</span> google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 下载文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">curl</span> <span class="na">-O</span> https://example.com/file.txt
+</span></span><span class="line"><span class="cl"><span class="nf">wget</span> https://example.com/file.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 显示网络连接
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">netstat</span> <span class="na">-tuln</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实际示例">实际示例
+</h2><h3 id="1-系统监控脚本">1. 系统监控脚本
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">system_info</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 系统信息 ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;当前用户: </span><span class="nv">$USER</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;主机名: &#34;</span><span class="o">(</span><span class="nf">hostname</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;操作系统: &#34;</span><span class="o">(</span><span class="nf">uname</span> <span class="na">-s</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;内核版本: &#34;</span><span class="o">(</span><span class="nf">uname</span> <span class="na">-r</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;运行时间: &#34;</span><span class="o">(</span><span class="nf">uptime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 磁盘使用 ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">df</span> <span class="na">-h</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 内存使用 ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">free</span> <span class="na">-h</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 负载均值 ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">uptime</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">system_info</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-批量文件重命名">2. 批量文件重命名
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">batch_rename</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">prefix</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">counter</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nv">file</span> <span class="k">in</span> *.<span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">set</span> <span class="nv">new_name</span> <span class="o">(</span><span class="nb">printf</span> <span class="s2">&#34;%s_%02d.%s&#34;</span> <span class="nv">$prefix</span> <span class="nv">$counter</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">mv</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$new_name</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">echo</span> <span class="s2">&#34;重命名: </span><span class="nv">$file</span><span class="s2"> -&gt; </span><span class="nv">$new_name</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">set</span> <span class="nv">counter</span> <span class="o">(</span><span class="nb">math</span> <span class="nv">$counter</span> + <span class="m">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 使用示例：批量重命名所有txt文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">batch_rename</span> <span class="s2">&#34;document&#34;</span> <span class="s2">&#34;txt&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-日志分析脚本">3. 日志分析脚本
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">analyze_log</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">log_file</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">not</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;</span><span class="nv">$log_file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;日志文件不存在: </span><span class="nv">$log_file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 日志分析: </span><span class="nv">$log_file</span><span class="s2"> ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;总行数: &#34;</span><span class="o">(</span><span class="nf">wc</span> <span class="na">-l</span> <span class="o">&lt;</span> <span class="nv">$log_file</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;错误行数: &#34;</span><span class="o">(</span><span class="nf">grep</span> <span class="na">-i</span> <span class="s2">&#34;error&#34;</span> <span class="nv">$log_file</span> <span class="o">|</span> <span class="nf">wc</span> <span class="na">-l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;警告行数: &#34;</span><span class="o">(</span><span class="nf">grep</span> <span class="na">-i</span> <span class="s2">&#34;warning&#34;</span> <span class="nv">$log_file</span> <span class="o">|</span> <span class="nf">wc</span> <span class="na">-l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 最新10条错误 ===&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">grep</span> <span class="na">-i</span> <span class="s2">&#34;error&#34;</span> <span class="nv">$log_file</span> <span class="o">|</span> <span class="nf">tail</span> <span class="na">-n</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">analyze_log</span> <span class="s2">&#34;/var/log/syslog&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-项目自动部署脚本">4. 项目自动部署脚本
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">deploy_project</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">repo_url</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">deploy_dir</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;开始部署项目...&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c"># 拉取最新代码
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">cd</span> <span class="nv">$deploy_dir</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">git</span> pull origin main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c"># 安装依赖
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;package.json&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">npm</span> install
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;requirements.txt&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">pip</span> install <span class="na">-r</span> requirements.txt
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c"># 运行测试
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">echo</span> <span class="s2">&#34;运行测试...&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">make</span> test
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c"># 重启服务
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">echo</span> <span class="s2">&#34;重启服务...&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="nf">systemctl</span> restart myapp
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;部署完成!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="智能补全">智能补全
+</h2><p>FISH的强大功能之一是其智能补全系统：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 按Tab键自动补全：
+</span></span></span><span class="line"><span class="cl"><span class="c"># - 命令名称
+</span></span></span><span class="line"><span class="cl"><span class="c"># - 命令参数
+</span></span></span><span class="line"><span class="cl"><span class="c"># - 文件路径
+</span></span></span><span class="line"><span class="cl"><span class="c"># - 环境变量名
+</span></span></span><span class="line"><span class="cl"><span class="c"># - 用户名、主机名等
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="c"># 自定义补全
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-s</span> h <span class="na">-l</span> <span class="nb">help</span> <span class="na">-d</span> <span class="s2">&#34;显示帮助信息&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-s</span> v <span class="na">-l</span> version <span class="na">-d</span> <span class="s2">&#34;显示版本信息&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-f</span> <span class="na">-d</span> <span class="s2">&#34;输入文件&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="常用技巧">常用技巧
+</h2><h3 id="1-别名设置">1. 别名设置
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 创建别名
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">alias </span>ll <span class="s1">&#39;ls -alh&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias </span>gs <span class="s1">&#39;git status&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias </span>gp <span class="s1">&#39;git push&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 使别名永久生效（添加到配置文件）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">not</span> <span class="nb">functions</span> <span class="na">-q</span> fish_user_key_bindings
+</span></span><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">fish_user_key_bindings</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-配置fish">2. 配置FISH
+</h3><p>FISH的配置文件位置：</p>
+<ul>
+<li>全局配置：<code>/etc/fish/config.fish</code></li>
+<li>用户配置：<code>~/.config/fish/config.fish</code></li>
+<li>函数目录：<code>~/.config/fish/functions/</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># ~/.config/fish/config.fish 示例
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设置环境变量
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> ~/bin ~/.local/bin
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">EDITOR</span> <span class="s2">&#34;vim&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">LANG</span> <span class="s2">&#34;zh_CN.UTF-8&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 设置提示符
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nb">fish_prompt
+</span></span></span><span class="line"><span class="cl"><span class="nb">    set_color </span>purple
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nf">whoami</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">set_color </span>normal
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34; at &#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">set_color </span>yellow
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nf">prompt_hostname</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">set_color </span>normal
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34; in &#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">set_color</span> <span class="nv">$fish_color_cwd</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nf">pwd</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">set_color </span>normal
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34; </span><span class="nv">$ </span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 加载额外配置
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> ~/.fish_aliases
+</span></span><span class="line"><span class="cl">    <span class="nb">source</span> ~/.fish_aliases
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-历史记录">3. 历史记录
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 查看历史记录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 搜索历史记录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history</span> <span class="o">|</span> <span class="nf">grep</span> <span class="s2">&#34;git&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 清理历史记录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history </span>clear
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="学习资源">学习资源
+</h2><h3 id="官方资源">官方资源
+</h3><ul>
+<li><a class="link" href="https://fishshell.com/docs/current/"  target="_blank" rel="noopener"
+    >FISH官方文档</a></li>
+<li><a class="link" href="https://github.com/fish-shell/fish-shell"  target="_blank" rel="noopener"
+    >FISH GitHub仓库</a></li>
+<li><a class="link" href="https://fishshell.com/docs/current/tutorial.html"  target="_blank" rel="noopener"
+    >FISH教程</a></li>
+</ul>
+<h3 id="在线工具">在线工具
+</h3><ul>
+<li><a class="link" href="https://fishshell.com/try/"  target="_blank" rel="noopener"
+    >FISH在线试用</a></li>
+<li><a class="link" href="https://www.cheatography.com/stepk/cheat-sheet/fish-shell-a5/"  target="_blank" rel="noopener"
+    >FISH速查表</a></li>
+</ul>
+<h3 id="社区资源">社区资源
+</h3><ul>
+<li><a class="link" href="https://discourse.fishshell.com/"  target="_blank" rel="noopener"
+    >FISH用户论坛</a></li>
+<li><a class="link" href="https://github.com/fish-shell/fish-shell/wiki"  target="_blank" rel="noopener"
+    >FISH维基</a></li>
+</ul>
+<h3 id="推荐书籍">推荐书籍
+</h3><ul>
+<li>《The Fish Shell》</li>
+<li>《Command Line Essentials》</li>
+</ul>
+<h3 id="练习项目">练习项目
+</h3><ol>
+<li>编写系统监控脚本</li>
+<li>创建自动化备份工具</li>
+<li>构建批量文件处理脚本</li>
+<li>开发项目部署工具</li>
+<li>编写日志分析脚本</li>
+</ol>
+<h2 id="总结">总结
+</h2><p>FISH是一种现代化、用户友好的shell和脚本语言。相比传统shell，它具有：</p>
+<ul>
+<li>更简洁的语法</li>
+<li>更好的用户体验</li>
+<li>强大的自动补全</li>
+<li>丰富的内置功能</li>
+</ul>
+<hr>
+<p><em>更多FISH语言资源和教程，请参考官方文档和社区资源。</em></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%95%99%E7%A8%8B/">教程</a>
+        
+            <a href="/tags/fish/">FISH</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Dec 02, 2025 13:34 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="AnJoy0723/AnJoy0723.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 AnJoy
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://anjoy0723.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://anjoy0723.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main"，
+            ".sidebar",
+			".main-article",
+			".js-Pjax"
+        ],
+        cacheBust: false  
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+                
+                
+                updateMetaTags(newDom);
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+    
+    
+    function updateMetaTags(newDom) {
+        
+        const metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+        
+        metaSelectors.forEach(selector => {
+            const newMeta = newDom.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            const currentMeta = document.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        
+        let comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        let script = document.createElement('script');
+        
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'AnJoy0723\/AnJoy0723.github.io');
+		script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title'); 
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+		script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://anjoy0723.github.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://anjoy0723.github.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://anjoy0723.github.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
