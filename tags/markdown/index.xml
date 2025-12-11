@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Markdown on AnJoy&#39;s Blog</title>
-        <link>https://anjoy0723.github.io/tags/markdown/</link>
+        <link>https://evzz74.github.io/tags/markdown/</link>
         <description>Recent content in Markdown on AnJoy&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 02 Dec 2025 13:34:21 +0000</lastBuildDate><atom:link href="https://anjoy0723.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 11 Dec 2025 13:30:10 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Codex接入第三方key</title>
-        <link>https://anjoy0723.github.io/p/codex%E6%8E%A5%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9key/</link>
+        <link>https://evzz74.github.io/p/codex%E6%8E%A5%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9key/</link>
         <pubDate>Tue, 14 Oct 2025 14:25:06 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/codex%E6%8E%A5%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9key/</guid>
+        <guid>https://evzz74.github.io/p/codex%E6%8E%A5%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9key/</guid>
         <description>&lt;h1 id=&#34;codex接入kimi-k2glm-45-环境配置指南-windowsmacosubuntu&#34;&gt;Codex接入Kimi K2/GLM-4.5 环境配置指南 (Windows/macOS/Ubuntu)
 &lt;/h1&gt;&lt;h2 id=&#34;1-安装-nodejs&#34;&gt;1. 安装 Node.js
 &lt;/h2&gt;&lt;p&gt;在开始之前，您的系统需要安装好 Node.js。&lt;/p&gt;
@@ -210,10 +210,10 @@
         </item>
         <item>
         <title>Git 使用说明及常用命令</title>
-        <link>https://anjoy0723.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+        <link>https://evzz74.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
         <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+        <guid>https://evzz74.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
         <description>&lt;p&gt;Git 是一个版本控制系统，允许开发人员跟踪其代码随时间的变化。它允许多个人同时处理同一个代码库，并且如果出现问题，可以轻松恢复到以前的代码版本。&lt;/p&gt;
 &lt;h1 id=&#34;一版本检查&#34;&gt;一、版本检查
 &lt;/h1&gt;&lt;p&gt;要检查系统上安装的 Git 版本，可以在终端或命令提示符中使用以下命令：&lt;/p&gt;
@@ -386,10 +386,10 @@ Your commit message:具体的更改信息&lt;/p&gt;
         </item>
         <item>
         <title>Legendary</title>
-        <link>https://anjoy0723.github.io/p/legendary/</link>
+        <link>https://evzz74.github.io/p/legendary/</link>
         <pubDate>Fri, 28 Feb 2025 19:11:27 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/legendary/</guid>
+        <guid>https://evzz74.github.io/p/legendary/</guid>
         <description>&lt;p&gt;legendary下载链接：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/derrod/legendary/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -410,10 +410,10 @@ Your commit message:具体的更改信息&lt;/p&gt;
         </item>
         <item>
         <title>Jsp</title>
-        <link>https://anjoy0723.github.io/p/jsp/</link>
+        <link>https://evzz74.github.io/p/jsp/</link>
         <pubDate>Fri, 28 Feb 2025 18:40:29 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/jsp/</guid>
+        <guid>https://evzz74.github.io/p/jsp/</guid>
         <description>&lt;h1 id=&#34;一访问请求参数的方法&#34;&gt;一、访问请求参数的方法
 &lt;/h1&gt;&lt;p&gt;Java web中进行值传递的方法常用的有三种，分别是：&lt;/p&gt;
 &lt;p&gt;使用JSP的forward或include动作，利用传参数子动作实现参数的传递，‘&lt;/p&gt;

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>教程 on AnJoy&#39;s Blog</title>
-        <link>https://anjoy0723.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+        <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
         <description>Recent content in 教程 on AnJoy&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 02 Dec 2025 13:34:21 +0000</lastBuildDate><atom:link href="https://anjoy0723.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 11 Dec 2025 13:30:10 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>FISH语言学习</title>
-        <link>https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
+        <link>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
         <description>&lt;h1 id=&#34;fish语言学习教程&#34;&gt;FISH语言学习教程
 &lt;/h1&gt;&lt;h2 id=&#34;什么是fish&#34;&gt;什么是FISH？
 &lt;/h2&gt;&lt;p&gt;FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：&lt;/p&gt;
@@ -901,10 +901,10 @@
         </item>
         <item>
         <title>PFC学习记录</title>
-        <link>https://anjoy0723.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
+        <link>https://evzz74.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
         <pubDate>Mon, 27 Oct 2025 16:46:25 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
+        <guid>https://evzz74.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
         <description>&lt;h1 id=&#34;pfc-50-常用命令行指令手册&#34;&gt;PFC 5.0 常用命令行指令手册
 &lt;/h1&gt;&lt;h2 id=&#34;1-项目文件操作&#34;&gt;1. 项目文件操作
 &lt;/h2&gt;&lt;h3 id=&#34;11-文件加载&#34;&gt;1.1 文件加载
@@ -1872,11 +1872,11 @@
         </item>
         <item>
         <title>win10透明任务栏</title>
-        <link>https://anjoy0723.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</link>
+        <link>https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</link>
         <pubDate>Fri, 11 Apr 2025 16:12:04 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</guid>
-        <description>&lt;img src="https://anjoy0723.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
+        <guid>https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</guid>
+        <description>&lt;img src="https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
 &lt;/h2&gt;&lt;h2 id=&#34;打开注册表找到路径&#34;&gt;打开注册表，找到路径：
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1890,7 +1890,7 @@
 &lt;/h2&gt;&lt;h2 id=&#34;将值修改为十进制0就是全透明也可以是十进制0-10之间的效果&#34;&gt;将值修改为十进制0就是全透明，也可以是十进制0-10之间的效果。
 &lt;/h2&gt;&lt;h2 id=&#34;不用重启电脑任务管理器重启windows资源管理器就行&#34;&gt;不用重启电脑，任务管理器重启windows资源管理器就行。
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;实际效果展示：&lt;/strong&gt;&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://anjoy0723.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/test.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/test.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;实际效果演示&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>FISH语言 on AnJoy&#39;s Blog</title>
-        <link>https://anjoy0723.github.io/categories/fish%E8%AF%AD%E8%A8%80/</link>
+        <link>https://evzz74.github.io/categories/fish%E8%AF%AD%E8%A8%80/</link>
         <description>Recent content in FISH语言 on AnJoy&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 02 Dec 2025 13:34:21 +0000</lastBuildDate><atom:link href="https://anjoy0723.github.io/categories/fish%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 11 Dec 2025 13:30:10 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/fish%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>FISH语言学习</title>
-        <link>https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
+        <link>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
         <description>&lt;h1 id=&#34;fish语言学习教程&#34;&gt;FISH语言学习教程
 &lt;/h1&gt;&lt;h2 id=&#34;什么是fish&#34;&gt;什么是FISH？
 &lt;/h2&gt;&lt;p&gt;FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：&lt;/p&gt;

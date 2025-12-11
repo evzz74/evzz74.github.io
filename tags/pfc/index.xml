@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>PFC on AnJoy&#39;s Blog</title>
-        <link>https://anjoy0723.github.io/tags/pfc/</link>
+        <link>https://evzz74.github.io/tags/pfc/</link>
         <description>Recent content in PFC on AnJoy&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 02 Dec 2025 13:34:21 +0000</lastBuildDate><atom:link href="https://anjoy0723.github.io/tags/pfc/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 11 Dec 2025 13:30:10 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/pfc/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>PFC学习记录</title>
-        <link>https://anjoy0723.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
+        <link>https://evzz74.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
         <pubDate>Mon, 27 Oct 2025 16:46:25 +0800</pubDate>
         
-        <guid>https://anjoy0723.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
+        <guid>https://evzz74.github.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
         <description>&lt;h1 id=&#34;pfc-50-常用命令行指令手册&#34;&gt;PFC 5.0 常用命令行指令手册
 &lt;/h1&gt;&lt;h2 id=&#34;1-项目文件操作&#34;&gt;1. 项目文件操作
 &lt;/h2&gt;&lt;h3 id=&#34;11-文件加载&#34;&gt;1.1 文件加载
