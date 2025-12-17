@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>番茄时钟 - Pomodoro Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>番茄时钟</h1>
+                    <p class="subtitle">专注当下，提高效率</p>
+                </div>
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="light" title="日间模式">
+                        <i class="material-icons">wb_sunny</i>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" title="夜间模式">
+                        <i class="material-icons">nightlight_round</i>
+                    </button>
+                    <button class="theme-btn" data-theme="green" title="护眼模式">
+                        <i class="material-icons">eco</i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="timer-container">
+                <div class="timer-display">
+                    <div class="timer-circle">
+                        <svg class="progress-ring" width="200" height="200">
+                            <circle class="progress-ring__circle" stroke="#e8eaed" stroke-width="8" fill="transparent" r="90" cx="100" cy="100"/>
+                            <circle class="progress-ring__progress" stroke="#1a73e8" stroke-width="8" fill="transparent" r="90" cx="100" cy="100"/>
+                        </svg>
+                        <div class="timer-text" style="display: flex; justify-content: center; align-items: center;">
+                            <span id="minutes">01</span>
+                            <span class="colon">:</span>
+                            <span id="seconds">00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timer-controls">
+                    <button id="startBtn" class="btn btn-primary">
+                        <i class="material-icons">play_arrow</i>
+                        开始
+                    </button>
+                    <button id="pauseBtn" class="btn btn-secondary" disabled>
+                        <i class="material-icons">pause</i>
+                        暂停
+                    </button>
+                    <button id="resetBtn" class="btn btn-tertiary">
+                        <i class="material-icons">refresh</i>
+                        重置
+                    </button>
+                </div>
+
+                <div class="timer-modes">
+                    <button class="mode-btn active" data-time="1">
+                        <div class="mode-icon">🍅</div>
+                        <div class="mode-label">短休息</div>
+                        <div class="mode-time">1分钟</div>
+                    </button>
+                    <button class="mode-btn" data-time="3">
+                        <div class="mode-icon">☕</div>
+                        <div class="mode-label">长休息</div>
+                        <div class="mode-time">3分钟</div>
+                    </button>
+                    <button class="mode-btn" data-time="25">
+                        <div class="mode-icon">🎯</div>
+                        <div class="mode-label">专注时间</div>
+                        <div class="mode-time">25分钟</div>
+                    </button>
+                </div>
+
+                <div class="custom-time-container">
+                    <div class="custom-time-label">
+                        <i class="material-icons">schedule</i>
+                        <span>自定义专注时间</span>
+                    </div>
+                    <div class="custom-time-input-group">
+                        <input type="number" id="customMinutes" class="custom-time-input" min="1" max="120" placeholder="输入分钟数">
+                        <button id="setCustomTime" class="btn btn-primary btn-small">设置</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 奖励弹窗 -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎉 恭喜完成！</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="reward-animation">
+                    <div class="trophy">🏆</div>
+                    <div class="stars">⭐⭐⭐</div>
+                </div>
+                <p class="reward-message">太棒了！你成功完成了一个专注时段。</p>
+                <p class="reward-submessage">继续保持，你的效率正在提升！</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="continueBtn">继续下一个</button>
+                <button class="btn btn-secondary" id="takeBreakBtn">休息一下</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认弹窗 -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h2>⚠️ 确认操作</h2>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-message" id="confirmMessage">计时器正在运行，确定要执行此操作吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirmYes">确定</button>
+                <button class="btn btn-secondary" id="confirmNo">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
