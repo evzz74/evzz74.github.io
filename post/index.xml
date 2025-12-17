@@ -7,7 +7,155 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 17 Dec 2025 11:57:55 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 12:40:12 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Aseprite 简易在线编译教程</title>
+        <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+&lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
+&lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;Aseprite&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;h3 id=&#34;-准备工作&#34;&gt;📌 准备工作
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;一个 &lt;strong&gt;GitHub 账号&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;网络环境畅通。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第一步fork-项目仓库&#34;&gt;第一步：Fork 项目仓库
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;登录 GitHub，访问项目：&lt;a class=&#34;link&#34; href=&#34;https://github.com/a1393323447/aseprite-builder&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;aseprite-builder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;点击页面右上角的 &lt;strong&gt;Fork&lt;/strong&gt; 按钮。&lt;/li&gt;
+&lt;li&gt;在跳转页面点击 &lt;strong&gt;Create fork&lt;/strong&gt;，将项目复制到你的个人账号下。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第二步配置编译参数&#34;&gt;第二步：配置编译参数
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;进入你账号下的 &lt;code&gt;aseprite-builder&lt;/code&gt; 仓库。&lt;/li&gt;
+&lt;li&gt;点击 &lt;strong&gt;Actions&lt;/strong&gt; 选项卡，点击绿色按钮 &lt;strong&gt;&amp;ldquo;I understand my workflows, go ahead and enable them&amp;rdquo;&lt;/strong&gt; 启用工作流。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;修改系统匹配（重要）：&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;依次点击 &lt;code&gt;workflows&lt;/code&gt; -&amp;gt; &lt;code&gt;build.yml&lt;/code&gt; 文件。&lt;/li&gt;
+&lt;li&gt;点击右上角 &lt;strong&gt;铅笔图标&lt;/strong&gt; 进入编辑模式。&lt;/li&gt;
+&lt;li&gt;找到&lt;strong&gt;第 55 行&lt;/strong&gt;，将 &lt;code&gt;os: [windows-latest, ubuntu-latest, macos-latest]&lt;/code&gt; 修改为你需要的系统（例如 Windows）：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;修改编译参数&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;ul&gt;
+&lt;li&gt;点击 &lt;strong&gt;Commit changes&amp;hellip;&lt;/strong&gt; 保存修改。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第三步开始在线编译&#34;&gt;第三步：开始在线编译
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;再次点击顶部 &lt;strong&gt;Actions&lt;/strong&gt; 菜单。&lt;/li&gt;
+&lt;li&gt;在左侧栏选择 &lt;strong&gt;Build and release Aseprite&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;点击右侧的 &lt;strong&gt;Run workflow&lt;/strong&gt; 下拉框，点击绿色的 &lt;strong&gt;Run workflow&lt;/strong&gt; 按钮。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;等待：&lt;/strong&gt; 编译过程大约需要 &lt;strong&gt;15 分钟&lt;/strong&gt;。当列表出现绿色对勾时，表示编译成功。
+&lt;img src=&#34;https://private-user-images.githubusercontent.com/72246322/418335212-5174f407-4daf-4e28-996e-5efb4f8751cb.PNG?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjU5NzQ5MDQsIm5iZiI6MTc2NTk3NDYwNCwicGF0aCI6Ii83MjI0NjMyMi80MTgzMzUyMTItNTE3NGY0MDctNGRhZi00ZTI4LTk5NmUtNWVmYjRmODc1MWNiLlBORz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEyMTclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMjE3VDEyMzAwNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTc2MzI1MmNjOTE5OGQxZGE0ZjhjNjViOTY3NDdiMDEyMzgxOGFkYjMwZmQ2NzcxMGE1NDBmMWI5NjA2MDRmMTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.mRt5T2jRKS_Tmk-cpFubdlkUViuSiHi7nWZ5fUF7LEs&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Aseprite 编译示例&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第四步下载与运行&#34;&gt;第四步：下载与运行
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;回到仓库主页（Code 选项卡）。&lt;/li&gt;
+&lt;li&gt;在右侧 &lt;strong&gt;Releases&lt;/strong&gt; 栏目中点击最新生成的版本。&lt;/li&gt;
+&lt;li&gt;下载对应的 &lt;code&gt;.zip&lt;/code&gt; 压缩包并解压。&lt;/li&gt;
+&lt;li&gt;运行文件夹内的 &lt;code&gt;aseprite.exe&lt;/code&gt; 即可开始使用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 系统缺少 OpenSSL 运行库。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;解决：&lt;/strong&gt; 1.  在项目 Release 页面下载 &lt;code&gt;openssl-1.1.1w.zip&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;解压后将 &lt;code&gt;x64/bin/&lt;/code&gt; 目录下的 &lt;code&gt;libcrypto-1_1-x64.dll&lt;/code&gt; 复制到 Aseprite 软件根目录（与 &lt;code&gt;.exe&lt;/code&gt; 同级）即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+---
+&lt;h3 id=&#34;-温馨提示&#34;&gt;💡 温馨提示
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;清理：&lt;/strong&gt; 编译完成后，建议根据用户协议自行删除账户内的 Release 文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;汉化/主题：&lt;/strong&gt; 可直接使用 Steam 社区或插件市场的语言包进行导入。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;支持正版：&lt;/strong&gt; 本教程仅供技术交流，有条件的请前往 Steam 购买支持开发者。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>值得收藏的几个网站</title>
+        <link>https://evzz74.github.io/p/%E5%80%BC%E5%BE%97%E6%94%B6%E8%97%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99/</link>
+        <pubDate>Wed, 17 Dec 2025 20:14:01 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/%E5%80%BC%E5%BE%97%E6%94%B6%E8%97%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99/</guid>
+        <description>&lt;h2 id=&#34;2dwallpapers&#34;&gt;2DWallpapers
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.2dwallpapers.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.2dwallpapers.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;一个免费的二次元、动漫、游戏壁纸下载网站。&lt;/p&gt;
+&lt;p&gt;网站收集了各种最新、热门壁纸美图，无需登录，无水印，全部可以直接免费下载。&lt;/p&gt;
+&lt;h2 id=&#34;抠抠图&#34;&gt;抠抠图
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.koukoutu.com/?v=xhpt.AI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.koukoutu.com/?v=xhpt.AI&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;一个免费在线AI抠图工具。&lt;/p&gt;
+&lt;p&gt;抠图功能永久免费，支持在线免费AI抠图和批量抠图，最多支持一次上传 100 张图片。
+上传图片后自动处理，3s 快速出图，抠图精度也很高。&lt;/p&gt;
+&lt;p&gt;还支持手动模式和高级编辑，可以对抠图范围进行自由调整，更换背景、插入图标/文字、修改尺寸、修改背景、大小等，非常强大。&lt;/p&gt;
+&lt;h2 id=&#34;在线psps软件网页版&#34;&gt;【在线PS】PS软件网页版
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://s.gd-share.cn/4qf7&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://s.gd-share.cn/4qf7&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;每次必推的实用工具——在线版 PS。&lt;/p&gt;
+&lt;p&gt;无需安装，只要有浏览器，网页版打开即用。&lt;/p&gt;
+&lt;p&gt;响应快速，PS 上常用的功能基本都有，日常或者临时使用都很不错。&lt;/p&gt;
+&lt;h2 id=&#34;极简插件&#34;&gt;极简插件
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://chrome.zzzmh.cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://chrome.zzzmh.cn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;使用 Chrome 的用户还是很多的，只是扩展不太方便安装。&lt;/p&gt;
+&lt;p&gt;这个网站是个非常好用的 Chrome 扩展下载网站，我们可以下载 CRX 扩展文件后，离线安装 Chrome 扩展。&lt;/p&gt;
+&lt;p&gt;简洁便捷，方便打不开 Chrome 扩展商店的用户使用！&lt;/p&gt;
+&lt;h2 id=&#34;云听-好听在云听&#34;&gt;云听-好听在云听
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.radio.cn/pc-portal/erji/radioStation.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.radio.cn/pc-portal/erji/radioStation.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;中央广播电视总台出品，在线听电台。&lt;/p&gt;
+&lt;p&gt;基本上包含了国内所有电台频道，免费、无广告、免登录。&lt;/p&gt;
+&lt;p&gt;速度极快，都是秒加载，喜欢听电台的用户收藏着一个就够了。&lt;/p&gt;
+&lt;h2 id=&#34;realdubbing-ai语音生成器&#34;&gt;RealDubbing AI语音生成器
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://realdubbing.com/zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://realdubbing.com/zh&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;免费文本转语音生成器。&lt;/p&gt;
+&lt;p&gt;使用 AI 将文本转换为自然、高质量的语音。&lt;/p&gt;
+&lt;p&gt;支持 100+ AI 语音，50+ 种语言，生成的语音可以在线试听或者下载为 MP3 文件。&lt;/p&gt;
+&lt;p&gt;无需注册，完全免费使用！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>读文献prompt</title>
         <link>https://evzz74.github.io/p/%E8%AF%BB%E6%96%87%E7%8C%AEprompt/</link>
         <pubDate>Wed, 17 Dec 2025 19:48:34 +0800</pubDate>
@@ -2650,7 +2798,7 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;再输入y确认即可&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8xx%E8%84%9A%E6%9C%AC%E6%8A%A5%E9%94%99/img2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8xx%E8%84%9A%E6%9C%AC%E6%8A%A5%E9%94%99/img2.jpg&#34; width=&#34;50%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;PowerShell&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;

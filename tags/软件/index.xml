@@ -7,7 +7,110 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 17 Dec 2025 11:57:55 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 12:40:12 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Aseprite 简易在线编译教程</title>
+        <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+&lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
+&lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;Aseprite&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;h3 id=&#34;-准备工作&#34;&gt;📌 准备工作
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;一个 &lt;strong&gt;GitHub 账号&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;网络环境畅通。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第一步fork-项目仓库&#34;&gt;第一步：Fork 项目仓库
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;登录 GitHub，访问项目：&lt;a class=&#34;link&#34; href=&#34;https://github.com/a1393323447/aseprite-builder&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;aseprite-builder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;点击页面右上角的 &lt;strong&gt;Fork&lt;/strong&gt; 按钮。&lt;/li&gt;
+&lt;li&gt;在跳转页面点击 &lt;strong&gt;Create fork&lt;/strong&gt;，将项目复制到你的个人账号下。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第二步配置编译参数&#34;&gt;第二步：配置编译参数
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;进入你账号下的 &lt;code&gt;aseprite-builder&lt;/code&gt; 仓库。&lt;/li&gt;
+&lt;li&gt;点击 &lt;strong&gt;Actions&lt;/strong&gt; 选项卡，点击绿色按钮 &lt;strong&gt;&amp;ldquo;I understand my workflows, go ahead and enable them&amp;rdquo;&lt;/strong&gt; 启用工作流。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;修改系统匹配（重要）：&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;依次点击 &lt;code&gt;workflows&lt;/code&gt; -&amp;gt; &lt;code&gt;build.yml&lt;/code&gt; 文件。&lt;/li&gt;
+&lt;li&gt;点击右上角 &lt;strong&gt;铅笔图标&lt;/strong&gt; 进入编辑模式。&lt;/li&gt;
+&lt;li&gt;找到&lt;strong&gt;第 55 行&lt;/strong&gt;，将 &lt;code&gt;os: [windows-latest, ubuntu-latest, macos-latest]&lt;/code&gt; 修改为你需要的系统（例如 Windows）：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;修改编译参数&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;ul&gt;
+&lt;li&gt;点击 &lt;strong&gt;Commit changes&amp;hellip;&lt;/strong&gt; 保存修改。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第三步开始在线编译&#34;&gt;第三步：开始在线编译
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;再次点击顶部 &lt;strong&gt;Actions&lt;/strong&gt; 菜单。&lt;/li&gt;
+&lt;li&gt;在左侧栏选择 &lt;strong&gt;Build and release Aseprite&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;点击右侧的 &lt;strong&gt;Run workflow&lt;/strong&gt; 下拉框，点击绿色的 &lt;strong&gt;Run workflow&lt;/strong&gt; 按钮。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;等待：&lt;/strong&gt; 编译过程大约需要 &lt;strong&gt;15 分钟&lt;/strong&gt;。当列表出现绿色对勾时，表示编译成功。
+&lt;img src=&#34;https://private-user-images.githubusercontent.com/72246322/418335212-5174f407-4daf-4e28-996e-5efb4f8751cb.PNG?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjU5NzQ5MDQsIm5iZiI6MTc2NTk3NDYwNCwicGF0aCI6Ii83MjI0NjMyMi80MTgzMzUyMTItNTE3NGY0MDctNGRhZi00ZTI4LTk5NmUtNWVmYjRmODc1MWNiLlBORz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEyMTclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMjE3VDEyMzAwNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTc2MzI1MmNjOTE5OGQxZGE0ZjhjNjViOTY3NDdiMDEyMzgxOGFkYjMwZmQ2NzcxMGE1NDBmMWI5NjA2MDRmMTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.mRt5T2jRKS_Tmk-cpFubdlkUViuSiHi7nWZ5fUF7LEs&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Aseprite 编译示例&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;第四步下载与运行&#34;&gt;第四步：下载与运行
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;回到仓库主页（Code 选项卡）。&lt;/li&gt;
+&lt;li&gt;在右侧 &lt;strong&gt;Releases&lt;/strong&gt; 栏目中点击最新生成的版本。&lt;/li&gt;
+&lt;li&gt;下载对应的 &lt;code&gt;.zip&lt;/code&gt; 压缩包并解压。&lt;/li&gt;
+&lt;li&gt;运行文件夹内的 &lt;code&gt;aseprite.exe&lt;/code&gt; 即可开始使用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 系统缺少 OpenSSL 运行库。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;解决：&lt;/strong&gt; 1.  在项目 Release 页面下载 &lt;code&gt;openssl-1.1.1w.zip&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;解压后将 &lt;code&gt;x64/bin/&lt;/code&gt; 目录下的 &lt;code&gt;libcrypto-1_1-x64.dll&lt;/code&gt; 复制到 Aseprite 软件根目录（与 &lt;code&gt;.exe&lt;/code&gt; 同级）即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+---
+&lt;h3 id=&#34;-温馨提示&#34;&gt;💡 温馨提示
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;清理：&lt;/strong&gt; 编译完成后，建议根据用户协议自行删除账户内的 Release 文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;汉化/主题：&lt;/strong&gt; 可直接使用 Steam 社区或插件市场的语言包进行导入。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;支持正版：&lt;/strong&gt; 本教程仅供技术交流，有条件的请前往 Steam 购买支持开发者。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>几款实用平替软件</title>
         <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
         <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
