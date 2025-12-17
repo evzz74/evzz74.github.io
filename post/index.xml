@@ -7,7 +7,155 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Mon, 15 Dec 2025 05:22:26 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 10:36:03 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>几款实用平替软件</title>
+        <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
+        <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</guid>
+        <description>&lt;hr&gt;
+&lt;h1 id=&#34;-顶级付费软件平替清单超实用生产力工具推荐&#34;&gt;💡 顶级付费软件平替清单：超实用生产力工具推荐
+&lt;/h1&gt;&lt;p&gt;一些开源/免费软件清单&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-办公套件--office-替代方案&#34;&gt;📑 办公套件 | Office 替代方案
+&lt;/h2&gt;&lt;h3 id=&#34;libreoffice--定位-真正开源纯净的-microsoft-office-强力对手&#34;&gt;&lt;strong&gt;LibreOffice&lt;/strong&gt; &amp;gt; &lt;strong&gt;定位：&lt;/strong&gt; 真正开源、纯净的 Microsoft Office 强力对手。
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://zh-cn.libreoffice.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;zh-cn.libreoffice.org&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;核心组件：&lt;/strong&gt; * &lt;code&gt;Writer&lt;/code&gt; (文档) / &lt;code&gt;Calc&lt;/code&gt; (表格) / &lt;code&gt;Impress&lt;/code&gt; (演示)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Draw&lt;/code&gt; (绘图) / &lt;code&gt;Math&lt;/code&gt; (公式) / &lt;code&gt;Base&lt;/code&gt; (数据库)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;核心优势：&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;完全免费：&lt;/strong&gt; 无广告、无登录限制、无会员体系。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;全平台支持：&lt;/strong&gt; Windows, macOS, Linux 以及移动端。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;便携性：&lt;/strong&gt; 支持&lt;strong&gt;便携版安装&lt;/strong&gt;，可存入 U 盘随插随用，不留痕迹。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-图像编辑--photoshop-替代方案&#34;&gt;🎨 图像编辑 | Photoshop 替代方案
+&lt;/h2&gt;&lt;h3 id=&#34;gimp&#34;&gt;&lt;strong&gt;GIMP&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 全球公认最强的开源专业修图软件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.gimp.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;www.gimp.org&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;功能亮点：&lt;/strong&gt; * 支持图层、蒙版、通道、滤镜等全套专业操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;界面与操作逻辑高度接近 PS，学习曲线平滑。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;最新动态：&lt;/strong&gt; 3.0 版本蓄势待发，将引入先进插件架构与核心优化，进一步缩小与商业软件的差距。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-知识管理--笔记软件替代方案&#34;&gt;📓 知识管理 | 笔记软件替代方案
+&lt;/h2&gt;&lt;h3 id=&#34;notion&#34;&gt;&lt;strong&gt;Notion&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; “All-in-One” 的数字化生活管理平台。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.notion.so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;www.notion.so&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;功能特色：&lt;/strong&gt; * &lt;strong&gt;万物皆 Block：&lt;/strong&gt; 通过块构建页面，自由度极高。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;多维能力：&lt;/strong&gt; 集笔记、任务、数据库、Wiki、日历于一体。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;付费模式：&lt;/strong&gt; &lt;strong&gt;个人版免费&lt;/strong&gt;且无容量限制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;AI 加持：&lt;/strong&gt; 内置 AI 支持自动填表、文章润色。虽然原生界面为英文，但逻辑直观易懂。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-后期处理--lightroom-替代方案&#34;&gt;📸 后期处理 | Lightroom 替代方案
+&lt;/h2&gt;&lt;h3 id=&#34;darktable&#34;&gt;&lt;strong&gt;Darktable&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 摄影师专属的开源 RAW 格式后期工具。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.darktable.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;www.darktable.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;适用场景：&lt;/strong&gt; 照片管理、色彩校正、明暗调整。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心优势：&lt;/strong&gt; * &lt;strong&gt;非破坏性编辑：&lt;/strong&gt; 原始文件始终保持完整。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;平替体验：&lt;/strong&gt; 操作思路与 Lightroom 相似，摄影爱好者可无缝切换，省去高额订阅费。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-视频剪辑--premiere-pro-替代方案&#34;&gt;🎬 视频剪辑 | Premiere Pro 替代方案
+&lt;/h2&gt;&lt;h3 id=&#34;kdenlive&#34;&gt;&lt;strong&gt;Kdenlive&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 效率与专业度平衡极佳的开源剪辑神器。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://kdenlive.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;kdenlive.org&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;技术亮点：&lt;/strong&gt; * &lt;strong&gt;硬件加速：&lt;/strong&gt; 支持 GPU 渲染，提升导出效率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;全能编辑：&lt;/strong&gt; 多轨道剪辑，涵盖切片、特效、字幕等主流需求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优势：&lt;/strong&gt; 相比 PR 的臃肿，Kdenlive 更加轻盈干脆，适合追求快速产出的开发者和创作者。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-轻量阅读--pdf电子书神器&#34;&gt;📖 轻量阅读 | PDF/电子书神器
+&lt;/h2&gt;&lt;h3 id=&#34;sumatrapdf&#34;&gt;&lt;strong&gt;SumatraPDF&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 极简、极速、全能的文档阅读器。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;获取渠道：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/sumatrapdfreader/sumatrapdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub 项目主页&lt;/a&gt; | &lt;a class=&#34;link&#34; href=&#34;https://www.sumatrapdfreader.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方网站&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;突出特点：&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;极致轻量：&lt;/strong&gt; 安装包约 15MB，内存占用极低，超大 PDF 秒开。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;全格式支持：&lt;/strong&gt; PDF, ePub, Mobi, XPS, DjVu, CHM 以及漫画格式 (CBZ, CBR)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;极客友好：&lt;/strong&gt; 深度支持键盘操作（类似 Vim），支持多标签页管理。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;绿色免安：&lt;/strong&gt; 提供官方 Portable 版本，一个 &lt;code&gt;.exe&lt;/code&gt; 走天下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-ai-终端助手--开发者提效工具&#34;&gt;🛠️ AI 终端助手 | 开发者提效工具
+&lt;/h2&gt;&lt;h3 id=&#34;cc-switch&#34;&gt;&lt;strong&gt;cc-switch&lt;/strong&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; AI 命令行工具（Claude Code/Gemini CLI）的全能管家。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;项目主页：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/farion1231/cc-switch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github.com/farion1231/cc-switch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心功能：&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多端统一：&lt;/strong&gt; 一个界面管理 Claude Code、Codex 和 Gemini CLI。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;一键切换预设：&lt;/strong&gt; 支持多 Preset 管理，快速在不同 API Provider（如 OpenRouter, DeepSeek）间切换。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP 管理：&lt;/strong&gt; 图形化管理 Model Context Protocol 服务器，一键开关 stdio/http 节点，免除手动编辑 JSON 的烦恼。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        <item>
         <title>FISH语言学习</title>
         <link>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
@@ -2447,21 +2595,12 @@ Your commit message:具体的更改信息&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>2048</title>
-        <link>https://evzz74.github.io/p/2048/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/2048/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/2048/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;&lt;/iframe&gt;
-</description>
-        </item>
-        <item>
         <title>电子木鱼</title>
         <link>https://evzz74.github.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</link>
         <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
         
         <guid>https://evzz74.github.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/muyu/index.html&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;
+        <description>&lt;iframe src=&#34;https://evzz74.github.io/pages/muyu/index.html&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;
 </description>
         </item>
         <item>
@@ -2488,15 +2627,6 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>贪吃蛇网页版</title>
-        <link>https://evzz74.github.io/p/%E8%B4%AA%E5%90%83%E8%9B%87%E7%BD%91%E9%A1%B5%E7%89%88/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/%E8%B4%AA%E5%90%83%E8%9B%87%E7%BD%91%E9%A1%B5%E7%89%88/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/snake/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;&lt;/iframe&gt;
-</description>
-        </item>
-        <item>
         <title>Legendary</title>
         <link>https://evzz74.github.io/p/legendary/</link>
         <pubDate>Fri, 28 Feb 2025 19:11:27 +0800</pubDate>
@@ -2518,137 +2648,6 @@ Your commit message:具体的更改信息&lt;/p&gt;
 卸载游戏：legendary uninstall &amp;ldquo;name&amp;rdquo;
 退出登录：legendary auth &amp;ndash;delete&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        <item>
-        <title>Jsp</title>
-        <link>https://evzz74.github.io/p/jsp/</link>
-        <pubDate>Fri, 28 Feb 2025 18:40:29 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/jsp/</guid>
-        <description>&lt;h1 id=&#34;一访问请求参数的方法&#34;&gt;一、访问请求参数的方法
-&lt;/h1&gt;&lt;p&gt;Java web中进行值传递的方法常用的有三种，分别是：&lt;/p&gt;
-&lt;p&gt;使用JSP的forward或include动作，利用传参数子动作实现参数的传递，‘&lt;/p&gt;
-&lt;p&gt;在JSP或HTML页面中，利用表单传递参数，&lt;/p&gt;
-&lt;p&gt;利用追加在网址后的参数传递或追加在超链接后的参数传递
-需注意的是：在上述的三种传参方式中，方式1和方式3属于get类型的参数提交方式，而方式2属于get或post方式的参数提交方式，它可以通过form的method属性进行参数的选择，&lt;/p&gt;
-&lt;p&gt;get请求与post请求的不同之处是前者参数会显示在地址栏。&lt;/p&gt;
-&lt;p&gt;GET请求：
-GET方法将请求的编码信息添加在网址后面，网址与编码信息通过&amp;quot;?&amp;ldquo;号分隔。如下所示：&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.runoob.com/hello?key1=value1&amp;amp;key2=value2&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;http://www.runoob.com/hello?key1=value1&amp;key2=value2&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;GET方法是浏览器默认传递参数的方法，一些敏感信息，如密码等建议不使用GET方法。&lt;/p&gt;
-&lt;p&gt;用get时，传输数据的大小有限制 （注意不是参数的个数有限制），最大为1024字节。&lt;/p&gt;
-&lt;p&gt;POST请求：
-一些敏感信息，如密码等我们可以通过POST方法传递，POST提交数据是隐式的。&lt;/p&gt;
-&lt;p&gt;POST提交数据是不可见的，GET是通过在url里面传递的（可以看一下你浏览器的地址栏）。&lt;/p&gt;
-&lt;p&gt;JSP使用getParameter()来获得传递的参数，getInputStream()方法用来处理客户端的二进制数据流的请求。&lt;/p&gt;
-&lt;p&gt;同时，request对象的getParameter()方法可以接收不同的来自于JSP页面或JSP动作传递给request对象的参数信息。该方法的使用格式如下：&lt;/p&gt;
-&lt;p&gt;String 字符串变量 = request.getParameter(&amp;ldquo;客户端提供参数的name属性名&amp;rdquo;);&lt;/p&gt;
-&lt;p&gt;其中需要注意的是：参数name与客户端提供参数的name属性名应该相同，同时request对象的getParameter()方法返回的是string类型的参数，如果参数name的值不存在，则会返回空值null&lt;/p&gt;
-&lt;h1 id=&#34;二form表单传参&#34;&gt;二、form表单传参
-&lt;/h1&gt;&lt;p&gt;表单界面代码：&lt;/p&gt;
-&lt;body&gt;
-    &lt;form action=&#34;myjsp.jsp&#34; method=&#34;post&#34;&gt;
-     姓名：&lt;input type=&#34;text&#34; name=&#34;name&#34;&gt;&lt;br&gt;
-     电话：&lt;input type=&#34;text&#34; name=&#34;tel&#34;&gt;&lt;br&gt;
-     &lt;input type=&#34;submit&#34; value=&#34;提交&#34;&gt;
-     &lt;/form&gt;
-&lt;/body&gt;
-&lt;p&gt;接收界面代码：&lt;/p&gt;
- &lt;body&gt;
-&lt;% String name = request.getParameter(&#34;name&#34;);
-    String tel = request.getParameter(&#34;tel&#34;);
-     %&gt;
-     &lt;font facr=&#34;楷体&#34; size=5&gt;
-     获取到的信息是：&lt;br&gt;
-     姓名：&lt;%=name %&gt;
-     电话：&lt;%=tel %&gt;
-     &lt;/font&gt;
-&lt;/body&gt;
-&lt;h2 id=&#34;中文乱码解决&#34;&gt;中文乱码解决：
-&lt;/h2&gt;&lt;p&gt;1、在接收界面的代码中，在获取参数值之前增加如下代码：
-&lt;strong&gt;request.setCharacterEncoding(&amp;ldquo;utf-8&amp;rdquo;);&lt;/strong&gt;
-&lt;strong&gt;2、在提交表单的action后的method属性需设置为“post”。&lt;/strong&gt;&lt;/p&gt;
- &lt;body&gt;
-    &lt;%
-    request.setCharacterEncoding(&#34;utf-8&#34;);
-    String name = request.getParameter(&#34;name&#34;);
-    String tel = request.getParameter(&#34;tel&#34;);
-     %&gt;
-     &lt;font facr=&#34;楷体&#34; size=5&gt;
-     获取到的信息是：&lt;br&gt;
-     姓名：&lt;%=name %&gt;
-     电话：&lt;%=tel %&gt;
-     &lt;/font&gt;
-  &lt;/body&gt;
-  **3、在传递过来的中文参数中存在乱码问题，原因是中文参数采用了页面原有的“ISO-8859-1”编码，因此我们可能需要将传递过来的参数的编码格式修改为“UTF-8”格式，格式转换的代码如下：**
-  String name = new String(request.getParameter(&#34;name&#34;).getBytes(&#34;ISO-8859-1&#34;),&#34;UTF-8&#34;);
-&lt;p&gt;三、网址或超链接传参
-利用网址或超链接传参的格式如下：
-&amp;lt;a href=”超链接或网址?参数名1=参数值1&amp;amp;参数名2=参数值2&amp;hellip;.”&amp;gt;点击跳转&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;传值界面代码：&lt;/p&gt;
- &lt;body&gt;
-   &lt;a href=&#34;myjsp.jsp?name=zhangsan&amp;tel=123456&#34;&gt;点击传值&lt;/a&gt;
- &lt;/body&gt;
- 接收界面代码：
-  &lt;body&gt;
-&lt;%
-    String name = request.getParameter(&#34;name&#34;);
-    String tel = request.getParameter(&#34;tel&#34;);
-     %&gt;
-     &lt;font facr=&#34;楷体&#34; size=5&gt;
-     获取到的信息是：&lt;br&gt;
-     姓名：&lt;%=name %&gt;
-     电话：&lt;%=tel %&gt;
-     &lt;/font&gt;
-  &lt;/body&gt;
-&lt;p&gt;中文错误解决：
-原因是因为在超链接或网址传参中，参数属于网址的一部分，同时这一部分是属于URL编码的，不支持中文的utf-8，因此在传递中文时会显示网址错误，解决办法是将我们要传递的中文转成URL编码即可：
-java.net.URLEncoder.encode(&amp;ldquo;中文&amp;rdquo;,&amp;ldquo;utf-8&amp;rdquo;)将中文转换成URL编码
-提交界面代码：&lt;/p&gt;
-&lt;body&gt;
-   &lt;a href=&#34;myjsp.jsp?name=&lt;%=java.net.URLEncoder.encode(&#34;张三&#34;,&#34;utf-8&#34;) %&gt;&amp;tel=123456&#34;&gt;点击传值&lt;/a&gt;
-  &lt;/body&gt;
-&lt;p&gt;四、JSP子动作传参
-使用JSP的forward或include动作，利用传参数子动作实现参数的传递的方式，较其他两种方式有所不同，在该方式中用户可以根据需要在request对象中添加属性，然后在另一个JSP程序中获取到添加的数据，&lt;/p&gt;
-&lt;p&gt;1、page范围
-pageContext:只在一个页面中保存属性，跳转之后失效。
-2、request范围
-request：只在一个请求中保存，服务跳转后依然有效。
-3、session范围
-session:在一次会话范围内，无论何种跳转都可以使用。
-4、application范围
-application:在整个服务器上保存。&lt;/p&gt;
-&lt;p&gt;具体的使用方法如下：
-在传值页面使用request对象的setAttribute(“name”,obj)方法，可以把数据设定在request范围内，设置数据的方法格式为：
-void request.setAttribute(“key”,object);
-其中key为键，string类型，是要保存的数值的属性名。Object是要保存的参数值，属于object类型，
-使用上面的方法在传值页面进行请求转发之后，在接收页面使用getAttribute(“name”)方法就可以获取到name属性下的值，获取数据的方法格式如下：
-Object request.getAttribute(string name);
-其中的参数name表示键名，与setAttribute(“name”,obj)方法中的name相对应，获取的参数类型由obj的类型决定。&lt;/p&gt;
-&lt;p&gt;参数传递界面代码：
-&amp;lt;%
-//设置page范围的域对象
-pageContext.setAttribute(&amp;ldquo;name1&amp;rdquo;, &amp;ldquo;zhangSan&amp;rdquo;);
-//设置request范围的域对象
-request.setAttribute(&amp;ldquo;name2&amp;rdquo;, &amp;ldquo;liSi&amp;rdquo;);
-//设置session范围的域对象
-session.setAttribute(&amp;ldquo;name3&amp;rdquo;, &amp;ldquo;wangWu&amp;rdquo;);
-//设置application范围的域对象
-application.setAttribute(&amp;ldquo;name4&amp;rdquo;, &amp;ldquo;zhaoLiu&amp;rdquo;);&lt;/p&gt;
-&lt;p&gt;//获取域对象中的值
-out.print(&amp;ldquo;page范围:&amp;quot;+pageContext.getAttribute(&amp;ldquo;name1&amp;rdquo;)+&amp;quot;    &amp;rdquo;);
-out.print(&amp;ldquo;request范围:&amp;quot;+request.getAttribute(&amp;ldquo;name1&amp;rdquo;)+&amp;quot;    &amp;rdquo;);
-out.print(&amp;ldquo;session范围:&amp;quot;+session.getAttribute(&amp;ldquo;name1&amp;rdquo;)+&amp;quot;    &amp;rdquo;);
-out.print(&amp;ldquo;application范围:&amp;quot;+application.getAttribute(&amp;ldquo;name1&amp;rdquo;)+&amp;quot;    &amp;rdquo;);
-%&amp;gt;&lt;/p&gt;
-&lt;p&gt;中文乱码解决
-&lt;strong&gt;要在页面的最前端将整个页面的编码设置为“UTF-8”或“GBK”的编码格式，&lt;/strong&gt;
-&amp;lt;%@ page language=&amp;ldquo;java&amp;rdquo; contentType=&amp;ldquo;text/html; charset=GBK&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;pageEncoding=&amp;ldquo;GBK&amp;rdquo;%&amp;gt;&lt;/p&gt;
-&lt;p&gt;&amp;lt;%@ page language=&amp;ldquo;java&amp;rdquo; contentType=&amp;ldquo;text/html; charset=UTF－８&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;pageEncoding=&amp;ldquo;UTF－８&amp;rdquo;%&amp;gt;&lt;/p&gt;
 </description>
         </item>
         

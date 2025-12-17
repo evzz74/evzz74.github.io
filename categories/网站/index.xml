@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Mon, 15 Dec 2025 05:22:26 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E7%BD%91%E7%AB%99/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 10:36:03 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E7%BD%91%E7%AB%99/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>月姬 Tsukihime</title>
         <link>https://evzz74.github.io/p/%E6%9C%88%E5%A7%AC-tsukihime/</link>
         <pubDate>Sun, 13 Apr 2025 18:33:48 +0800</pubDate>
@@ -16,21 +16,12 @@
         <description>&lt;img src="https://evzz74.github.io/p/%E6%9C%88%E5%A7%AC-tsukihime/logo.png" alt="Featured image of post 月姬 Tsukihime" /&gt;&lt;iframe src=&#34;https://tsukiweb.holofield.fr/&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;</description>
         </item>
         <item>
-        <title>2048</title>
-        <link>https://evzz74.github.io/p/2048/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/2048/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/2048/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;&lt;/iframe&gt;
-</description>
-        </item>
-        <item>
         <title>电子木鱼</title>
         <link>https://evzz74.github.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</link>
         <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
         
         <guid>https://evzz74.github.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/muyu/index.html&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;
+        <description>&lt;iframe src=&#34;https://evzz74.github.io/pages/muyu/index.html&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;
 </description>
         </item>
         <item>
@@ -55,15 +46,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>贪吃蛇网页版</title>
-        <link>https://evzz74.github.io/p/%E8%B4%AA%E5%90%83%E8%9B%87%E7%BD%91%E9%A1%B5%E7%89%88/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/%E8%B4%AA%E5%90%83%E8%9B%87%E7%BD%91%E9%A1%B5%E7%89%88/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/snake/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;&lt;/iframe&gt;
-</description>
         </item>
         
     </channel>

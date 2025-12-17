@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>软件 on AnJoy&#39;s Blog</title>
-        <link>https://evzz74.github.io/categories/%E8%BD%AF%E4%BB%B6/</link>
+        <link>https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/</link>
         <description>Recent content in 软件 on AnJoy&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 17 Dec 2025 10:36:03 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 10:36:03 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>几款实用平替软件</title>
         <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
         <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
@@ -153,30 +153,6 @@
 &lt;li&gt;&lt;strong&gt;MCP 管理：&lt;/strong&gt; 图形化管理 Model Context Protocol 服务器，一键开关 stdio/http 节点，免除手动编辑 JSON 的烦恼。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-</description>
-        </item>
-        <item>
-        <title>Legendary</title>
-        <link>https://evzz74.github.io/p/legendary/</link>
-        <pubDate>Fri, 28 Feb 2025 19:11:27 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/legendary/</guid>
-        <description>&lt;p&gt;legendary下载链接：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/derrod/legendary/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/derrod/legendary/releases&lt;/a&gt;
-命令：
-登录账号：legendary auth
-查看账号游戏列表：legendary list-games
-查看已安装游戏：legendary list-installed
-自动同步所有游戏：legendary -y egl-sync
-同步云存档：legendary sync-saves
-安装游戏：legendary install &amp;ldquo;name&amp;rdquo; &amp;ndash;game-folder 【path】
-启动游戏：legendary launch &amp;ldquo;name&amp;rdquo;
-更新所有游戏：legendary list-installed &amp;ndash;check-updates
-卸载游戏：legendary uninstall &amp;ldquo;name&amp;rdquo;
-退出登录：legendary auth &amp;ndash;delete&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         
