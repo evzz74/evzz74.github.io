@@ -7,16 +7,16 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 17 Dec 2025 13:29:16 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 06 Jan 2026 03:39:56 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Aseprite 简易在线编译教程</title>
         <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
         <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
         
         <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
-        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
 &lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
 &lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/image1.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;Aseprite&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -393,7 +393,7 @@
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;cd &amp;lt;directory&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;git init&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;git init&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;2暂存并提交更改&#34;&gt;2.暂存并提交更改
@@ -405,8 +405,8 @@
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;git add &amp;lt;file&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 添加指定文件&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;git add .      &lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 添加所有更改&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;git commit -m &amp;#34;Your commit message&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;git add .      &lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 添加所有更改&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;git commit -m &amp;#34;Your commit message&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;file 为需要暂存的文件

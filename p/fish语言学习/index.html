@@ -10,7 +10,7 @@
 <meta property='og:description' content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) 1 2 sudo apt update sudo apt install fish macOS 1 brew install fish Windows (WSL) 1 2 sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
 <meta property='og:url' content='https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/'>
 <meta property='og:site_name' content='AnJoy&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='教程' /><meta property='article:tag' content='FISH' /><meta property='article:published_time' content='2025-10-29T20:25:25&#43;08:00'/><meta property='article:modified_time' content='2025-12-17T13:29:16&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='教程' /><meta property='article:tag' content='FISH' /><meta property='article:published_time' content='2025-10-29T20:25:25&#43;08:00'/><meta property='article:modified_time' content='2026-01-06T03:39:56&#43;00:00'/>
 <meta name="twitter:title" content="FISH语言学习">
 <meta name="twitter:description" content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) 1 2 sudo apt update sudo apt install fish macOS 1 brew install fish Windows (WSL) 1 2 sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -58,7 +58,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu_1616eb653592b5e4.png" width="300"
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -447,14 +447,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 赋值（注意等号两边不能有空格）
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;张三&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;张三&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">age</span> <span class="m">25</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 引用变量（使用$符号）
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s2">&#34;我叫 </span><span class="nv">$name</span><span class="s2"> 今年 </span><span class="nv">$age</span><span class="s2"> 岁&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;我叫 </span><span class="nv">$name</span><span class="s2"> 今年 </span><span class="nv">$age</span><span class="s2"> 岁&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 临时变量（仅当前命令有效）
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> /usr/local/bin  <span class="c"># export效果
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> /usr/local/bin  <span class="c"># export效果
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-环境变量">2. 环境变量
@@ -470,11 +470,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 设置环境变量
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">EDITOR</span> <span class="s2">&#34;vim&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">EDITOR</span> <span class="s2">&#34;vim&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> /custom/bin
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 查看环境变量
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="nv">$PATH</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$PATH</span>
 </span></span><span class="line"><span class="cl"><span class="nf">env</span>  <span class="c"># 显示所有环境变量
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -492,7 +492,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 将命令输出赋值给变量
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">current_dir</span> <span class="o">(</span><span class="nf">pwd</span><span class="o">)</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">current_dir</span> <span class="o">(</span><span class="nf">pwd</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">today</span> <span class="o">(</span><span class="nf">date</span> +%Y-%m-%d<span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">file_count</span> <span class="o">(</span><span class="nf">ls</span> -<span class="m">1</span> <span class="o">|</span> <span class="nf">wc</span> <span class="na">-l</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
@@ -516,14 +516,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 双引号：允许变量扩展
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;世界&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">name</span> <span class="s2">&#34;世界&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;你好, </span><span class="nv">$name</span><span class="s2">&#34;</span>  <span class="c"># 输出: 你好, 世界
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 单引号：禁止变量扩展
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s1">&#39;你好, $name&#39;</span>  <span class="c"># 输出: 你好, $name
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;你好, $name&#39;</span>  <span class="c"># 输出: 你好, $name
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 转义字符
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">echo</span> <span class="s2">&#34;路径: /home/user/dir with space&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;路径: /home/user/dir with space&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="控制结构">控制结构
@@ -562,14 +562,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 基本语法
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;成年人&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;未成年人&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 多条件判断
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span><span class="p">;</span> <span class="k">and</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-lt</span> <span class="m">60</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">18</span><span class="p">;</span> <span class="k">and</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-lt</span> <span class="m">60</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;工作年龄&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="k">test</span> <span class="nv">$age</span> <span class="na">-ge</span> <span class="m">60</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;退休年龄&#34;</span>
@@ -578,7 +578,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 文件测试
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;file.txt&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;file.txt&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;file.txt 是一个普通文件&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
@@ -587,7 +587,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 字符串比较
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="s2">&#34;</span><span class="nv">$name</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;admin&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="s2">&#34;</span><span class="nv">$name</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;admin&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;欢迎管理员&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
@@ -613,17 +613,17 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 遍历列表
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">for</span> <span class="nv">file</span> <span class="k">in</span> *.txt
+</span></span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nv">file</span> <span class="k">in</span> *.txt
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;处理文件: </span><span class="nv">$file</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 遍历数字序列
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="o">(</span><span class="nf">seq</span> <span class="m">1</span> <span class="m">5</span><span class="o">)</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="o">(</span><span class="nf">seq</span> <span class="m">1</span> <span class="m">5</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;数字: </span><span class="nv">$i</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 遍历数组
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="nv">fruits</span> apple banana orange
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">fruits</span> apple banana orange
 </span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nv">fruit</span> <span class="k">in</span> <span class="nv">$fruits</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;我喜欢 </span><span class="nv">$fruit</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
@@ -710,23 +710,23 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 基本函数
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">greet</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">greet</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;你好, </span><span class="nv">$argv</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 带参数的函数
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">add</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">add</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">a</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">b</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nb">math</span> <span class="nv">$a</span> + <span class="nv">$b</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 函数示例
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">greet</span> <span class="s2">&#34;世界&#34;</span>  <span class="c"># 调用函数
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">add</span> <span class="m">10</span> <span class="m">20</span>     <span class="c"># 输出: 30
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span></span><span class="line"><span class="cl"><span class="nf">greet</span> <span class="s2">&#34;世界&#34;</span>  <span class="c"># 调用函数
+</span></span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="m">10</span> <span class="m">20</span>     <span class="c"># 输出: 30
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 复杂函数示例
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nf">backup_file</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">backup_file</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[1]&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">set</span> <span class="nv">backup</span> <span class="o">(</span><span class="nf">date</span> +%Y%m%d_%H%M%S<span class="o">)</span>_<span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">        <span class="nf">cp</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="nv">$backup</span>
@@ -764,22 +764,22 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 列出文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">ls</span> <span class="na">-la</span>
+</span></span></span><span class="line"><span class="cl"><span class="nf">ls</span> <span class="na">-la</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 创建目录
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">mkdir</span> new_directory
+</span></span></span><span class="line"><span class="cl"><span class="nf">mkdir</span> new_directory
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 复制文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">cp</span> source.txt destination.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">cp</span> source.txt destination.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 移动/重命名
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">mv</span> old_name.txt new_name.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">mv</span> old_name.txt new_name.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 删除文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">rm</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">rm</span> file.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 删除目录
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">rmdir</span> empty_directory
+</span></span></span><span class="line"><span class="cl"><span class="nf">rmdir</span> empty_directory
 </span></span><span class="line"><span class="cl"><span class="nf">rm</span> <span class="na">-rf</span> non_empty_directory
 </span></span></code></pre></td></tr></table>
 </div>
@@ -794,10 +794,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 查看文件内容
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">cat</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">cat</span> file.txt
 </span></span><span class="line"><span class="cl"><span class="nf">less</span> file.txt
 </span></span><span class="line"><span class="cl"><span class="nf">head</span> <span class="na">-n</span> <span class="m">10</span> file.txt  <span class="c"># 前10行
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">tail</span> <span class="na">-n</span> <span class="m">10</span> file.txt  <span class="c"># 后10行
+</span></span></span><span class="line"><span class="cl"><span class="nf">tail</span> <span class="na">-n</span> <span class="m">10</span> file.txt  <span class="c"># 后10行
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="文本处理">文本处理
@@ -817,16 +817,16 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 搜索文本
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">grep</span> <span class="s2">&#34;pattern&#34;</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">grep</span> <span class="s2">&#34;pattern&#34;</span> file.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 排序
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sort</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">sort</span> file.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 去重
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">uniq</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">uniq</span> file.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 统计行数
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">wc</span> <span class="na">-l</span> file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">wc</span> <span class="na">-l</span> file.txt
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="网络命令">网络命令
@@ -844,14 +844,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 测试网络连接
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">ping</span> google.com
+</span></span></span><span class="line"><span class="cl"><span class="nf">ping</span> google.com
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 下载文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">curl</span> <span class="na">-O</span> https://example.com/file.txt
+</span></span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">-O</span> https://example.com/file.txt
 </span></span><span class="line"><span class="cl"><span class="nf">wget</span> https://example.com/file.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 显示网络连接
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">netstat</span> <span class="na">-tuln</span>
+</span></span></span><span class="line"><span class="cl"><span class="nf">netstat</span> <span class="na">-tuln</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="实际示例">实际示例
@@ -885,7 +885,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
-</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">system_info</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;=== 系统信息 ===&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;当前用户: </span><span class="nv">$USER</span><span class="s2">&#34;</span>
@@ -934,7 +934,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
-</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">batch_rename</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">prefix</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">counter</span> <span class="m">1</span>
@@ -950,7 +950,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 使用示例：批量重命名所有txt文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">batch_rename</span> <span class="s2">&#34;document&#34;</span> <span class="s2">&#34;txt&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="nf">batch_rename</span> <span class="s2">&#34;document&#34;</span> <span class="s2">&#34;txt&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-日志分析脚本">3. 日志分析脚本
@@ -980,7 +980,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
-</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">analyze_log</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">log_file</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">
@@ -1037,7 +1037,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env fish
-</span></span></span><span class="line"><span class="cl"><span class="ch"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">deploy_project</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">repo_url</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">deploy_dir</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
@@ -1045,22 +1045,22 @@
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;开始部署项目...&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c"># 拉取最新代码
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">cd</span> <span class="nv">$deploy_dir</span>
+</span></span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$deploy_dir</span>
 </span></span><span class="line"><span class="cl">    <span class="nf">git</span> pull origin main
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c"># 安装依赖
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;package.json&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;package.json&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="nf">npm</span> install
 </span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> <span class="s2">&#34;requirements.txt&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="nf">pip</span> install <span class="na">-r</span> requirements.txt
 </span></span><span class="line"><span class="cl">    <span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c"># 运行测试
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">echo</span> <span class="s2">&#34;运行测试...&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;运行测试...&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="nf">make</span> test
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c"># 重启服务
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="k">echo</span> <span class="s2">&#34;重启服务...&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;重启服务...&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="nf">systemctl</span> restart myapp
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;部署完成!&#34;</span>
@@ -1090,9 +1090,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="c"># - 文件路径
 </span></span></span><span class="line"><span class="cl"><span class="c"># - 环境变量名
 </span></span></span><span class="line"><span class="cl"><span class="c"># - 用户名、主机名等
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 自定义补全
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-s</span> h <span class="na">-l</span> <span class="nb">help</span> <span class="na">-d</span> <span class="s2">&#34;显示帮助信息&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-s</span> h <span class="na">-l</span> <span class="nb">help</span> <span class="na">-d</span> <span class="s2">&#34;显示帮助信息&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-s</span> v <span class="na">-l</span> version <span class="na">-d</span> <span class="s2">&#34;显示版本信息&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">complete</span> <span class="na">-c</span> myapp <span class="na">-f</span> <span class="na">-d</span> <span class="s2">&#34;输入文件&#34;</span>
 </span></span></code></pre></td></tr></table>
@@ -1114,12 +1114,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 创建别名
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">alias </span>ll <span class="s1">&#39;ls -alh&#39;</span>
+</span></span></span><span class="line"><span class="cl"><span class="nb">alias </span>ll <span class="s1">&#39;ls -alh&#39;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">alias </span>gs <span class="s1">&#39;git status&#39;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">alias </span>gp <span class="s1">&#39;git push&#39;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 使别名永久生效（添加到配置文件）
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">not</span> <span class="nb">functions</span> <span class="na">-q</span> fish_user_key_bindings
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">not</span> <span class="nb">functions</span> <span class="na">-q</span> fish_user_key_bindings
 </span></span><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">fish_user_key_bindings</span>
 </span></span><span class="line"><span class="cl">    <span class="k">end</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
@@ -1164,14 +1164,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># ~/.config/fish/config.fish 示例
-</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 设置环境变量
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> ~/bin ~/.local/bin
+</span></span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">PATH</span> <span class="nv">$PATH</span> ~/bin ~/.local/bin
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">EDITOR</span> <span class="s2">&#34;vim&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-x</span> <span class="nv">LANG</span> <span class="s2">&#34;zh_CN.UTF-8&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 设置提示符
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">function</span> <span class="nb">fish_prompt
+</span></span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nb">fish_prompt
 </span></span></span><span class="line"><span class="cl"><span class="nb">    set_color </span>purple
 </span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="o">(</span><span class="nf">whoami</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">set_color </span>normal
@@ -1187,7 +1187,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 加载额外配置
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> ~/.fish_aliases
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="na">-f</span> ~/.fish_aliases
 </span></span><span class="line"><span class="cl">    <span class="nb">source</span> ~/.fish_aliases
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
@@ -1206,13 +1206,13 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># 查看历史记录
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history</span>
+</span></span></span><span class="line"><span class="cl"><span class="nb">history</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 搜索历史记录
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history</span> <span class="o">|</span> <span class="nf">grep</span> <span class="s2">&#34;git&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="nb">history</span> <span class="o">|</span> <span class="nf">grep</span> <span class="s2">&#34;git&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c"># 清理历史记录
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">history </span>clear
+</span></span></span><span class="line"><span class="cl"><span class="nb">history </span>clear
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="学习资源">学习资源
@@ -1299,7 +1299,7 @@
 
 
         <span>
-            最后更新于 Dec 17, 2025 13:29 UTC
+            最后更新于 Jan 06, 2026 03:39 UTC
         </span>
     </section></footer>
 
@@ -1324,6 +1324,19 @@
 
         <div class="article-details">
             <h2 class="article-title">PFC学习记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/depthmap%E4%BD%BF%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">DepthMap使用</h2>
         </div>
     </a>
 </article>
@@ -1422,7 +1435,7 @@
         
             2024 - 
         
-        2025 AnJoy
+        2026 AnJoy
     </section>
     
     <section class="powerby">

@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="深度解析空间句法分析软件 DepthmapX：理论架构、操作范式与应用策略研究报告 摘要 本研究报告旨在全面、详尽地剖析空间句法（Space Syntax）核心计算平台 DepthmapX 的运行机制与应用方法。报告基于多源技术教程与学术文献的深度整合，从认识论基础出发，系统性地阐述了该软件在处理复杂空间网络时的逻辑架构。内容涵盖了从基础的DXF数据清洗与导入，到城市尺度的轴线与线段模型分析，再到建筑尺度的视域图（VGA）与智能体（Agent）仿真模拟。本报告特别关注操作细节中的隐性知识，如拓扑连接的几何修正策略、核心算法参数的敏感性分析以及数据结果的社会学解读。通过对整合度（Integration）、选择度（Choice）及智能度（Intelligibility）等关键指标的深度解构，本报告旨在为城市规划师、建筑师及相关领域研究者提供一份具有实战指导意义的专家级技术文献。\n">
+<title>DepthMap使用</title>
+
+<link rel='canonical' href='https://evzz74.github.io/p/depthmap%E4%BD%BF%E7%94%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="DepthMap使用">
+<meta property='og:description' content="深度解析空间句法分析软件 DepthmapX：理论架构、操作范式与应用策略研究报告 摘要 本研究报告旨在全面、详尽地剖析空间句法（Space Syntax）核心计算平台 DepthmapX 的运行机制与应用方法。报告基于多源技术教程与学术文献的深度整合，从认识论基础出发，系统性地阐述了该软件在处理复杂空间网络时的逻辑架构。内容涵盖了从基础的DXF数据清洗与导入，到城市尺度的轴线与线段模型分析，再到建筑尺度的视域图（VGA）与智能体（Agent）仿真模拟。本报告特别关注操作细节中的隐性知识，如拓扑连接的几何修正策略、核心算法参数的敏感性分析以及数据结果的社会学解读。通过对整合度（Integration）、选择度（Choice）及智能度（Intelligibility）等关键指标的深度解构，本报告旨在为城市规划师、建筑师及相关领域研究者提供一份具有实战指导意义的专家级技术文献。\n">
+<meta property='og:url' content='https://evzz74.github.io/p/depthmap%E4%BD%BF%E7%94%A8/'>
+<meta property='og:site_name' content='AnJoy&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Space Syntax' /><meta property='article:tag' content='软件' /><meta property='article:tag' content='Depth Map' /><meta property='article:published_time' content='2025-12-30T11:26:09&#43;08:00'/><meta property='article:modified_time' content='2026-01-06T03:39:56&#43;00:00'/>
+<meta name="twitter:title" content="DepthMap使用">
+<meta name="twitter:description" content="深度解析空间句法分析软件 DepthmapX：理论架构、操作范式与应用策略研究报告 摘要 本研究报告旨在全面、详尽地剖析空间句法（Space Syntax）核心计算平台 DepthmapX 的运行机制与应用方法。报告基于多源技术教程与学术文献的深度整合，从认识论基础出发，系统性地阐述了该软件在处理复杂空间网络时的逻辑架构。内容涵盖了从基础的DXF数据清洗与导入，到城市尺度的轴线与线段模型分析，再到建筑尺度的视域图（VGA）与智能体（Agent）仿真模拟。本报告特别关注操作细节中的隐性知识，如拓扑连接的几何修正策略、核心算法参数的敏感性分析以及数据结果的社会学解读。通过对整合度（Integration）、选择度（Choice）及智能度（Intelligibility）等关键指标的深度解构，本报告旨在为城市规划师、建筑师及相关领域研究者提供一份具有实战指导意义的专家级技术文献。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AnJoy&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/evzz74'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>相关链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#摘要"><strong>摘要</strong></a></li>
+    <li><a href="#第一章-空间句法与depthmapx的认识论基础"><strong>第一章 空间句法与DepthmapX的认识论基础</strong></a>
+      <ol>
+        <li><a href="#11-空间句法的理论渊源与社会逻辑"><strong>1.1 空间句法的理论渊源与社会逻辑</strong></a></li>
+        <li><a href="#12-depthmapx-软件生态与技术演进"><strong>1.2 DepthmapX 软件生态与技术演进</strong></a></li>
+        <li><a href="#13-核心空间概念解析"><strong>1.3 核心空间概念解析</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#第二章-数据架构与预处理策略"><strong>第二章 数据架构与预处理策略</strong></a>
+      <ol>
+        <li><a href="#21-dxf-文件的几何卫生学"><strong>2.1 DXF 文件的几何卫生学</strong></a>
+          <ol>
+            <li><a href="#211-单线与闭合原则"><strong>2.1.1 单线与闭合原则</strong></a></li>
+            <li><a href="#212-拓扑连接的精确性"><strong>2.1.2 拓扑连接的精确性</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#22-导入流程与图层管理"><strong>2.2 导入流程与图层管理</strong></a>
+          <ol>
+            <li><a href="#221-启动与初始化"><strong>2.2.1 启动与初始化</strong></a></li>
+            <li><a href="#222-绘图层与分析层的转化"><strong>2.2.2 绘图层与分析层的转化</strong></a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第三章-城市空间形态分析从轴线模型到线段模型"><strong>第三章 城市空间形态分析：从轴线模型到线段模型</strong></a>
+      <ol>
+        <li><a href="#31-轴线图axial-map的构建与修正"><strong>3.1 轴线图（Axial Map）的构建与修正</strong></a>
+          <ol>
+            <li><a href="#311-自动生成与手动绘制"><strong>3.1.1 自动生成与手动绘制</strong></a></li>
+            <li><a href="#312-连接与断开linking-and-unlinking的拓扑逻辑"><strong>3.1.2 连接与断开（Linking and Unlinking）的拓扑逻辑</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#32-线段模型segment-map与角度分析"><strong>3.2 线段模型（Segment Map）与角度分析</strong></a>
+          <ol>
+            <li><a href="#321-轴线转线段的清洗机制"><strong>3.2.1 轴线转线段的清洗机制</strong></a></li>
+            <li><a href="#322-角度线段分析angular-segment-analysis"><strong>3.2.2 角度线段分析（Angular Segment Analysis）</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#33-核心指标解读与数据后处理"><strong>3.3 核心指标解读与数据后处理</strong></a>
+          <ol>
+            <li><a href="#331-整合度integration--t1024_integration"><strong>3.3.1 整合度（Integration / T1024_Integration）</strong></a></li>
+            <li><a href="#332-选择度choice--t1024_choice"><strong>3.3.2 选择度（Choice / T1024_Choice）</strong></a></li>
+            <li><a href="#333-归一化选择度normalised-choice--nach"><strong>3.3.3 归一化选择度（Normalised Choice / NACH）</strong></a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第四章-建筑与室内空间分析视域图vga的应用"><strong>第四章 建筑与室内空间分析：视域图（VGA）的应用</strong></a>
+      <ol>
+        <li><a href="#41-视域分析vga的理论与机制"><strong>4.1 视域分析（VGA）的理论与机制</strong></a></li>
+        <li><a href="#42-vga-标准化操作流程"><strong>4.2 VGA 标准化操作流程</strong></a>
+          <ol>
+            <li><a href="#421-网格策略the-grid-strategy"><strong>4.2.1 网格策略（The Grid Strategy）</strong></a></li>
+            <li><a href="#422-填充与图构建"><strong>4.2.2 填充与图构建</strong></a></li>
+            <li><a href="#423-运行分析与指标解读"><strong>4.2.3 运行分析与指标解读</strong></a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第五章-动态行为模拟基于智能体的分析agent-analysis"><strong>第五章 动态行为模拟：基于智能体的分析（Agent Analysis）</strong></a>
+      <ol>
+        <li><a href="#51-智能体模型的认知基础"><strong>5.1 智能体模型的认知基础</strong></a></li>
+        <li><a href="#52-仿真参数配置与执行"><strong>5.2 仿真参数配置与执行</strong></a>
+          <ol>
+            <li><a href="#521-前置条件"><strong>5.2.1 前置条件</strong></a></li>
+            <li><a href="#522-运行步骤详解"><strong>5.2.2 运行步骤详解</strong></a></li>
+            <li><a href="#523-3d-视图与轨迹可视化"><strong>5.2.3 3D 视图与轨迹可视化</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#53-门计数gate-counts的商业价值"><strong>5.3 门计数（Gate Counts）的商业价值</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#第六章-数据交互图表统计与高级应用"><strong>第六章 数据交互、图表统计与高级应用</strong></a>
+      <ol>
+        <li><a href="#61-散点图与智能度intelligibility分析"><strong>6.1 散点图与智能度（Intelligibility）分析</strong></a></li>
+        <li><a href="#62-跨平台工作流depthmapx-与-gis-的协同"><strong>6.2 跨平台工作流：DepthmapX 与 GIS 的协同</strong></a></li>
+        <li><a href="#63-结果可视化的色彩符号学"><strong>6.3 结果可视化的色彩符号学</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#第七章-常见故障排除与实战技巧"><strong>第七章 常见故障排除与实战技巧</strong></a>
+      <ol>
+        <li><a href="#71-为什么我的分析图是一片蓝色"><strong>7.1 为什么我的分析图是一片蓝色？</strong></a></li>
+        <li><a href="#72-软件崩溃与内存溢出"><strong>7.2 软件崩溃与内存溢出</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#第八章-结论与展望"><strong>第八章 结论与展望</strong></a>
+      <ol>
+        <li><a href="#heading">&mdash;</a></li>
+        <li><a href="#关键操作清单-checklist"><strong>关键操作清单 (Checklist)</strong></a>
+          <ol>
+            <li><a href="#works-cited"><strong>Works cited</strong></a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" >
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/depthmap%E4%BD%BF%E7%94%A8/">DepthMap使用</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 30, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 17 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="深度解析空间句法分析软件-depthmapx理论架构操作范式与应用策略研究报告"><strong>深度解析空间句法分析软件 DepthmapX：理论架构、操作范式与应用策略研究报告</strong>
+</h1><h2 id="摘要"><strong>摘要</strong>
+</h2><p>本研究报告旨在全面、详尽地剖析空间句法（Space Syntax）核心计算平台 DepthmapX 的运行机制与应用方法。报告基于多源技术教程与学术文献的深度整合，从认识论基础出发，系统性地阐述了该软件在处理复杂空间网络时的逻辑架构。内容涵盖了从基础的DXF数据清洗与导入，到城市尺度的轴线与线段模型分析，再到建筑尺度的视域图（VGA）与智能体（Agent）仿真模拟。本报告特别关注操作细节中的隐性知识，如拓扑连接的几何修正策略、核心算法参数的敏感性分析以及数据结果的社会学解读。通过对整合度（Integration）、选择度（Choice）及智能度（Intelligibility）等关键指标的深度解构，本报告旨在为城市规划师、建筑师及相关领域研究者提供一份具有实战指导意义的专家级技术文献。</p>
+<h2 id="第一章-空间句法与depthmapx的认识论基础"><strong>第一章 空间句法与DepthmapX的认识论基础</strong>
+</h2><h3 id="11-空间句法的理论渊源与社会逻辑"><strong>1.1 空间句法的理论渊源与社会逻辑</strong>
+</h3><p>空间句法并非一套单纯的几何分析工具，而是一种探讨空间形式与社会过程相互关系的理论体系。该理论由比尔·希利尔（Bill Hillier）与朱利安·汉森（Julienne Hanson）及其同事于20世纪70年代末在伦敦大学学院（UCL）巴特莱特建筑学院创立 1。其核心命题在于“空间是社会的内在构成要素”，即空间结构本身就蕴含着社会逻辑。与传统交通规划模型关注物理距离（米、公里）不同，空间句法侧重于拓扑距离（深度、转折次数），认为人类对环境的认知和导航更多地依赖于视线和路径的复杂程度，而非单纯的欧几里得距离 3。</p>
+<p>在这一理论框架下，城市不再被视为静态的建筑物集合，而被理解为一个由视线和运动路径构成的连续网络。这一网络不仅影响着人流的分布，还进而影响土地利用、犯罪率分布乃至社会阶层的居住隔离。DepthmapX 作为这一理论的算法实现载体，其任务便是将这些抽象的空间关系转化为可量化的数学模型。通过计算网络中每一个节点的拓扑属性，软件能够预测空间构型对人类行为（如步行流线、车流分布、社会交往概率）的潜在引导作用 4。</p>
+<h3 id="12-depthmapx-软件生态与技术演进"><strong>1.2 DepthmapX 软件生态与技术演进</strong>
+</h3><p>DepthmapX 是原始 Depthmap 软件的现代开源演进版本，由 UCL 空间句法实验室及开源社区共同维护 4。作为一个跨平台（支持 Windows, macOS, Linux）的分析工具，它集成了多种空间分析模块，能够处理从单体建筑内部的微观尺度到特大城市区域的宏观尺度问题。</p>
+<p>软件名称中的“Depth”直指空间句法的核心概念——深度（Depth）。在图论中，深度表示一个节点到达另一个节点所需的最小步数。DepthmapX 的核心功能即是构建各种形式的空间图（Graph），包括视域图（Visibility Graph）、凸空间图（Convex Map）和轴线图（Axial Map），并计算这些图的代数特征 7。与常规 GIS 软件不同，DepthmapX 不仅仅处理地理坐标，更侧重于处理空间单元之间的拓扑连接关系。其开源性质保证了算法的透明性，使得全球研究者能够验证并改进其计算逻辑，确保了分析结果的学术严谨性 4。</p>
+<h3 id="13-核心空间概念解析"><strong>1.3 核心空间概念解析</strong>
+</h3><p>在使用 DepthmapX 进行任何操作之前，必须深刻理解其处理的三种基本空间单元，这三种单元对应了人类感知空间的不同维度：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">空间概念 (Spatial Concept)</th>
+          <th style="text-align: left">定义与特征 (Definition &amp; Characteristics)</th>
+          <th style="text-align: left">分析尺度与应用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>凸空间 (Convex Space)</strong></td>
+          <td style="text-align: left">一个二维多边形，要求其内部任意两点的连线必须完全位于多边形内。这意味着在凸空间内，所有人都是彼此可见的。</td>
+          <td style="text-align: left"><strong>微观/建筑尺度</strong>：用于分析室内空间的静态聚集潜力，如博物馆展厅、办公室布局的社会互动性 2。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>轴线 (Axial Line)</strong></td>
+          <td style="text-align: left">覆盖开放空间系统的最长直线路径。它模拟了人类在城市中通过视线和直线运动进行导航的认知过程。</td>
+          <td style="text-align: left"><strong>宏观/城市尺度</strong>：用于分析城市街道网络的通达性、交通流量预测及城市中心性识别 5。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>视域 (Isovist)</strong></td>
+          <td style="text-align: left">从空间中某一点出发，视线所能及的所有区域的集合。在 DepthmapX 中，通过密集网格点的视域集合形成视域图（VGA）。</td>
+          <td style="text-align: left"><strong>中微观尺度</strong>：用于精细化评估空间的视觉属性，如监控死角、视觉开敞度及防御空间分析 4。</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="第二章-数据架构与预处理策略"><strong>第二章 数据架构与预处理策略</strong>
+</h2><h3 id="21-dxf-文件的几何卫生学"><strong>2.1 DXF 文件的几何卫生学</strong>
+</h3><p>DepthmapX 的分析精度完全依赖于输入数据的质量。软件主要通过导入 DXF（Drawing Exchange Format）格式的 CAD 图纸来构建模型。然而，并非所有 CAD 图纸都能直接使用。在导入之前，必须进行严格的“几何卫生”检查，这直接决定了分析的成败 10。</p>
+<h4 id="211-单线与闭合原则"><strong>2.1.1 单线与闭合原则</strong>
+</h4><p>对于城市路网分析，必须使用<strong>道路中心线（Road Centre Line）</strong>，且必须是单线（Single Line）绘制。许多建筑底图使用双线表示道路边界，这在 DepthmapX 中会被识别为两个独立的屏障，导致路网不通。对于建筑平面分析，墙体必须是封闭的多边形或线条，任何微小的缺口都会导致视域分析时的“洪水泄漏”（Flood Fill Leak），即分析网格溢出到建筑外部，导致计算失败或死机 12。</p>
+<h4 id="212-拓扑连接的精确性"><strong>2.1.2 拓扑连接的精确性</strong>
+</h4><p>在绘制轴线或线段时，线与线之间的连接必须精确。</p>
+<ul>
+<li><strong>过冲（Overshoot）</strong>：线条稍微延伸出交叉点是可以接受的，甚至有利于软件识别交叉。</li>
+<li><strong>未及（Undershoot）</strong>：这是最致命的错误。如果两条线在视觉上相交，但在几何坐标上相差 0.001 毫米而未接触，DepthmapX 将认为路网在此处断开。这会导致整个城市的整合度计算结果出现严重的偏差，形成孤立的子系统。因此，在 CAD 中使用“延伸”（Extend）或“倒角”（Fillet）命令处理所有交叉口是必要的预处理步骤 12。</li>
+</ul>
+<h3 id="22-导入流程与图层管理"><strong>2.2 导入流程与图层管理</strong>
+</h3><h4 id="221-启动与初始化"><strong>2.2.1 启动与初始化</strong>
+</h4><p>启动 DepthmapX 后，软件界面呈现为一个空白的画布。通过 File -&gt; Import 导入 DXF 文件是第一步。值得注意的是，如果 DXF 文件包含过多复杂的图层（如植被、文字标注、填充图案），可能会导致软件在导入时崩溃。因此，建议在 CAD 中将文件“清洗”，仅保留必要的分析图层（如墙体层或路网层），并将其另存为低版本（如 AutoCAD 2000 DXF）以提高兼容性 7。</p>
+<h4 id="222-绘图层与分析层的转化"><strong>2.2.2 绘图层与分析层的转化</strong>
+</h4><p>导入后的地图在 DepthmapX 中被称为“绘图层”（Drawing Layer），它仅仅是几何图形的集合，不具备任何拓扑属性。用户必须通过 Map -&gt; Convert Drawing Map 命令将其转化为“分析层”（Active Map）。</p>
+<ul>
+<li>若进行城市分析，选择转化为 <strong>Axial Map</strong>（轴线图）。</li>
+<li>若进行线段分析，通常先转化为轴线图，再进一步转化为 Segment Map（线段图）。<br>
+这一转化过程是赋予几何线条“图论意义”的关键步骤，转化后的线条将拥有节点编号和连接属性 11。</li>
+</ul>
+<h2 id="第三章-城市空间形态分析从轴线模型到线段模型"><strong>第三章 城市空间形态分析：从轴线模型到线段模型</strong>
+</h2><h3 id="31-轴线图axial-map的构建与修正"><strong>3.1 轴线图（Axial Map）的构建与修正</strong>
+</h3><p>轴线图是空间句法最经典的分析模型。它通过“最少且最长”的直线集合来覆盖城市的公共空间。</p>
+<h4 id="311-自动生成与手动绘制"><strong>3.1.1 自动生成与手动绘制</strong>
+</h4><p>虽然 DepthmapX 提供了基于封闭多边形自动生成轴线图的功能（Tools -&gt; Axial/Convex -&gt; Reduce to Fewest Line Map），但在实际的复杂城市肌理中，自动生成的轴线往往过于破碎。因此，行业标准做法通常是在 CAD 中依据卫星图手动绘制轴线，确保每一条线都代表一条连贯的视线通廊，然后导入 DepthmapX 4。</p>
+<h4 id="312-连接与断开linking-and-unlinking的拓扑逻辑"><strong>3.1.2 连接与断开（Linking and Unlinking）的拓扑逻辑</strong>
+</h4><p>城市空间是三维的，而轴线图是二维的。这就带来了“伪交叉”问题。例如，高架桥与地面道路在平面图上是相交的，但实际上人流无法从高架桥直接跳到地面。</p>
+<ul>
+<li><strong>断开工具（Unlink Tool）</strong>：为了真实反映这种立体交通，用户必须使用 DepthmapX 的断开工具。点击工具栏上的 Unlink 图标，依次选中高架桥轴线和地面道路轴线。软件会在交叉点生成一个特殊的圆圈符号，指示算法在计算路径时“跳过”此节点。这一步骤对于保证路网拓扑结构的真实性至关重要 11。</li>
+<li><strong>应用场景</strong>：立交桥、隧道、跨河缆车等非平面交叉口。</li>
+</ul>
+<h3 id="32-线段模型segment-map与角度分析"><strong>3.2 线段模型（Segment Map）与角度分析</strong>
+</h3><p>随着研究的深入，学术界发现传统的轴线图忽略了角度变化对运动成本的影响。线段模型（Segment Map）应运而生，它将长轴线在每一个交叉点打断，形成线段，并引入角度权重。</p>
+<h4 id="321-轴线转线段的清洗机制"><strong>3.2.1 轴线转线段的清洗机制</strong>
+</h4><p>将轴线图转化为线段图是现代空间句法分析的标准流程。</p>
+<ul>
+<li><strong>操作路径</strong>：Map -&gt; Convert Active Map -&gt; Segment Map。</li>
+<li><strong>关键参数</strong>：<strong>Remove axial stubs less than 40% of line length</strong>（移除小于线长40%的短桩）。
+<ul>
+<li><strong>深度解析</strong>：这是一个极其关键的数据清洗步骤。在绘制轴线时，线条往往会略微穿过交叉口形成“短桩”。如果保留这些短桩，它们会成为独立的线段节点，导致拓扑计算失真（例如，一个十字路口变成五个节点的复杂结构）。勾选此选项后，软件会自动修剪这些冗余部分，保持路网的拓扑纯净度 11。</li>
+</ul>
+</li>
+</ul>
+<h4 id="322-角度线段分析angular-segment-analysis"><strong>3.2.2 角度线段分析（Angular Segment Analysis）</strong>
+</h4><p>这是目前城市形态分析中预测力最强的方法。它结合了米制距离（Metric Distance）和角度变化（Angular Change）。</p>
+<ul>
+<li><strong>操作路径</strong>：Tools -&gt; Segment -&gt; Run Angular Segment Analysis 11。</li>
+<li><strong>参数配置策略</strong>：
+<ol>
+<li><strong>分析模式（Analysis Type）</strong>：选择 Tulip Analysis。这是一种优化的图论算法，能够处理大规模数据。</li>
+<li><strong>包含穿行度（Include Choice）</strong>：务必勾选。选择度（Choice）是预测交通流的核心指标。</li>
+<li><strong>度量半径（Radius Type - Metric）</strong>：不同半径代表不同的社会行为尺度。建议输入 n, 400, 800, 1200, 2000, 5000。
+<ul>
+<li>400, 800（米）：对应步行尺度（5-10分钟），反映社区内部的生活活力。</li>
+<li>2000, 5000（米）：对应车行尺度，反映跨区域的交通潜力。</li>
+<li>n：代表全局（Global），反映整个城市系统的结构骨架 11。</li>
+</ul>
+</li>
+<li><strong>线段长度加权（Segment Length Weighted）</strong>：勾选此项。这使得长街道在计算中权重更高，符合长直街道通常是城市主干道的现实情况 15。</li>
+</ol>
+</li>
+</ul>
+<h3 id="33-核心指标解读与数据后处理"><strong>3.3 核心指标解读与数据后处理</strong>
+</h3><h4 id="331-整合度integration--t1024_integration"><strong>3.3.1 整合度（Integration / T1024_Integration）</strong>
+</h4><p>整合度反映了“中心性”。在热力图中，红色区域（高整合度）表示该区域到达城市其他所有区域的拓扑深度最小。</p>
+<ul>
+<li><strong>社会学含义</strong>：高整合度区域通常演变为城市的商业中心（CBD）或公共活动中心，因为这里最容易聚集来自四面八方的人流。如果是规划新城，整合度分析可以帮助判断规划的商业中心是否位于路网的“句法中心”，从而避免“死城”现象 14。</li>
+</ul>
+<h4 id="332-选择度choice--t1024_choice"><strong>3.3.2 选择度（Choice / T1024_Choice）</strong>
+</h4><p>选择度反映了“通过性”。它计算的是某个线段作为两点间最短路径被经过的次数。</p>
+<ul>
+<li><strong>社会学含义</strong>：高选择度的街道不一定是目的地，但一定是重要的通道（Through-movement）。在预测车流量时，选择度通常比整合度更准确。红色路段意味着高交通压力，需要更宽的道路断面或交通管控 14。</li>
+</ul>
+<h4 id="333-归一化选择度normalised-choice--nach"><strong>3.3.3 归一化选择度（Normalised Choice / NACH）</strong>
+</h4><p>由于传统的选择度数值受系统总规模（Total Depth）影响很大，不同城市间无法直接对比。Hillier 提出了归一化公式：</p>
+$$\\text{NACH} \= \\frac{\\log(\\text{Choice} \+ 1)}{\\log(\\text{Total Depth} \+ 3)}$$<p>在 DepthmapX 中，用户可以通过 Attributes -&gt; Add Column 添加新列，并通过 Edit Column 输入上述公式手动计算 NACH 值。这一指标使得跨城市的形态比较成为可能 11。</p>
+<h2 id="第四章-建筑与室内空间分析视域图vga的应用"><strong>第四章 建筑与室内空间分析：视域图（VGA）的应用</strong>
+</h2><h3 id="41-视域分析vga的理论与机制"><strong>4.1 视域分析（VGA）的理论与机制</strong>
+</h3><p>如果说轴线图是城市的骨架，那么视域图（Visibility Graph Analysis, VGA）就是空间的感知肌理。它源于 Benedikt 的视域（Isovist）理论，即“看见即互通”。DepthmapX 通过在建筑平面内铺设规则网格，计算每个网格点与其他所有点的互视关系，构建出一个密集的视线网络 4。</p>
+<h3 id="42-vga-标准化操作流程"><strong>4.2 VGA 标准化操作流程</strong>
+</h3><h4 id="421-网格策略the-grid-strategy"><strong>4.2.1 网格策略（The Grid Strategy）</strong>
+</h4><ul>
+<li><strong>导入底图</strong>：导入包含墙体、柱子等障碍物的 DXF 文件。</li>
+<li><strong>设置网格</strong>：Tools -&gt; Visibility -&gt; Set Grid 10。</li>
+<li><strong>尺寸权衡</strong>：网格尺寸（Grid Size）是 VGA 分析中也是最敏感的参数。
+<ul>
+<li><strong>过粗（Coarse）</strong>：可能导致狭窄的门洞（如0.9米宽的门）被网格“跳过”，导致房间之间断开连接。</li>
+<li><strong>过细（Fine）</strong>：计算量呈指数级增长（O(n^2)）。例如，将网格从 1m 缩小到 0.5m，节点数量增加4倍，连接关系增加约16倍，可能导致内存溢出。</li>
+<li><strong>最佳实践</strong>：建议初次分析使用较大网格（如 0.6m-1m）进行连通性测试，确认无误后再使用精细网格（如 0.2m-0.3m）进行最终出图 2。</li>
+</ul>
+</li>
+</ul>
+<h4 id="422-填充与图构建"><strong>4.2.2 填充与图构建</strong>
+</h4><ul>
+<li><strong>填充（Fill）</strong>：使用工具栏中的“油漆桶”工具，在建筑的可通行区域点击。绿色网格将覆盖所有连通空间。如果发现网格泄露到墙体外部，需回到 CAD 检查墙体闭合性 2。</li>
+<li><strong>生成视域图</strong>：Tools -&gt; Visibility -&gt; Make Visibility Graph。这一步将几何网格转化为图论节点。</li>
+</ul>
+<h4 id="423-运行分析与指标解读"><strong>4.2.3 运行分析与指标解读</strong>
+</h4><ul>
+<li><strong>路径</strong>：Tools -&gt; Visibility -&gt; Run Visibility Graph Analysis。</li>
+<li><strong>关键指标</strong>：
+<ol>
+<li><strong>Visual Integration（视觉整合度）</strong>：红色区域表示视线最通透、最容易被感知的核心区域。常用于分析大堂、中庭的导向性。</li>
+<li><strong>Visual Connectivity（视觉连接度）</strong>：直接显示站在某点能看到的绝对面积大小。</li>
+<li><strong>Visual Step Depth（视觉深度）</strong>：从入口出发，视线转折多少次才能看到目标。这对于分析空间的私密性（如银行金库、住宅卧室）至关重要。深度越深，私密性越强 9。</li>
+</ol>
+</li>
+</ul>
+<h2 id="第五章-动态行为模拟基于智能体的分析agent-analysis"><strong>第五章 动态行为模拟：基于智能体的分析（Agent Analysis）</strong>
+</h2><h3 id="51-智能体模型的认知基础"><strong>5.1 智能体模型的认知基础</strong>
+</h3><p>DepthmapX 的智能体分析（Agent-based Analysis）提供了一种动态的视角。与物理学中的粒子模拟不同，这里的“智能体”（Agent）拥有模拟人类视觉认知的逻辑。它们并非随机乱撞，而是基于当前的视域（VGA）信息做出移动决策。其核心假设是：人倾向于向视线更长远、空间更开阔的方向移动（趋光性与探索欲） 4。</p>
+<h3 id="52-仿真参数配置与执行"><strong>5.2 仿真参数配置与执行</strong>
+</h3><h4 id="521-前置条件"><strong>5.2.1 前置条件</strong>
+</h4><p>智能体分析必须在 VGA 图的基础上运行，因为智能体需要“读取”脚下网格的视域信息 3。</p>
+<h4 id="522-运行步骤详解"><strong>5.2.2 运行步骤详解</strong>
+</h4><ol>
+<li><strong>启动工具</strong>：Tools -&gt; Agent Tools -&gt; Run Agent Analysis 2。</li>
+<li><strong>参数设定</strong>：
+<ul>
+<li><strong>Agent Number（智能体数量）</strong>：默认 500 或 1000。对于大型商场或机场，增加数量可以获得更平滑的统计分布。</li>
+<li><strong>Release Method（释放策略）</strong>：
+<ul>
+<li><strong>Random（随机）</strong>：全场均匀分布，测试空间本身的吸引力。</li>
+<li><strong>Specific Locations（特定点）</strong>：模拟从地铁口或大门涌入的人流。需使用工具栏中的“添加智能体”工具手动在地图上布点 3。</li>
+</ul>
+</li>
+<li><strong>Timesteps（时间步长）</strong>：模拟运行的持续时间。</li>
+</ul>
+</li>
+</ol>
+<h4 id="523-3d-视图与轨迹可视化"><strong>5.2.3 3D 视图与轨迹可视化</strong>
+</h4><p>为了直观观察智能体的行为，用户需切换到 Window -&gt; 3D View。</p>
+<ul>
+<li><strong>轨迹记录（Record Trails）</strong>：勾选此项后，智能体走过的路径会被保留。</li>
+<li><strong>结果解读</strong>：随着时间推移，屏幕上会出现密集的轨迹线。红色的高频轨迹揭示了自然形成的人流通道（Desire Lines）。这对于验证商业动线设计、预测拥堵点具有极高的实用价值 3。</li>
+</ul>
+<h3 id="53-门计数gate-counts的商业价值"><strong>5.3 门计数（Gate Counts）的商业价值</strong>
+</h3><p>智能体分析最重要的量化输出是 <strong>Gate Counts</strong>。它记录了每个网格点在模拟过程中被经过的累计次数。</p>
+<ul>
+<li><strong>应用</strong>：在商业地产设计中，Gate Counts 热力图直接对应着潜在的“租金地图”。高计数的区域意味着高曝光率，适合布置主力店或高利润商品；低计数的区域则可能形成死角，需要通过空间微调（如打通视线廊道）来激活 3。</li>
+</ul>
+<h2 id="第六章-数据交互图表统计与高级应用"><strong>第六章 数据交互、图表统计与高级应用</strong>
+</h2><h3 id="61-散点图与智能度intelligibility分析"><strong>6.1 散点图与智能度（Intelligibility）分析</strong>
+</h3><p>DepthmapX 不仅生成地图，还提供强大的统计图表功能，用于揭示深层规律。</p>
+<ul>
+<li><strong>智能度（Intelligibility）</strong>：这是空间句法评价空间质量的经典指标。
+<ul>
+<li><strong>操作</strong>：Window -&gt; Scatter Plot。将 X 轴设为局部变量（如 Connectivity），Y 轴设为全局变量（如 Integration HH）。</li>
+<li><strong>解读</strong>：散点图呈现出所有空间单元的分布状态。<strong>R²（决定系数）</strong> 即为智能度。
+<ul>
+<li><strong>R² &gt; 0.5</strong>：表示局部空间与整体结构有很好的相关性。人们在局部街道就能感知到自己在城市整体中的位置，空间具有良好的“可读性”（Legibility）。</li>
+<li><strong>R² &lt; 0.3</strong>：表示迷宫般的空间，局部与整体割裂，人们容易迷失方向 16。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>异常值检测</strong>：散点图也是排错利器。如果图表左下角出现离群点（Outliers），往往意味着这些轴线在拓扑上是断开的，需要回到地图视图中修复 Unlink 错误 12。</li>
+</ul>
+<h3 id="62-跨平台工作流depthmapx-与-gis-的协同"><strong>6.2 跨平台工作流：DepthmapX 与 GIS 的协同</strong>
+</h3><p>为了制作高质量的规划图纸或进行多源数据融合，DepthmapX 通常作为工作流的中间环节。</p>
+<ul>
+<li><strong>导出数据</strong>：分析结果可以通过 Map -&gt; Export 导出为 MIF/MID 格式或 Shapefile 格式。</li>
+<li><strong>QGIS Space Syntax Toolkit</strong>：这是一个革命性的 QGIS 插件，由空间句法实验室开发 11。
+<ul>
+<li><strong>功能</strong>：它允许用户直接在 QGIS 界面中调用 DepthmapX 的计算内核，无需频繁导入导出。</li>
+<li><strong>优势</strong>：利用 QGIS 强大的制图引擎，用户可以将空间句法热力图与土地利用图、人口密度图、POI 数据进行叠加，进行更复杂的加权分析（如“基于路网整合度的商业网点选址优化模型”） 21。</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-结果可视化的色彩符号学"><strong>6.3 结果可视化的色彩符号学</strong>
+</h3><p>在所有分析图中，DepthmapX 默认使用光谱色（Spectral Colour）来表达数值强度 3。</p>
+<ul>
+<li><strong>红色（Red）</strong>：代表最高值（Most Integrated / High Choice）。这是系统的核心，人流最密集、可达性最强。</li>
+<li><strong>蓝色（Blue）</strong>：代表最低值（Most Segregated / Low Choice）。这是系统的边缘，人迹罕至。</li>
+<li><strong>冷暖过渡</strong>：从红到黄、绿、青、蓝的渐变，直观展示了从中心到边缘的空间层级衰减。</li>
+<li><strong>注意</strong>：在学术报告中，保持这一默认色阶是行业标准，有助于同行快速识读图纸信息。</li>
+</ul>
+<h2 id="第七章-常见故障排除与实战技巧"><strong>第七章 常见故障排除与实战技巧</strong>
+</h2><p>在实际操作中，用户可能会遇到各种技术障碍。以下是基于实战经验的故障排除指南：</p>
+<h3 id="71-为什么我的分析图是一片蓝色"><strong>7.1 为什么我的分析图是一片蓝色？</strong>
+</h3><p>这是新手最常遇到的“蓝图噩梦”。</p>
+<ul>
+<li><strong>原因一：路网破碎</strong>。DXF 文件中存在大量的断线（Undershoot），导致整个系统被切割成无数孤立的小岛。整合度无法在全局扩散，所有区域都显示为最低值。
+<ul>
+<li><strong>对策</strong>：使用 Tools -&gt; Make Angular Step 工具点击任意路段，检查其连通范围。如果只能点亮几条街，说明路网连接有问题，需重回 CAD 修复 15。</li>
+</ul>
+</li>
+<li><strong>原因二：半径设置不当</strong>。在一个直径仅 500 米的小镇模型上运行 Radius = 10000 的分析，对于所有街道而言，10000 米都是“无穷远”，导致数值差异极小。</li>
+<li><strong>原因三：短桩未清理</strong>。如果未勾选“移除 40% 短桩”，成千上万的微小线段会稀释整体计算结果 11。</li>
+</ul>
+<h3 id="72-软件崩溃与内存溢出"><strong>7.2 软件崩溃与内存溢出</strong>
+</h3><ul>
+<li><strong>场景</strong>：在进行大范围 VGA 分析或高精度线段分析时，软件突然退出。</li>
+<li><strong>原因</strong>：内存不足。VGA 分析的计算复杂度极高。</li>
+<li><strong>对策</strong>：
+<ol>
+<li><strong>裁剪边界</strong>：不要导入全城地图，只截取研究范围及其周边缓冲区（Buffer）的数据。</li>
+<li><strong>放大网格</strong>：将 VGA 网格从 0.3m 调整为 0.6m，计算量可减少 75% 2。</li>
+<li><strong>使用命令行版本</strong>：DepthmapX 提供无图形界面的命令行版本，在处理超大规模数据时更稳定高效 6。</li>
+</ol>
+</li>
+</ul>
+<h2 id="第八章-结论与展望"><strong>第八章 结论与展望</strong>
+</h2><p>DepthmapX 不仅仅是一款辅助绘图的软件，它是空间句法理论的数学引擎，是连接建筑空间形式与社会交互逻辑的桥梁。通过本报告的系统梳理，我们可以清晰地看到从数据导入、模型构建到复杂分析的完整技术路径。</p>
+<p>从轴线图对城市骨架的宏观把控，到线段模型对交通流线的精准预测，再到视域图与智能体模拟对微观行为的细腻刻画，DepthmapX 提供了一套多尺度的空间解析方案。对于城市规划师而言，它提供了一种不依赖于历史数据（如由现状反推未来）的预测手段，完全基于规划方案本身的空间构型来评估其未来的活力潜力。</p>
+<p>掌握 DepthmapX 的操作只是第一步，真正的专业性体现在对 Integration、Choice、NACH 等指标的深刻理解与综合运用上。能够透过红蓝斑斓的热力图，解读出隐藏在城市肌理下的社会不平等、商业机遇与社区活力，才是空间句法研究者的核心竞争力。</p>
+<h3 id="heading">&mdash;
+</h3><p><strong>表格索引</strong></p>
+<ul>
+<li><strong>表 1.3</strong>：DepthmapX 核心空间概念（凸空间、轴线、视域）对比分析。</li>
+<li><strong>表 3.2.2</strong>：角度线段分析核心参数配置建议表。</li>
+<li><strong>表 6.1</strong>：智能度（Intelligibility）R² 值判读标准。</li>
+</ul>
+<h3 id="关键操作清单-checklist"><strong>关键操作清单 (Checklist)</strong>
+</h3><ol>
+<li><strong>CAD 预处理</strong>：单线绘制、节点吸附、移除文字/填充。</li>
+<li><strong>导入检查</strong>：Map -&gt; Convert 确保图层类型正确。</li>
+<li><strong>轴线分析</strong>：手动 Unlink 立交桥，勾选移除短桩。</li>
+<li><strong>VGA 分析</strong>：网格尺寸适中，检查墙体闭合防泄露。</li>
+<li><strong>智能体分析</strong>：基于 VGA 图运行，开启 3D 视图观察轨迹。</li>
+<li><strong>结果输出</strong>：利用 QGIS Toolkit 进行最终制图与数据融合。</li>
+</ol>
+<h4 id="works-cited"><strong>Works cited</strong>
+</h4><ol>
+<li>Integration &amp; Connectivity: Space Syntax Analysis | Edu-Archs - YouTube, accessed December 30, 2025, <a class="link" href="https://www.youtube.com/watch?v=bB5xdfovDqo"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=bB5xdfovDqo</a></li>
+<li>Chapter 4. Depthmap X – Data visualization - Iowa State University Digital Press, accessed December 30, 2025, <a class="link" href="https://iastate.pressbooks.pub/visualgraphiccomm2/chapter/chapter-5-data-visualization-depthmap/"  target="_blank" rel="noopener"
+    >https://iastate.pressbooks.pub/visualgraphiccomm2/chapter/chapter-5-data-visualization-depthmap/</a></li>
+<li>Introduction to Depthmap - archtech.gr, accessed December 30, 2025, <a class="link" href="https://archtech.gr/varoudis/depthmapX/LearningMaterial/introduction_depthmap-v10-website.pdf"  target="_blank" rel="noopener"
+    >https://archtech.gr/varoudis/depthmapX/LearningMaterial/introduction_depthmap-v10-website.pdf</a></li>
+<li>depthmapX | UCL Bartlett Faculty of the Built Environment, accessed December 30, 2025, <a class="link" href="https://www.ucl.ac.uk/bartlett/research-projects/2016/dec/depthmapx"  target="_blank" rel="noopener"
+    >https://www.ucl.ac.uk/bartlett/research-projects/2016/dec/depthmapx</a></li>
+<li>1.4: Depthmap X - Data visualization - Workforce LibreTexts, accessed December 30, 2025, <a class="link" href="https://workforce.libretexts.org/Workbench/Tutorials_of_Visual_Graphic_Communication_Programs_for_Interior_Design_2_%5c%28Cho%5c%29/01%3A_Image_Search__Diagramming__Data_Visualization/1.04%3A_Depthmap_X_-_Data_visualization"  target="_blank" rel="noopener"
+    >https://workforce.libretexts.org/Workbench/Tutorials_of_Visual_Graphic_Communication_Programs_for_Interior_Design_2_(Cho)/01%3A_Image_Search__Diagramming__Data_Visualization/1.04%3A_Depthmap_X_-_Data_visualization</a></li>
+<li>depthmapX by varoudis - GitHub Pages, accessed December 30, 2025, <a class="link" href="https://varoudis.github.io/depthmapX/"  target="_blank" rel="noopener"
+    >https://varoudis.github.io/depthmapX/</a></li>
+<li>Getting started in depthmapX - Space Syntax – Online Training Platform, accessed December 30, 2025, <a class="link" href="https://www.spacesyntax.online/software-and-manuals/depthmap/tutorial/"  target="_blank" rel="noopener"
+    >https://www.spacesyntax.online/software-and-manuals/depthmap/tutorial/</a></li>
+<li>UCL Depthmap 7: Axial Line Analysis - archtech.gr, accessed December 30, 2025, <a class="link" href="https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap7axial.pdf"  target="_blank" rel="noopener"
+    >https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap7axial.pdf</a></li>
+<li>DISSECTING VISIBILITY GRAPH ANALYSIS: - UCL Discovery, accessed December 30, 2025, <a class="link" href="https://discovery.ucl.ac.uk/10073528/7/Sailer_Dissecting%20Visibility%20Graph%20Analysis.%20The%20metrics%20and%20their%20role%20in%20understanding%20workplace%20human%20behaviour_VoR.pdf"  target="_blank" rel="noopener"
+    >https://discovery.ucl.ac.uk/10073528/7/Sailer_Dissecting%20Visibility%20Graph%20Analysis.%20The%20metrics%20and%20their%20role%20in%20understanding%20workplace%20human%20behaviour_VoR.pdf</a></li>
+<li>Space Syntax · Depthmap · Visibility Graph Analysis (VGA) tutorial, accessed December 30, 2025, <a class="link" href="https://ethz.ch/content/dam/ethz/special-interest/gess/cognitive-science-dam/images/COG%20Teaching/Tutorial/15MAY%20Space%20syntax%20VGA%20tutorial_Beatrix.pdf"  target="_blank" rel="noopener"
+    >https://ethz.ch/content/dam/ethz/special-interest/gess/cognitive-science-dam/images/COG%20Teaching/Tutorial/15MAY%20Space%20syntax%20VGA%20tutorial_Beatrix.pdf</a></li>
+<li>Urban spatial analysis tutorial - Space Syntax – Online Training Platform, accessed December 30, 2025, <a class="link" href="https://www.spacesyntax.online/software-and-manuals/depthmap/urban-spatial-model/"  target="_blank" rel="noopener"
+    >https://www.spacesyntax.online/software-and-manuals/depthmap/urban-spatial-model/</a></li>
+<li>Depth map manual for &ldquo;DUMMIES&rdquo;, accessed December 30, 2025, <a class="link" href="http://www.ia.arch.ethz.ch/wp-content/uploads/2013/09/DepthmapManual14a.pdf"  target="_blank" rel="noopener"
+    >http://www.ia.arch.ethz.ch/wp-content/uploads/2013/09/DepthmapManual14a.pdf</a></li>
+<li>Space Syntax Toolkit - How do unlinks (bridges/tunnels) work in a road centreline map?, accessed December 30, 2025, <a class="link" href="https://gis.stackexchange.com/questions/423476/space-syntax-toolkit-how-do-unlinks-bridges-tunnels-work-in-a-road-centrelin"  target="_blank" rel="noopener"
+    >https://gis.stackexchange.com/questions/423476/space-syntax-toolkit-how-do-unlinks-bridges-tunnels-work-in-a-road-centrelin</a></li>
+<li>Axial Map Analysis Autocad - Depthmap - YouTube, accessed December 30, 2025, <a class="link" href="https://www.youtube.com/watch?v=bw_p2Om0lV8"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=bw_p2Om0lV8</a></li>
+<li>T4: Space Syntax - YouTube, accessed December 30, 2025, <a class="link" href="https://www.youtube.com/watch?v=R49Bt9DPHf8"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=R49Bt9DPHf8</a></li>
+<li>Space Syntax Methodology - helios, accessed December 30, 2025, <a class="link" href="https://helios.ntua.gr/pluginfile.php/302328/mod_folder/content/0/SpaceSyntax_Handbook.pdf?forcedownload=1"  target="_blank" rel="noopener"
+    >https://helios.ntua.gr/pluginfile.php/302328/mod_folder/content/0/SpaceSyntax_Handbook.pdf?forcedownload=1</a></li>
+<li>UCL Depthmap 7: Convex Space Analysis - archtech.gr, accessed December 30, 2025, <a class="link" href="https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap7convex.pdf"  target="_blank" rel="noopener"
+    >https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap7convex.pdf</a></li>
+<li>depthmapX: visual and spatial network analysis software - GitHub Pages, accessed December 30, 2025, <a class="link" href="https://spacegroupucl.github.io/depthmapX/"  target="_blank" rel="noopener"
+    >https://spacegroupucl.github.io/depthmapX/</a></li>
+<li>7 Making Agent Based Analysis in Depth Map - YouTube, accessed December 30, 2025, <a class="link" href="https://www.youtube.com/watch?v=kdi8rGOAvXc"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=kdi8rGOAvXc</a></li>
+<li>The traditional DepthmapX workshop - Cyprus Conferences, accessed December 30, 2025, <a class="link" href="https://cyprusconferences.org/14sss/wp-content/uploads/2024/05/sss142024_4.pdf"  target="_blank" rel="noopener"
+    >https://cyprusconferences.org/14sss/wp-content/uploads/2024/05/sss142024_4.pdf</a></li>
+<li>SPACESYNTAX Archives - JISCMail, accessed December 30, 2025, <a class="link" href="https://www.jiscmail.ac.uk/cgi-bin/webadmin?A2=SPACESYNTAX;91764ecd.1912"  target="_blank" rel="noopener"
+    >https://www.jiscmail.ac.uk/cgi-bin/webadmin?A2=SPACESYNTAX;91764ecd.1912</a></li>
+<li>Depthmap 4 -&ndash; A Researcher&rsquo;s Handbook - archtech.gr, accessed December 30, 2025, <a class="link" href="https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap4r1.pdf"  target="_blank" rel="noopener"
+    >https://archtech.gr/varoudis/depthmapX/LearningMaterial/depthmap4r1.pdf</a></li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/space-syntax/">Space Syntax</a>
+        
+            <a href="/tags/%E8%BD%AF%E4%BB%B6/">软件</a>
+        
+            <a href="/tags/depth-map/">Depth Map</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jan 06, 2026 03:39 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E8%AF%BB%E6%96%87%E7%8C%AEprompt/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">读文献prompt</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FISH语言学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/hugo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hugo常用命令</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PFC学习记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="evzz74/evzz74.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 AnJoy
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://evzz74.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://evzz74.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main"，
+            ".sidebar",
+			".main-article",
+			".js-Pjax"
+        ],
+        cacheBust: false  
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+                
+                
+                updateMetaTags(newDom);
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+    
+    
+    function updateMetaTags(newDom) {
+        
+        const metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+        
+        metaSelectors.forEach(selector => {
+            const newMeta = newDom.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            const currentMeta = document.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        
+        let comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        let script = document.createElement('script');
+        
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
+		script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title'); 
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+		script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://evzz74.github.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://evzz74.github.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://evzz74.github.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
