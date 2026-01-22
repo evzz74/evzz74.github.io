@@ -7,7 +7,45 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 06 Jan 2026 03:39:56 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 22 Jan 2026 12:37:38 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Word中MathType公式显示不全问题解决方法</title>
+        <link>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+        <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;h3 id=&#34;word或wps文档在固定行间距时mathtype公式会显示不全以下是一种比较方便的解决办法&#34;&gt;Word或WPS文档在固定行间距时，MathType公式会显示不全，以下是一种比较方便的解决办法。
+&lt;/h3&gt;&lt;p&gt;单倍行间距正常显示：&lt;/p&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image1.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;单倍行距效果演示&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+固定行间距为20磅，公式显示不全：
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image2.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;调整前&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+点击math type公式，选择 **清除格式**；
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image3.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;清除格式&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+重新选择该段落，在 **段落** —— **文本对齐方式**中选择 **“居中”** ：
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image4.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;文本居中&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+调整后效果展示：
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image5.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;调整后效果&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;</description>
+        </item>
+        <item>
         <title>Aseprite 简易在线编译教程</title>
         <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
         <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
