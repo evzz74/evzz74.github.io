@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Mon, 16 Mar 2026 03:42:31 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 16 Mar 2026 11:17:32 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>右键菜单删除uwtsetting</title>
         <link>https://evzz74.github.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</link>
         <pubDate>Mon, 16 Mar 2026 11:39:20 +0800</pubDate>
@@ -427,6 +427,13 @@
 &lt;p&gt;使用 AI 将文本转换为自然、高质量的语音。&lt;/p&gt;
 &lt;p&gt;支持 100+ AI 语音，50+ 种语言，生成的语音可以在线试听或者下载为 MP3 文件。&lt;/p&gt;
 &lt;p&gt;无需注册，完全免费使用！&lt;/p&gt;
+&lt;h2 id=&#34;links-hub-林客社&#34;&gt;Links Hub 林客社
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.linkshub.dev/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.linkshub.dev/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;LinksHub是一个社区共建的开源技术资源平台，整合互联网上的各种学习资源，为各类开发者提供丰富学习资料。
+项目致力于帮助用户便捷获取所需技术信息，支持不同背景人士参与开源。
+基于Next.js、Tailwind CSS和TypeScript构建，LinksHub鼓励开发者贡献内容，共同完善这一宝贵资源库。
+平台涵盖多个技术领域，适合新手入门和专业人士深造，是技术学习的理想起点。&lt;/p&gt;
 </description>
         </item>
         <item>
