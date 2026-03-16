@@ -7,7 +7,53 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 28 Jan 2026 08:41:14 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 16 Mar 2026 03:42:31 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>右键菜单删除uwtsetting</title>
+        <link>https://evzz74.github.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</link>
+        <pubDate>Mon, 16 Mar 2026 11:39:20 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</guid>
+        <description>&lt;h2 id=&#34;方法一通过注册表编辑器删除&#34;&gt;方法一：通过注册表编辑器删除
+&lt;/h2&gt;&lt;p&gt;打开注册表编辑器：&lt;/p&gt;
+&lt;p&gt;按下“Win + R”组合键，打开“运行”对话框。
+在对话框中输入“regedit”，然后按“Enter”键，打开注册表编辑器。
+导航到目标注册表键：&lt;/p&gt;
+&lt;p&gt;在注册表编辑器中，导航到以下路径：HKEY_CLASSES_ROOT\DesktopBackground\Shell。
+在这个路径下，你应该能看到名为“uwtsettings”的键（或文件夹）。
+删除uwtsettings键：&lt;/p&gt;
+&lt;p&gt;右键单击“uwtsettings”键，然后选择“删除”。
+确认删除操作。
+重启计算机：&lt;/p&gt;
+&lt;p&gt;为了确保更改生效，建议重启计算机。&lt;/p&gt;
+&lt;h2 id=&#34;方法二使用命令提示符删除&#34;&gt;方法二：使用命令提示符删除
+&lt;/h2&gt;&lt;p&gt;打开提升的命令提示符：&lt;/p&gt;
+&lt;p&gt;打开“开始”菜单，输入“cmd.exe”。
+右键单击“命令提示符”，然后选择“以管理员身份运行”。
+执行删除命令：&lt;/p&gt;
+&lt;p&gt;在命令提示符窗口中，输入以下命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;reg delete hkcr\DesktopBackground\Shell\uwtsettings。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;按“Enter”键执行命令。
+在询问确认时，输入“yes”并按“Enter”键。
+重启计算机：&lt;/p&gt;
+&lt;p&gt;同样，为了确保更改生效，建议重启计算机。&lt;/p&gt;
+&lt;h2 id=&#34;方法三使用第三方软件清理&#34;&gt;方法三：使用第三方软件清理
+&lt;/h2&gt;&lt;p&gt;你也可以使用一些第三方软件来清理右键菜单中的多余选项，例如360安全卫士等。这些软件通常提供了右键管理功能，可以帮助你轻松删除不需要的右键菜单项。&lt;/p&gt;
+&lt;p&gt;打开360安全卫士。
+进入“功能大全”。
+找到并打开“右键管理”工具。
+在右键管理界面中，找到并勾选要删除的“uwtsetting”选项。
+点击“删除”或“确定”按钮，完成删除操作。
+请注意，在删除右键菜单项之前，请确保你了解这些选项的功能和用途，以避免误删重要的功能。如果你不确定某个选项是否可以删除，建议先进行备份或咨询专业人士的意见。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Word中MathType公式显示不全问题解决方法</title>
         <link>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
         <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
