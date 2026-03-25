@@ -7,58 +7,27 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Tue, 24 Mar 2026 07:47:00 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 22 Jan 2026 20:10:32 +0800</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Word中MathType公式显示不全问题解决方法</title>
-        <link>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+        <link>https://evzz74.github.io/post/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
         <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+        <guid>https://evzz74.github.io/post/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
         <description>&lt;h3 id=&#34;word或wps文档在固定行间距时mathtype公式会显示不全以下是一种比较方便的解决办法&#34;&gt;Word或WPS文档在固定行间距时，MathType公式会显示不全，以下是一种比较方便的解决办法。
 &lt;/h3&gt;&lt;p&gt;单倍行间距正常显示：&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image1.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;单倍行距效果演示&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-固定行间距为20磅，公式显示不全：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image2.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;调整前&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-点击math type公式，选择 **清除格式**；
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image3.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;清除格式&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-重新选择该段落，在 **段落** —— **文本对齐方式**中选择 **“居中”** ：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image4.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;文本居中&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-调整后效果展示：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image5.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;调整后效果&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;</description>
+&lt;!-- raw HTML omitted --&gt;
+</description>
         </item>
         <item>
         <title>Aseprite 简易在线编译教程</title>
-        <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
+        <link>https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
         <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
-        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+        <guid>https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
 &lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
 &lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;Aseprite&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;h3 id=&#34;-准备工作&#34;&gt;📌 准备工作
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;一个 &lt;strong&gt;GitHub 账号&lt;/strong&gt;。&lt;/li&gt;
@@ -87,11 +56,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;修改编译参数&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;ul&gt;
 &lt;li&gt;点击 &lt;strong&gt;Commit changes&amp;hellip;&lt;/strong&gt; 保存修改。&lt;/li&gt;
 &lt;/ul&gt;
@@ -124,11 +89,7 @@
 &lt;hr&gt;
 &lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
-    &lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 系统缺少 OpenSSL 运行库。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;解决：&lt;/strong&gt; 1.  在项目 Release 页面下载 &lt;code&gt;openssl-1.1.1w.zip&lt;/code&gt;。&lt;/li&gt;
@@ -136,10 +97,7 @@
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;解压后将 &lt;code&gt;x64/bin/&lt;/code&gt; 目录下的 &lt;code&gt;libcrypto-1_1-x64.dll&lt;/code&gt; 复制到 Aseprite 软件根目录（与 &lt;code&gt;.exe&lt;/code&gt; 同级）即可。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
----
+&lt;!-- raw HTML omitted --&gt;
 &lt;h3 id=&#34;-温馨提示&#34;&gt;💡 温馨提示
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;清理：&lt;/strong&gt; 编译完成后，建议根据用户协议自行删除账户内的 Release 文件。&lt;/li&gt;
@@ -150,10 +108,10 @@
         </item>
         <item>
         <title>几款实用平替软件</title>
-        <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
+        <link>https://evzz74.github.io/post/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
         <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</guid>
+        <guid>https://evzz74.github.io/post/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</guid>
         <description>&lt;hr&gt;
 &lt;h1 id=&#34;-顶级付费软件平替清单超实用生产力工具推荐&#34;&gt;💡 顶级付费软件平替清单：超实用生产力工具推荐
 &lt;/h1&gt;&lt;p&gt;一些开源/免费软件清单&lt;/p&gt;

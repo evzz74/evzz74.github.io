@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) sudo apt update sudo apt install fish macOS brew install fish Windows (WSL) sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+<title>FISH语言学习</title>
+
+<link rel='canonical' href='https://evzz74.github.io/post/fish%E8%AF%AD%E8%A8%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="FISH语言学习">
+<meta property='og:description' content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) sudo apt update sudo apt install fish macOS brew install fish Windows (WSL) sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+<meta property='og:url' content='https://evzz74.github.io/post/fish%E8%AF%AD%E8%A8%80/'>
+<meta property='og:site_name' content='AnJoy&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='教程' /><meta property='article:tag' content='FISH' /><meta property='article:published_time' content='2025-10-29T20:25:25&#43;08:00'/><meta property='article:modified_time' content='2025-10-29T20:25:25&#43;08:00'/>
+<meta name="twitter:title" content="FISH语言学习">
+<meta name="twitter:description" content="FISH语言学习教程 什么是FISH？ FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：\n智能补全：强大的自动补全功能，可以补全命令、参数、文件路径等 美观界面：支持颜色、表情符号和富文本显示 脚本友好：简洁的语法，适合编写自动化脚本 易于使用：比传统shell更直观的设计 跨平台：支持Linux、macOS和Windows（WSL） 安装FISH Linux (Ubuntu/Debian) sudo apt update sudo apt install fish macOS brew install fish Windows (WSL) sudo apt update sudo apt install fish 设置FISH为默认shell：\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AnJoy&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>相关链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://evzz74.github.io/en/" >English</option>
+                                
+                                    <option value="https://evzz74.github.io/ar/" >عربي</option>
+                                
+                                    <option value="https://evzz74.github.io/" selected></option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是fish">什么是FISH？</a></li>
+    <li><a href="#安装fish">安装FISH</a>
+      <ul>
+        <li><a href="#linux-ubuntudebian">Linux (Ubuntu/Debian)</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#windows-wsl">Windows (WSL)</a></li>
+      </ul>
+    </li>
+    <li><a href="#基础语法">基础语法</a>
+      <ul>
+        <li><a href="#1-变量赋值和引用">1. 变量赋值和引用</a></li>
+        <li><a href="#2-环境变量">2. 环境变量</a></li>
+        <li><a href="#3-命令替换">3. 命令替换</a></li>
+        <li><a href="#4-引号规则">4. 引号规则</a></li>
+      </ul>
+    </li>
+    <li><a href="#控制结构">控制结构</a>
+      <ul>
+        <li><a href="#1-条件判断-if">1. 条件判断 (if)</a></li>
+        <li><a href="#2-循环-for">2. 循环 (for)</a></li>
+        <li><a href="#3-循环-while">3. 循环 (while)</a></li>
+        <li><a href="#4-开关语句-switch">4. 开关语句 (switch)</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数">函数</a>
+      <ul>
+        <li><a href="#定义函数">定义函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#常用内置命令">常用内置命令</a>
+      <ul>
+        <li><a href="#文件和目录操作">文件和目录操作</a></li>
+        <li><a href="#查看命令">查看命令</a></li>
+        <li><a href="#文本处理">文本处理</a></li>
+        <li><a href="#网络命令">网络命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#实际示例">实际示例</a>
+      <ul>
+        <li><a href="#1-系统监控脚本">1. 系统监控脚本</a></li>
+        <li><a href="#2-批量文件重命名">2. 批量文件重命名</a></li>
+        <li><a href="#3-日志分析脚本">3. 日志分析脚本</a></li>
+        <li><a href="#4-项目自动部署脚本">4. 项目自动部署脚本</a></li>
+      </ul>
+    </li>
+    <li><a href="#智能补全">智能补全</a></li>
+    <li><a href="#常用技巧">常用技巧</a>
+      <ul>
+        <li><a href="#1-别名设置">1. 别名设置</a></li>
+        <li><a href="#2-配置fish">2. 配置FISH</a></li>
+        <li><a href="#3-历史记录">3. 历史记录</a></li>
+      </ul>
+    </li>
+    <li><a href="#学习资源">学习资源</a>
+      <ul>
+        <li><a href="#官方资源">官方资源</a></li>
+        <li><a href="#在线工具">在线工具</a></li>
+        <li><a href="#社区资源">社区资源</a></li>
+        <li><a href="#推荐书籍">推荐书籍</a></li>
+        <li><a href="#练习项目">练习项目</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" >
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/fish%E8%AF%AD%E8%A8%80/">FISH语言学习</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 29, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="fish语言学习教程">FISH语言学习教程
+</h1><h2 id="什么是fish">什么是FISH？
+</h2><p>FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：</p>
+<ul>
+<li><strong>智能补全</strong>：强大的自动补全功能，可以补全命令、参数、文件路径等</li>
+<li><strong>美观界面</strong>：支持颜色、表情符号和富文本显示</li>
+<li><strong>脚本友好</strong>：简洁的语法，适合编写自动化脚本</li>
+<li><strong>易于使用</strong>：比传统shell更直观的设计</li>
+<li><strong>跨平台</strong>：支持Linux、macOS和Windows（WSL）</li>
+</ul>
+<h2 id="安装fish">安装FISH
+</h2><h3 id="linux-ubuntudebian">Linux (Ubuntu/Debian)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install fish
+</span></span></code></pre></div><h3 id="macos">macOS
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install fish
+</span></span></code></pre></div><h3 id="windows-wsl">Windows (WSL)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install fish
+</span></span></code></pre></div><p>设置FISH为默认shell：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo /usr/bin/fish | sudo tee -a /etc/shells
+</span></span><span style="display:flex;"><span>chsh -s /usr/bin/fish
+</span></span></code></pre></div><h2 id="基础语法">基础语法
+</h2><h3 id="1-变量赋值和引用">1. 变量赋值和引用
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 赋值（注意等号两边不能有空格）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> name <span style="color:#e6db74">&#34;张三&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> age <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引用变量（使用$符号）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;我叫 </span>$name<span style="color:#e6db74"> 今年 </span>$age<span style="color:#e6db74"> 岁&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 临时变量（仅当前命令有效）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> PATH $PATH /usr/local/bin  <span style="color:#75715e"># export效果
+</span></span></span></code></pre></div><h3 id="2-环境变量">2. 环境变量
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 设置环境变量
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> EDITOR <span style="color:#e6db74">&#34;vim&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> PATH $PATH /custom/bin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看环境变量
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> $PATH
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">env</span>  <span style="color:#75715e"># 显示所有环境变量
+</span></span></span></code></pre></div><h3 id="3-命令替换">3. 命令替换
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 将命令输出赋值给变量
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> current_dir <span style="color:#f92672">(</span><span style="color:#a6e22e">pwd</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> today <span style="color:#f92672">(</span><span style="color:#a6e22e">date</span> +%Y-%m-%d<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> file_count <span style="color:#f92672">(</span><span style="color:#a6e22e">ls</span> -<span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">wc</span> <span style="color:#a6e22e">-l</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;当前目录: </span>$current_dir<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;今天日期: </span>$today<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;文件数量: </span>$file_count<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h3 id="4-引号规则">4. 引号规则
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 双引号：允许变量扩展
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> name <span style="color:#e6db74">&#34;世界&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;你好, </span>$name<span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># 输出: 你好, 世界
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 单引号：禁止变量扩展
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;你好, $name&#39;</span>  <span style="color:#75715e"># 输出: 你好, $name
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 转义字符
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;路径: /home/user/dir with space&#34;</span>
+</span></span></code></pre></div><h2 id="控制结构">控制结构
+</h2><h3 id="1-条件判断-if">1. 条件判断 (if)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 基本语法
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> $age <span style="color:#a6e22e">-ge</span> <span style="color:#ae81ff">18</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;成年人&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;未成年人&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 多条件判断
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> $age <span style="color:#a6e22e">-ge</span> <span style="color:#ae81ff">18</span>; <span style="color:#66d9ef">and</span> <span style="color:#66d9ef">test</span> $age <span style="color:#a6e22e">-lt</span> <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;工作年龄&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> $age <span style="color:#a6e22e">-ge</span> <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;退休年龄&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;未成年&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 文件测试
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;file.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;file.txt 是一个普通文件&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-d</span> <span style="color:#e6db74">&#34;directory&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;directory 是一个目录&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 字符串比较
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;admin&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;欢迎管理员&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="2-循环-for">2. 循环 (for)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 遍历列表
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> file <span style="color:#66d9ef">in</span> *.txt
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;处理文件: </span>$file<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍历数字序列
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">seq</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;数字: </span>$i<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍历数组
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> fruits apple banana orange
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#66d9ef">in</span> $fruits
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;我喜欢 </span>$fruit<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="3-循环-while">3. 循环 (while)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#66d9ef">count</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">test</span> $count <span style="color:#a6e22e">-le</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;计数: </span>$count<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">count</span> <span style="color:#f92672">(</span>math $count + <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="4-开关语句-switch">4. 开关语句 (switch)
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> os <span style="color:#e6db74">&#34;linux&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> $os
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;linux&#34;</span> <span style="color:#e6db74">&#34;ubuntu&#34;</span> <span style="color:#e6db74">&#34;centos&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Linux系统&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;mac&#34;</span> <span style="color:#e6db74">&#34;darwin&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;macOS系统&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;windows&#34;</span> <span style="color:#e6db74">&#34;msys&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Windows系统&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;*&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;未知系统&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h2 id="函数">函数
+</h2><h3 id="定义函数">定义函数
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 基本函数
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">greet</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;你好, </span>$argv<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 带参数的函数
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">add</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> a $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> b $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#f92672">(</span>math $a + $b<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 函数示例
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">greet</span> <span style="color:#e6db74">&#34;世界&#34;</span>  <span style="color:#75715e"># 调用函数
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">add</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">20</span>     <span style="color:#75715e"># 输出: 30
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 复杂函数示例
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">backup_file</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;</span>$argv<span style="color:#e6db74">[1]&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span> backup <span style="color:#f92672">(</span><span style="color:#a6e22e">date</span> +%Y%m%d_%H%M%S<span style="color:#f92672">)</span>_$argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cp</span> $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span> $backup
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;备份完成: </span>$backup<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;文件不存在: </span>$argv<span style="color:#e6db74">[1]&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">backup_file</span> <span style="color:#e6db74">&#34;important.txt&#34;</span>
+</span></span></code></pre></div><h2 id="常用内置命令">常用内置命令
+</h2><h3 id="文件和目录操作">文件和目录操作
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 列出文件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">ls</span> <span style="color:#a6e22e">-la</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建目录
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">mkdir</span> new_directory
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 复制文件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">cp</span> source.txt destination.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移动/重命名
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">mv</span> old_name.txt new_name.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除文件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">rm</span> file.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除目录
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">rmdir</span> empty_directory
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rm</span> <span style="color:#a6e22e">-rf</span> non_empty_directory
+</span></span></code></pre></div><h3 id="查看命令">查看命令
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 查看文件内容
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span> file.txt
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">less</span> file.txt
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">head</span> <span style="color:#a6e22e">-n</span> <span style="color:#ae81ff">10</span> file.txt  <span style="color:#75715e"># 前10行
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">tail</span> <span style="color:#a6e22e">-n</span> <span style="color:#ae81ff">10</span> file.txt  <span style="color:#75715e"># 后10行
+</span></span></span></code></pre></div><h3 id="文本处理">文本处理
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 搜索文本
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">grep</span> <span style="color:#e6db74">&#34;pattern&#34;</span> file.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 排序
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">sort</span> file.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去重
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">uniq</span> file.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 统计行数
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">wc</span> <span style="color:#a6e22e">-l</span> file.txt
+</span></span></code></pre></div><h3 id="网络命令">网络命令
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 测试网络连接
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">ping</span> google.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下载文件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">curl</span> <span style="color:#a6e22e">-O</span> https://example.com/file.txt
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">wget</span> https://example.com/file.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示网络连接
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">netstat</span> <span style="color:#a6e22e">-tuln</span>
+</span></span></code></pre></div><h2 id="实际示例">实际示例
+</h2><h3 id="1-系统监控脚本">1. 系统监控脚本
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env fish
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">system_info</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 系统信息 ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;当前用户: </span>$USER<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;主机名: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">hostname</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;操作系统: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">uname</span> <span style="color:#a6e22e">-s</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;内核版本: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">uname</span> <span style="color:#a6e22e">-r</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;运行时间: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">uptime</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 磁盘使用 ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">df</span> <span style="color:#a6e22e">-h</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 内存使用 ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span> <span style="color:#a6e22e">-h</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 负载均值 ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">uptime</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">system_info</span>
+</span></span></code></pre></div><h3 id="2-批量文件重命名">2. 批量文件重命名
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env fish
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">batch_rename</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> prefix $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> counter <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> file <span style="color:#66d9ef">in</span> *.$argv<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">set</span> new_name <span style="color:#f92672">(</span>printf <span style="color:#e6db74">&#34;%s_%02d.%s&#34;</span> $prefix $counter $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">mv</span> <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$new_name<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;重命名: </span>$file<span style="color:#e6db74"> -&gt; </span>$new_name<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">set</span> counter <span style="color:#f92672">(</span>math $counter + <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用示例：批量重命名所有txt文件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">batch_rename</span> <span style="color:#e6db74">&#34;document&#34;</span> <span style="color:#e6db74">&#34;txt&#34;</span>
+</span></span></code></pre></div><h3 id="3-日志分析脚本">3. 日志分析脚本
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env fish
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">analyze_log</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> log_file $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;</span>$log_file<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;日志文件不存在: </span>$log_file<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 日志分析: </span>$log_file<span style="color:#e6db74"> ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;总行数: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">wc</span> <span style="color:#a6e22e">-l</span> <span style="color:#f92672">&lt;</span> $log_file<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;错误行数: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">grep</span> <span style="color:#a6e22e">-i</span> <span style="color:#e6db74">&#34;error&#34;</span> $log_file <span style="color:#f92672">|</span> <span style="color:#a6e22e">wc</span> <span style="color:#a6e22e">-l</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;警告行数: &#34;</span><span style="color:#f92672">(</span><span style="color:#a6e22e">grep</span> <span style="color:#a6e22e">-i</span> <span style="color:#e6db74">&#34;warning&#34;</span> $log_file <span style="color:#f92672">|</span> <span style="color:#a6e22e">wc</span> <span style="color:#a6e22e">-l</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;=== 最新10条错误 ===&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">grep</span> <span style="color:#a6e22e">-i</span> <span style="color:#e6db74">&#34;error&#34;</span> $log_file <span style="color:#f92672">|</span> <span style="color:#a6e22e">tail</span> <span style="color:#a6e22e">-n</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">analyze_log</span> <span style="color:#e6db74">&#34;/var/log/syslog&#34;</span>
+</span></span></code></pre></div><h3 id="4-项目自动部署脚本">4. 项目自动部署脚本
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env fish
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deploy_project</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> repo_url $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span> deploy_dir $argv<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;开始部署项目...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 拉取最新代码
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">cd</span> $deploy_dir
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">git</span> pull origin main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 安装依赖
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;package.json&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">npm</span> install
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> <span style="color:#e6db74">&#34;requirements.txt&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pip</span> install <span style="color:#a6e22e">-r</span> requirements.txt
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 运行测试
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;运行测试...&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">make</span> test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 重启服务
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;重启服务...&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sudo</span> <span style="color:#a6e22e">systemctl</span> restart myapp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;部署完成!&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h2 id="智能补全">智能补全
+</h2><p>FISH的强大功能之一是其智能补全系统：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 按Tab键自动补全：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># - 命令名称
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># - 命令参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># - 文件路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># - 环境变量名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># - 用户名、主机名等
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 自定义补全
+</span></span></span><span style="display:flex;"><span>complete <span style="color:#a6e22e">-c</span> myapp <span style="color:#a6e22e">-s</span> h <span style="color:#a6e22e">-l</span> help <span style="color:#a6e22e">-d</span> <span style="color:#e6db74">&#34;显示帮助信息&#34;</span>
+</span></span><span style="display:flex;"><span>complete <span style="color:#a6e22e">-c</span> myapp <span style="color:#a6e22e">-s</span> v <span style="color:#a6e22e">-l</span> version <span style="color:#a6e22e">-d</span> <span style="color:#e6db74">&#34;显示版本信息&#34;</span>
+</span></span><span style="display:flex;"><span>complete <span style="color:#a6e22e">-c</span> myapp <span style="color:#a6e22e">-f</span> <span style="color:#a6e22e">-d</span> <span style="color:#e6db74">&#34;输入文件&#34;</span>
+</span></span></code></pre></div><h2 id="常用技巧">常用技巧
+</h2><h3 id="1-别名设置">1. 别名设置
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 创建别名
+</span></span></span><span style="display:flex;"><span>alias ll <span style="color:#e6db74">&#39;ls -alh&#39;</span>
+</span></span><span style="display:flex;"><span>alias gs <span style="color:#e6db74">&#39;git status&#39;</span>
+</span></span><span style="display:flex;"><span>alias gp <span style="color:#e6db74">&#39;git push&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使别名永久生效（添加到配置文件）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">not</span> functions <span style="color:#a6e22e">-q</span> fish_user_key_bindings
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fish_user_key_bindings</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="2-配置fish">2. 配置FISH
+</h3><p>FISH的配置文件位置：</p>
+<ul>
+<li>全局配置：<code>/etc/fish/config.fish</code></li>
+<li>用户配置：<code>~/.config/fish/config.fish</code></li>
+<li>函数目录：<code>~/.config/fish/functions/</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># ~/.config/fish/config.fish 示例
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置环境变量
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> PATH $PATH ~/bin ~/.local/bin
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> EDITOR <span style="color:#e6db74">&#34;vim&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#a6e22e">-x</span> LANG <span style="color:#e6db74">&#34;zh_CN.UTF-8&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置提示符
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> fish_prompt
+</span></span><span style="display:flex;"><span>    set_color purple
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">whoami</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    set_color normal
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34; at &#34;</span>
+</span></span><span style="display:flex;"><span>    set_color yellow
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">prompt_hostname</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    set_color normal
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34; in &#34;</span>
+</span></span><span style="display:flex;"><span>    set_color $fish_color_cwd
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">pwd</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    set_color normal
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34; </span>$ <span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加载额外配置
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">test</span> <span style="color:#a6e22e">-f</span> ~/.fish_aliases
+</span></span><span style="display:flex;"><span>    source ~/.fish_aliases
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="3-历史记录">3. 历史记录
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fish" data-lang="fish"><span style="display:flex;"><span><span style="color:#75715e"># 查看历史记录
+</span></span></span><span style="display:flex;"><span>history
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 搜索历史记录
+</span></span></span><span style="display:flex;"><span>history <span style="color:#f92672">|</span> <span style="color:#a6e22e">grep</span> <span style="color:#e6db74">&#34;git&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 清理历史记录
+</span></span></span><span style="display:flex;"><span>history clear
+</span></span></code></pre></div><h2 id="学习资源">学习资源
+</h2><h3 id="官方资源">官方资源
+</h3><ul>
+<li><a class="link" href="https://fishshell.com/docs/current/"  target="_blank" rel="noopener"
+    >FISH官方文档</a></li>
+<li><a class="link" href="https://github.com/fish-shell/fish-shell"  target="_blank" rel="noopener"
+    >FISH GitHub仓库</a></li>
+<li><a class="link" href="https://fishshell.com/docs/current/tutorial.html"  target="_blank" rel="noopener"
+    >FISH教程</a></li>
+</ul>
+<h3 id="在线工具">在线工具
+</h3><ul>
+<li><a class="link" href="https://fishshell.com/try/"  target="_blank" rel="noopener"
+    >FISH在线试用</a></li>
+<li><a class="link" href="https://www.cheatography.com/stepk/cheat-sheet/fish-shell-a5/"  target="_blank" rel="noopener"
+    >FISH速查表</a></li>
+</ul>
+<h3 id="社区资源">社区资源
+</h3><ul>
+<li><a class="link" href="https://discourse.fishshell.com/"  target="_blank" rel="noopener"
+    >FISH用户论坛</a></li>
+<li><a class="link" href="https://github.com/fish-shell/fish-shell/wiki"  target="_blank" rel="noopener"
+    >FISH维基</a></li>
+</ul>
+<h3 id="推荐书籍">推荐书籍
+</h3><ul>
+<li>《The Fish Shell》</li>
+<li>《Command Line Essentials》</li>
+</ul>
+<h3 id="练习项目">练习项目
+</h3><ol>
+<li>编写系统监控脚本</li>
+<li>创建自动化备份工具</li>
+<li>构建批量文件处理脚本</li>
+<li>开发项目部署工具</li>
+<li>编写日志分析脚本</li>
+</ol>
+<h2 id="总结">总结
+</h2><p>FISH是一种现代化、用户友好的shell和脚本语言。相比传统shell，它具有：</p>
+<ul>
+<li>更简洁的语法</li>
+<li>更好的用户体验</li>
+<li>强大的自动补全</li>
+<li>丰富的内置功能</li>
+</ul>
+<hr>
+<p><em>更多FISH语言资源和教程，请参考官方文档和社区资源。</em></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%95%99%E7%A8%8B/">教程</a>
+        
+            <a href="/tags/fish/">FISH</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/post/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/post/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.c514d916917173a48a42e0114b469961_hu_cd6a07a0d3af7b3e.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post win10透明任务栏"
+                        
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">win10透明任务栏</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 AnJoy
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://evzz74.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://evzz74.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main"，
+            ".sidebar",
+			".main-article",
+			".js-Pjax"
+        ],
+        cacheBust: false  
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+                
+                
+                updateMetaTags(newDom);
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+    
+    
+    function updateMetaTags(newDom) {
+        
+        const metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+        
+        metaSelectors.forEach(selector => {
+            const newMeta = newDom.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            const currentMeta = document.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        
+        let comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        let script = document.createElement('script');
+        
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', '');
+		script.setAttribute('data-repo-id', '');
+        script.setAttribute('data-category', '');
+        script.setAttribute('data-category-id', '');
+        script.setAttribute('data-mapping', 'title'); 
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+		script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://evzz74.github.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://evzz74.github.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://evzz74.github.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
