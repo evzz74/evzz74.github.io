@@ -7,16 +7,20 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 17 Dec 2025 20:20:01 +0800</lastBuildDate><atom:link href="https://evzz74.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 27 Mar 2026 12:07:48 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Aseprite 简易在线编译教程</title>
-        <link>https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
+        <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
         <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
-        <description>&lt;img src="https://evzz74.github.io/post/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+        <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
 &lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
 &lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;Aseprite&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
 &lt;h3 id=&#34;-准备工作&#34;&gt;📌 准备工作
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;一个 &lt;strong&gt;GitHub 账号&lt;/strong&gt;。&lt;/li&gt;
@@ -45,7 +49,11 @@
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;修改编译参数&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
 &lt;ul&gt;
 &lt;li&gt;点击 &lt;strong&gt;Commit changes&amp;hellip;&lt;/strong&gt; 保存修改。&lt;/li&gt;
 &lt;/ul&gt;
@@ -78,7 +86,11 @@
 &lt;hr&gt;
 &lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
+      &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;原因：&lt;/strong&gt; 系统缺少 OpenSSL 运行库。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;解决：&lt;/strong&gt; 1.  在项目 Release 页面下载 &lt;code&gt;openssl-1.1.1w.zip&lt;/code&gt;。&lt;/li&gt;
@@ -86,7 +98,10 @@
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;解压后将 &lt;code&gt;x64/bin/&lt;/code&gt; 目录下的 &lt;code&gt;libcrypto-1_1-x64.dll&lt;/code&gt; 复制到 Aseprite 软件根目录（与 &lt;code&gt;.exe&lt;/code&gt; 同级）即可。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+---
 &lt;h3 id=&#34;-温馨提示&#34;&gt;💡 温馨提示
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;清理：&lt;/strong&gt; 编译完成后，建议根据用户协议自行删除账户内的 Release 文件。&lt;/li&gt;

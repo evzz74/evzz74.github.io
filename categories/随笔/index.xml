@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Wed, 25 Mar 2026 14:47:41 +0800</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E9%9A%8F%E7%AC%94/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 27 Mar 2026 12:07:48 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E9%9A%8F%E7%AC%94/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Hugo-manager 开发随笔</title>
-        <link>https://evzz74.github.io/post/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/</link>
+        <link>https://evzz74.github.io/p/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/</link>
         <pubDate>Wed, 25 Mar 2026 14:47:41 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/post/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/</guid>
+        <guid>https://evzz74.github.io/p/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/</guid>
         <description>&lt;p&gt;第一次有写博客的想法大概是在24年，那时候是大三，林林总总学了一些计算机相关的知识，有很多想学的、感兴趣的，但是实际坚持下来学会的没几个，总是三分钟热度。。。&lt;/p&gt;
 &lt;p&gt;当时好像是看来B站up主Letere-莱特雷和技术爬爬虾的视频，知道了hugo+github可以搭建一个免费的静态博客，“让文字在互联网永生”，这句话真的深深触动了我，于是就想着开始动手写博客，记录一下自己在学习计算机知识的心路历程。&lt;/p&gt;
 &lt;p&gt;hugo是一个Go语言开发的博客框架，很多命令都是在命令行执行的，用起来不是很方便，所有就有了写一个Gui界面的想法，但是受限于技术力，自己独立开发也只是想法了，现在有了各种AI大模型，vibe coding，借助于这些工具，重要能够把一些存在于脑海中的idea把它变成现实了。&lt;/p&gt;
@@ -20,10 +20,10 @@
         </item>
         <item>
         <title>随笔</title>
-        <link>https://evzz74.github.io/post/%E9%9A%8F%E7%AC%94/</link>
+        <link>https://evzz74.github.io/p/%E9%9A%8F%E7%AC%94/</link>
         <pubDate>Tue, 24 Mar 2026 19:53:46 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/post/%E9%9A%8F%E7%AC%94/</guid>
+        <guid>https://evzz74.github.io/p/%E9%9A%8F%E7%AC%94/</guid>
         <description>&lt;p&gt;信息化时代，让知识变得免费，专注变得可贵。
 现在各种AI大模型井喷式出现，冲击着各行各业，前端开发感觉完全干不过AI了，软件开发的未来到底是什么呢？
 AI时代的人民，终于体会到了第一次工业革命时被珍妮机替代的纺织工人的感觉了。&lt;/p&gt;

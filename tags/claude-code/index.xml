@@ -7,45 +7,82 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Fri, 27 Mar 2026 19:48:32 +0800</lastBuildDate><atom:link href="https://evzz74.github.io/tags/claude-code/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 27 Mar 2026 12:07:48 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/claude-code/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Claude Code CC-Switch 配置</title>
-        <link>https://evzz74.github.io/post/claude-code-cc-switch-%E9%85%8D%E7%BD%AE/</link>
+        <link>https://evzz74.github.io/p/claude-code-cc-switch-%E9%85%8D%E7%BD%AE/</link>
         <pubDate>Fri, 27 Mar 2026 19:48:32 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/post/claude-code-cc-switch-%E9%85%8D%E7%BD%AE/</guid>
+        <guid>https://evzz74.github.io/p/claude-code-cc-switch-%E9%85%8D%E7%BD%AE/</guid>
         <description>&lt;p&gt;目前使用的一套CC配置&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
-  &amp;#34;enabledPlugins&amp;#34;: {
-    &amp;#34;rust-analyzer-lsp@claude-plugins-official&amp;#34;: true
-  },
-  &amp;#34;env&amp;#34;: {
-    &amp;#34;ANTHROPIC_API_KEY&amp;#34;: &amp;#34;sk-XXXX&amp;#34;,
-    &amp;#34;ANTHROPIC_BASE_URL&amp;#34;: &amp;#34;https://a-ocnfniawgw.cn-shanghai.fcapp.run&amp;#34;,
-    &amp;#34;CLAUDE_CODE_ATTRIBUTION_HEADER&amp;#34;: &amp;#34;O&amp;#34;,
-    &amp;#34;CLAUDE_CODE_BLOCKING_LIMIT_OVERRIDE&amp;#34;: &amp;#34;193000&amp;#34;,
-    &amp;#34;CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS&amp;#34;: &amp;#34;1&amp;#34;,
-    &amp;#34;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&amp;#34;: &amp;#34;1&amp;#34;,
-    &amp;#34;CLAUDE_CODE_MAX_OUTPUT_TOKENS&amp;#34;: &amp;#34;64000&amp;#34;,
-    &amp;#34;CLAUDE_CODE_SKIP_CREDENTIAL_CHECK&amp;#34;: &amp;#34;1&amp;#34;,
-    &amp;#34;DISABLE_INSTALLATION_CHECKS&amp;#34;: &amp;#34;1&amp;#34;,
-    &amp;#34;DISABLE_TELEMETRY&amp;#34;: &amp;#34;1&amp;#34;,
-    &amp;#34;ENABLE_TOOL_SEARCH&amp;#34;: &amp;#34;true&amp;#34;
-  },
-  &amp;#34;model&amp;#34;: &amp;#34;haiku&amp;#34;,
-  &amp;#34;permissions&amp;#34;: {
-    &amp;#34;allow&amp;#34;: [
-      &amp;#34;*&amp;#34;
-    ],
-    &amp;#34;defaultMode&amp;#34;: &amp;#34;bypassPermissions&amp;#34;
-  },
-  &amp;#34;skipDangerousModePermissionPrompt&amp;#34;: true,
-  &amp;#34;statusLine&amp;#34;: {
-    &amp;#34;command&amp;#34;: &amp;#34;node \&amp;#34;.claude/show-status.mjs\&amp;#34;&amp;#34;,
-    &amp;#34;padding&amp;#34;: 0,
-    &amp;#34;type&amp;#34;: &amp;#34;command&amp;#34;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;enabledPlugins&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;rust-analyzer-lsp@claude-plugins-official&amp;#34;: true
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  },
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;env&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;ANTHROPIC_API_KEY&amp;#34;: &amp;#34;sk-XXXX&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;ANTHROPIC_BASE_URL&amp;#34;: &amp;#34;https://a-ocnfniawgw.cn-shanghai.fcapp.run&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_ATTRIBUTION_HEADER&amp;#34;: &amp;#34;O&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_BLOCKING_LIMIT_OVERRIDE&amp;#34;: &amp;#34;193000&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS&amp;#34;: &amp;#34;1&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&amp;#34;: &amp;#34;1&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_MAX_OUTPUT_TOKENS&amp;#34;: &amp;#34;64000&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;CLAUDE_CODE_SKIP_CREDENTIAL_CHECK&amp;#34;: &amp;#34;1&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;DISABLE_INSTALLATION_CHECKS&amp;#34;: &amp;#34;1&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;DISABLE_TELEMETRY&amp;#34;: &amp;#34;1&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;ENABLE_TOOL_SEARCH&amp;#34;: &amp;#34;true&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  },
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;model&amp;#34;: &amp;#34;haiku&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;permissions&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;allow&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &amp;#34;*&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ],
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;defaultMode&amp;#34;: &amp;#34;bypassPermissions&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  },
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;skipDangerousModePermissionPrompt&amp;#34;: true,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;statusLine&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;command&amp;#34;: &amp;#34;node \&amp;#34;.claude/show-status.mjs\&amp;#34;&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;padding&amp;#34;: 0,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;type&amp;#34;: &amp;#34;command&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         </item>
         
     </channel>
