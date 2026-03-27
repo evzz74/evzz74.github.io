@@ -1,160 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>开源软件 on AnJoy&#39;s Blog</title>
-        <link>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</link>
-        <description>Recent content in 开源软件 on AnJoy&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <copyright>AnJoy</copyright>
-        <lastBuildDate>Fri, 27 Mar 2026 12:07:48 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>几款实用平替软件</title>
-        <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
-        <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</guid>
-        <description>&lt;hr&gt;
-&lt;h1 id=&#34;-顶级付费软件平替清单超实用生产力工具推荐&#34;&gt;💡 顶级付费软件平替清单：超实用生产力工具推荐
-&lt;/h1&gt;&lt;p&gt;一些开源/免费软件清单&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-办公套件--office-替代方案&#34;&gt;📑 办公套件 | Office 替代方案
-&lt;/h2&gt;&lt;h3 id=&#34;libreoffice--定位-真正开源纯净的-microsoft-office-强力对手&#34;&gt;&lt;strong&gt;LibreOffice&lt;/strong&gt; &amp;gt; &lt;strong&gt;定位：&lt;/strong&gt; 真正开源、纯净的 Microsoft Office 强力对手。
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://zh-cn.libreoffice.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;zh-cn.libreoffice.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;核心组件：&lt;/strong&gt; * &lt;code&gt;Writer&lt;/code&gt; (文档) / &lt;code&gt;Calc&lt;/code&gt; (表格) / &lt;code&gt;Impress&lt;/code&gt; (演示)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;Draw&lt;/code&gt; (绘图) / &lt;code&gt;Math&lt;/code&gt; (公式) / &lt;code&gt;Base&lt;/code&gt; (数据库)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;核心优势：&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;完全免费：&lt;/strong&gt; 无广告、无登录限制、无会员体系。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;全平台支持：&lt;/strong&gt; Windows, macOS, Linux 以及移动端。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;便携性：&lt;/strong&gt; 支持&lt;strong&gt;便携版安装&lt;/strong&gt;，可存入 U 盘随插随用，不留痕迹。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-图像编辑--photoshop-替代方案&#34;&gt;🎨 图像编辑 | Photoshop 替代方案
-&lt;/h2&gt;&lt;h3 id=&#34;gimp&#34;&gt;&lt;strong&gt;GIMP&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 全球公认最强的开源专业修图软件。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.gimp.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;www.gimp.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;功能亮点：&lt;/strong&gt; * 支持图层、蒙版、通道、滤镜等全套专业操作。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;界面与操作逻辑高度接近 PS，学习曲线平滑。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;最新动态：&lt;/strong&gt; 3.0 版本蓄势待发，将引入先进插件架构与核心优化，进一步缩小与商业软件的差距。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-知识管理--笔记软件替代方案&#34;&gt;📓 知识管理 | 笔记软件替代方案
-&lt;/h2&gt;&lt;h3 id=&#34;notion&#34;&gt;&lt;strong&gt;Notion&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; “All-in-One” 的数字化生活管理平台。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.notion.so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;www.notion.so&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;功能特色：&lt;/strong&gt; * &lt;strong&gt;万物皆 Block：&lt;/strong&gt; 通过块构建页面，自由度极高。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;多维能力：&lt;/strong&gt; 集笔记、任务、数据库、Wiki、日历于一体。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;付费模式：&lt;/strong&gt; &lt;strong&gt;个人版免费&lt;/strong&gt;且无容量限制。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;AI 加持：&lt;/strong&gt; 内置 AI 支持自动填表、文章润色。虽然原生界面为英文，但逻辑直观易懂。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-后期处理--lightroom-替代方案&#34;&gt;📸 后期处理 | Lightroom 替代方案
-&lt;/h2&gt;&lt;h3 id=&#34;darktable&#34;&gt;&lt;strong&gt;Darktable&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 摄影师专属的开源 RAW 格式后期工具。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.darktable.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;www.darktable.org&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;适用场景：&lt;/strong&gt; 照片管理、色彩校正、明暗调整。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;核心优势：&lt;/strong&gt; * &lt;strong&gt;非破坏性编辑：&lt;/strong&gt; 原始文件始终保持完整。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;平替体验：&lt;/strong&gt; 操作思路与 Lightroom 相似，摄影爱好者可无缝切换，省去高额订阅费。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-视频剪辑--premiere-pro-替代方案&#34;&gt;🎬 视频剪辑 | Premiere Pro 替代方案
-&lt;/h2&gt;&lt;h3 id=&#34;kdenlive&#34;&gt;&lt;strong&gt;Kdenlive&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 效率与专业度平衡极佳的开源剪辑神器。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://kdenlive.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;kdenlive.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;技术亮点：&lt;/strong&gt; * &lt;strong&gt;硬件加速：&lt;/strong&gt; 支持 GPU 渲染，提升导出效率。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;全能编辑：&lt;/strong&gt; 多轨道剪辑，涵盖切片、特效、字幕等主流需求。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;优势：&lt;/strong&gt; 相比 PR 的臃肿，Kdenlive 更加轻盈干脆，适合追求快速产出的开发者和创作者。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-轻量阅读--pdf电子书神器&#34;&gt;📖 轻量阅读 | PDF/电子书神器
-&lt;/h2&gt;&lt;h3 id=&#34;sumatrapdf&#34;&gt;&lt;strong&gt;SumatraPDF&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; 极简、极速、全能的文档阅读器。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;获取渠道：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/sumatrapdfreader/sumatrapdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub 项目主页&lt;/a&gt; | &lt;a class=&#34;link&#34; href=&#34;https://www.sumatrapdfreader.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;官方网站&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;突出特点：&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;极致轻量：&lt;/strong&gt; 安装包约 15MB，内存占用极低，超大 PDF 秒开。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;全格式支持：&lt;/strong&gt; PDF, ePub, Mobi, XPS, DjVu, CHM 以及漫画格式 (CBZ, CBR)。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;极客友好：&lt;/strong&gt; 深度支持键盘操作（类似 Vim），支持多标签页管理。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;绿色免安：&lt;/strong&gt; 提供官方 Portable 版本，一个 &lt;code&gt;.exe&lt;/code&gt; 走天下。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-ai-终端助手--开发者提效工具&#34;&gt;🛠️ AI 终端助手 | 开发者提效工具
-&lt;/h2&gt;&lt;h3 id=&#34;cc-switch&#34;&gt;&lt;strong&gt;cc-switch&lt;/strong&gt;
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;定位：&lt;/strong&gt; AI 命令行工具（Claude Code/Gemini CLI）的全能管家。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;项目主页：&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/farion1231/cc-switch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;github.com/farion1231/cc-switch&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;核心功能：&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;多端统一：&lt;/strong&gt; 一个界面管理 Claude Code、Codex 和 Gemini CLI。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;一键切换预设：&lt;/strong&gt; 支持多 Preset 管理，快速在不同 API Provider（如 OpenRouter, DeepSeek）间切换。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;MCP 管理：&lt;/strong&gt; 图形化管理 Model Context Protocol 服务器，一键开关 stdio/http 节点，免除手动编辑 JSON 的烦恼。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-</description>
-        </item>
-        
-    </channel>
+  <channel>
+    <title>开源软件 on AnJoy&#39;s Blog</title>
+    <link>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</link>
+    <description>Recent content in 开源软件 on AnJoy&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <copyright>AnJoy</copyright>
+    <lastBuildDate>Fri, 27 Mar 2026 12:14:20 +0000</lastBuildDate>
+    <atom:link href="https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>几款实用平替软件</title>
+      <link>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</link>
+      <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
+      <guid>https://evzz74.github.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;h1 id=&#34;-顶级付费软件平替清单超实用生产力工具推荐&#34;&gt;💡 顶级付费软件平替清单：超实用生产力工具推荐&lt;/h1&gt;&#xA;&lt;p&gt;一些开源/免费软件清单&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-办公套件--office-替代方案&#34;&gt;📑 办公套件 | Office 替代方案&lt;/h2&gt;&#xA;&lt;h3 id=&#34;libreoffice--定位-真正开源纯净的-microsoft-office-强力对手&#34;&gt;&lt;strong&gt;LibreOffice&lt;/strong&gt; &amp;gt; &lt;strong&gt;定位：&lt;/strong&gt; 真正开源、纯净的 Microsoft Office 强力对手。&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;官网：&lt;/strong&gt; &lt;a href=&#34;https://zh-cn.libreoffice.org/&#34;&gt;zh-cn.libreoffice.org&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;核心组件：&lt;/strong&gt; * &lt;code&gt;Writer&lt;/code&gt; (文档) / &lt;code&gt;Calc&lt;/code&gt; (表格) / &lt;code&gt;Impress&lt;/code&gt; (演示)&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>

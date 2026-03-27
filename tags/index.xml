@@ -1,172 +1,153 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Tags on AnJoy&#39;s Blog</title>
-        <link>https://evzz74.github.io/tags/</link>
-        <description>Recent content in Tags on AnJoy&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <copyright>AnJoy</copyright>
-        <lastBuildDate>Fri, 27 Mar 2026 12:07:48 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Claude Code</title>
-        <link>https://evzz74.github.io/tags/claude-code/</link>
-        <pubDate>Fri, 27 Mar 2026 19:48:32 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/claude-code/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Hugo</title>
-        <link>https://evzz74.github.io/tags/hugo/</link>
-        <pubDate>Wed, 25 Mar 2026 14:47:41 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/hugo/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>随笔</title>
-        <link>https://evzz74.github.io/tags/%E9%9A%8F%E7%AC%94/</link>
-        <pubDate>Wed, 25 Mar 2026 14:47:41 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E9%9A%8F%E7%AC%94/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>教程</title>
-        <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
-        <pubDate>Mon, 16 Mar 2026 11:39:20 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>学习通</title>
-        <link>https://evzz74.github.io/tags/%E5%AD%A6%E4%B9%A0%E9%80%9A/</link>
-        <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E5%AD%A6%E4%B9%A0%E9%80%9A/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>油猴脚本</title>
-        <link>https://evzz74.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/</link>
-        <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>自动化</title>
-        <link>https://evzz74.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</link>
-        <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>MathType</title>
-        <link>https://evzz74.github.io/tags/mathtype/</link>
-        <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/mathtype/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Word</title>
-        <link>https://evzz74.github.io/tags/word/</link>
-        <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/word/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>软件</title>
-        <link>https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/</link>
-        <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Github</title>
-        <link>https://evzz74.github.io/tags/github/</link>
-        <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/github/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>网站</title>
-        <link>https://evzz74.github.io/tags/%E7%BD%91%E7%AB%99/</link>
-        <pubDate>Wed, 17 Dec 2025 20:14:01 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E7%BD%91%E7%AB%99/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>AI读文献</title>
-        <link>https://evzz74.github.io/tags/ai%E8%AF%BB%E6%96%87%E7%8C%AE/</link>
-        <pubDate>Wed, 17 Dec 2025 19:48:34 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/ai%E8%AF%BB%E6%96%87%E7%8C%AE/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Prompt</title>
-        <link>https://evzz74.github.io/tags/prompt/</link>
-        <pubDate>Wed, 17 Dec 2025 19:48:34 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/prompt/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>开源软件</title>
-        <link>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</link>
-        <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>FISH</title>
-        <link>https://evzz74.github.io/tags/fish/</link>
-        <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/fish/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>HUGO相关</title>
-        <link>https://evzz74.github.io/tags/hugo%E7%9B%B8%E5%85%B3/</link>
-        <pubDate>Mon, 27 Oct 2025 16:47:44 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/hugo%E7%9B%B8%E5%85%B3/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Codex</title>
-        <link>https://evzz74.github.io/tags/codex/</link>
-        <pubDate>Tue, 14 Oct 2025 14:25:06 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/codex/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Git</title>
-        <link>https://evzz74.github.io/tags/git/</link>
-        <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/git/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Markdown</title>
-        <link>https://evzz74.github.io/tags/markdown/</link>
-        <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/markdown/</guid>
-        <description></description>
-        </item>
-        
-    </channel>
+  <channel>
+    <title>Tags on AnJoy&#39;s Blog</title>
+    <link>https://evzz74.github.io/tags/</link>
+    <description>Recent content in Tags on AnJoy&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <copyright>AnJoy</copyright>
+    <lastBuildDate>Fri, 27 Mar 2026 12:14:20 +0000</lastBuildDate>
+    <atom:link href="https://evzz74.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Claude Code</title>
+      <link>https://evzz74.github.io/tags/claude-code/</link>
+      <pubDate>Fri, 27 Mar 2026 19:48:32 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/claude-code/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hugo</title>
+      <link>https://evzz74.github.io/tags/hugo/</link>
+      <pubDate>Wed, 25 Mar 2026 14:47:41 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>随笔</title>
+      <link>https://evzz74.github.io/tags/%E9%9A%8F%E7%AC%94/</link>
+      <pubDate>Wed, 25 Mar 2026 14:47:41 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E9%9A%8F%E7%AC%94/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>教程</title>
+      <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Mon, 16 Mar 2026 11:39:20 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>学习通</title>
+      <link>https://evzz74.github.io/tags/%E5%AD%A6%E4%B9%A0%E9%80%9A/</link>
+      <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E5%AD%A6%E4%B9%A0%E9%80%9A/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>油猴脚本</title>
+      <link>https://evzz74.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>自动化</title>
+      <link>https://evzz74.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</link>
+      <pubDate>Wed, 28 Jan 2026 16:24:08 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MathType</title>
+      <link>https://evzz74.github.io/tags/mathtype/</link>
+      <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/mathtype/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Word</title>
+      <link>https://evzz74.github.io/tags/word/</link>
+      <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/word/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>软件</title>
+      <link>https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/</link>
+      <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E8%BD%AF%E4%BB%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Github</title>
+      <link>https://evzz74.github.io/tags/github/</link>
+      <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>网站</title>
+      <link>https://evzz74.github.io/tags/%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Wed, 17 Dec 2025 20:14:01 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E7%BD%91%E7%AB%99/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>AI读文献</title>
+      <link>https://evzz74.github.io/tags/ai%E8%AF%BB%E6%96%87%E7%8C%AE/</link>
+      <pubDate>Wed, 17 Dec 2025 19:48:34 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/ai%E8%AF%BB%E6%96%87%E7%8C%AE/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Prompt</title>
+      <link>https://evzz74.github.io/tags/prompt/</link>
+      <pubDate>Wed, 17 Dec 2025 19:48:34 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/prompt/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>开源软件</title>
+      <link>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</link>
+      <pubDate>Wed, 17 Dec 2025 18:05:20 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FISH</title>
+      <link>https://evzz74.github.io/tags/fish/</link>
+      <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/fish/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>HUGO相关</title>
+      <link>https://evzz74.github.io/tags/hugo%E7%9B%B8%E5%85%B3/</link>
+      <pubDate>Mon, 27 Oct 2025 16:47:44 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/hugo%E7%9B%B8%E5%85%B3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Codex</title>
+      <link>https://evzz74.github.io/tags/codex/</link>
+      <pubDate>Tue, 14 Oct 2025 14:25:06 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/codex/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Git</title>
+      <link>https://evzz74.github.io/tags/git/</link>
+      <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Markdown</title>
+      <link>https://evzz74.github.io/tags/markdown/</link>
+      <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
+      <guid>https://evzz74.github.io/tags/markdown/</guid>
+      <description></description>
+    </item>
+  </channel>
 </rss>
