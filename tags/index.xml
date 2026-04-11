@@ -7,7 +7,31 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Thu, 09 Apr 2026 05:09:24 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 11 Apr 2026 13:13:00 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>工具</title>
+        <link>https://evzz74.github.io/tags/%E5%B7%A5%E5%85%B7/</link>
+        <pubDate>Sat, 11 Apr 2026 21:12:09 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/tags/%E5%B7%A5%E5%85%B7/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Git</title>
+        <link>https://evzz74.github.io/tags/git/</link>
+        <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/tags/git/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>教程</title>
+        <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>随笔</title>
         <link>https://evzz74.github.io/tags/%E9%9A%8F%E7%AC%94/</link>
         <pubDate>Thu, 09 Apr 2026 13:08:34 +0800</pubDate>
@@ -29,14 +53,6 @@
         <pubDate>Mon, 30 Mar 2026 11:40:02 +0800</pubDate>
         
         <guid>https://evzz74.github.io/tags/hugo/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>教程</title>
-        <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
-        <pubDate>Mon, 30 Mar 2026 11:40:02 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</guid>
         <description></description>
         </item>
         <item>
@@ -149,14 +165,6 @@
         <pubDate>Tue, 14 Oct 2025 14:25:06 +0800</pubDate>
         
         <guid>https://evzz74.github.io/tags/codex/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Git</title>
-        <link>https://evzz74.github.io/tags/git/</link>
-        <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
-        
-        <guid>https://evzz74.github.io/tags/git/</guid>
         <description></description>
         </item>
         <item>

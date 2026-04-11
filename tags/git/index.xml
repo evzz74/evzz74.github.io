@@ -7,7 +7,81 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Thu, 09 Apr 2026 05:09:24 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 11 Apr 2026 13:13:00 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>如何将本地 Git 默认分支从 master 改为 main</title>
+        <link>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
+        <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</guid>
+        <description>&lt;h2 id=&#34;场景一把全局默认分支改为-main适用于新项目&#34;&gt;场景一：把全局默认分支改为 main（适用于新项目）
+&lt;/h2&gt;&lt;p&gt;通过以下设置，以后使用 git init 初始化全新项目时，默认就会直接使用 main 作为主分支。这里提供两种修改方式，效果完全一致。&lt;/p&gt;
+&lt;h3 id=&#34;方法-1使用-git-命令推荐快捷方便&#34;&gt;方法 1：使用 Git 命令（推荐，快捷方便）
+&lt;/h3&gt;&lt;p&gt;最简单的方法，只需在终端或命令行中执行以下命令即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config --global init.defaultBranch main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;方法-2手动修改配置文件&#34;&gt;方法 2：手动修改配置文件
+&lt;/h3&gt;&lt;p&gt;如果更喜欢底层操作，可以直接修改 Git 的全局配置文件：&lt;/p&gt;
+&lt;p&gt;在 Windows 系统中，Git 的全局配置文件通常位于&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;C:\Users\&amp;lt;用户名&amp;gt;\.gitconfig。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用文本编辑器打开该文件。&lt;/p&gt;
+&lt;p&gt;在配置文件中添加（或修改）以下内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[init]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    defaultBranch = main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;经过上述修改，未来创建的所有新项目都将默认拥有 main 分支。&lt;/p&gt;
+&lt;h2 id=&#34;场景二修改已创建项目的主分支为-main适用于老项目&#34;&gt;场景二：修改已创建项目的主分支为 main（适用于老项目）
+&lt;/h2&gt;&lt;p&gt;以上方法只对未来的新项目生效，对于已经创建好的老项目则无能为力。因此，对于已存在的项目，我们需要逐个进行手动修改。&lt;/p&gt;
+&lt;p&gt;操作步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;切换到主分支 master&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;首先确保当前是否处于 master 分支上：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout master
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;重命名分支为 main&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;使用带有 -M 参数的 branch 命令，将当前分支重命名：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git branch -M main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;(注：其中 -M 的意思是强制移动或者重命名当前分支。)&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Git 使用说明及常用命令</title>
         <link>https://evzz74.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
         <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
