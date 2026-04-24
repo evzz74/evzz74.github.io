@@ -7,7 +7,160 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Mon, 13 Apr 2026 10:19:27 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 24 Apr 2026 09:12:45 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Claude Code 安装</title>
+        <link>https://evzz74.github.io/p/claude-code-%E5%AE%89%E8%A3%85/</link>
+        <pubDate>Fri, 24 Apr 2026 16:29:11 +0800</pubDate>
+        
+        <guid>https://evzz74.github.io/p/claude-code-%E5%AE%89%E8%A3%85/</guid>
+        <description>&lt;h1 id=&#34;claude-code-cli-完整安装与进阶指南&#34;&gt;Claude Code CLI 完整安装与进阶指南
+&lt;/h1&gt;&lt;h2 id=&#34;一-为什么选择-claude-code&#34;&gt;一、 为什么选择 Claude Code？
+&lt;/h2&gt;&lt;p&gt;与常见的 VS Code 插件（如 Cursor 或 Copilot）不同，&lt;strong&gt;Claude Code&lt;/strong&gt; 是一个运行在终端（Terminal）中的 &lt;strong&gt;Agentic CLI&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;它不仅能“写代码”，更能“操作项目”：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;自主性&lt;/strong&gt;：它能跨文件搜索、阅读代码库、执行测试、修复报错并直接提交 Git。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;环境感官&lt;/strong&gt;：它能感知你的终端环境，执行编译命令（如 &lt;code&gt;cargo build&lt;/code&gt; 或 &lt;code&gt;npm run dev&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;组合性&lt;/strong&gt;：作为 Unix 风格的工具，它可以与其他命令行工具管道连接，完美融入自动化工作流。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;二-准备工作&#34;&gt;二、 准备工作
+&lt;/h2&gt;&lt;p&gt;在开始之前，请确保你的开发环境满足以下条件：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;账号权限&lt;/strong&gt;：需要 Claude Pro/Team/Enterprise 订阅，或 Anthropic Console API 余额（推荐开发者使用 API 模式，按量计费更灵活）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;操作系统&lt;/strong&gt;：macOS 13+、Windows 10+ (PowerShell/WSL)、Linux (Ubuntu/Debian/Alpine)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;硬件&lt;/strong&gt;：建议 4GB 以上内存；Windows 环境建议安装 &lt;a class=&#34;link&#34; href=&#34;https://gitforwindows.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Git for Windows&lt;/a&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三-全平台安装详解&#34;&gt;三、 全平台安装详解
+&lt;/h2&gt;&lt;p&gt;请根据你的操作系统选择最稳定的安装方式：&lt;/p&gt;
+&lt;h3 id=&#34;1-macos--linux--wsl-推荐脚本&#34;&gt;1. macOS / Linux / WSL (推荐脚本)
+&lt;/h3&gt;&lt;p&gt;官方提供了一键安装脚本，能自动处理路径配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -fsSL https://claude.ai/install.sh &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;如果你使用 Homebrew (macOS):&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install --cask claude-code
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2-windows-原生环境&#34;&gt;2. Windows 原生环境
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;PowerShell (管理员模式):&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;irm &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;https&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;//&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;claude&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ai&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ps1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;iex
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;WinGet:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;winget&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Anthropic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ClaudeCode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3-nodejsnpm-备选方案-适用于各类环境&#34;&gt;3. Node.js/npm 备选方案 (适用于各类环境)
+&lt;/h3&gt;&lt;p&gt;在开始之前，您的系统需要安装好 Node.js。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;下载与安装&lt;/strong&gt;：请前往 &lt;a class=&#34;link&#34; href=&#34;https://nodejs.org&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Node.js 官方网站&lt;/a&gt; 下载并安装最新版本的 Node.js（建议使用 v18 或更高版本）。根据您的操作系统下载对应的安装包。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证安装&lt;/strong&gt;：安装完成后，打开您的终端（Terminal）或命令提示符（CMD），运行以下命令来验证。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;node -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果你已经配置好了 Node.js 环境，可以使用 npm 全局安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @anthropic-ai/claude-code
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;注：在中国大陆环境下，建议追加镜像源：&lt;code&gt;--registry=https://registry.npmmirror.com&lt;/code&gt;。&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @anthropic-ai/claude-code  —-registry&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;https://registry.npmmirror.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id=&#34;四-初始化与身份验证&#34;&gt;四、 初始化与身份验证
+&lt;/h2&gt;&lt;p&gt;安装完成后，在你的项目根目录启动cmd终端，在终端界面输入：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;claude
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;OAuth 登录&lt;/strong&gt;：终端会显示一个验证码并自动打开浏览器。登录你的 Claude 账号并授权。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工作区配置&lt;/strong&gt;：如果你是 API 用户，Claude 会引导你创建一个专用的工作区以监控 Token 消耗。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;项目扫描&lt;/strong&gt;：它会自动读取 &lt;code&gt;.gitignore&lt;/code&gt;，确保不会意外处理无关的二进制文件或依赖包。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;五-进阶斜杠命令与-cli-参数&#34;&gt;五、 进阶：斜杠命令与 CLI 参数
+&lt;/h2&gt;&lt;h3 id=&#34;1-交互模式内的常用命令&#34;&gt;1. 交互模式内的常用命令
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/help&lt;/code&gt;：查看所有指令。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/clear&lt;/code&gt;：当上下文太长或想切换任务时，清空当前对话记录以节省 Token。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/compact&lt;/code&gt;：压缩长对话，保留核心上下文。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/config&lt;/code&gt;：配置默认模型或更新通道。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/status&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/model&lt;/code&gt;：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-强大的-cli-启动参数&#34;&gt;2. 强大的 CLI 启动参数
+&lt;/h3&gt;&lt;p&gt;你可以直接在 shell 中调用 Claude，无需进入交互界面：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;执行任务并退出&lt;/strong&gt;：&lt;code&gt;claude &amp;quot;fix the bug in main.py&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多目录支持&lt;/strong&gt;：&lt;code&gt;claude --add-dir ../another-repo&lt;/code&gt; (处理跨仓库依赖时非常有用)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;纯净模式&lt;/strong&gt;：&lt;code&gt;claude --bare -p &amp;quot;generate a README.md&amp;quot;&lt;/code&gt; (不加载历史记录，适合脚本调用)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;六-维护与更新&#34;&gt;六、 维护与更新
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;自动更新&lt;/strong&gt;：脚本安装版会在启动时自动检测更新。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;手动强制更新&lt;/strong&gt;：执行 &lt;code&gt;claude update&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;查看成本&lt;/strong&gt;：访问 &lt;a class=&#34;link&#34; href=&#34;https://console.anthropic.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Anthropic Console&lt;/a&gt; （第三方平台可通过官网或&lt;a class=&#34;link&#34; href=&#34;https://github.com/farion1231/cc-switch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CC-Switch&lt;/a&gt;）可以查看具体的 Token 消耗和账单。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;七-避坑指南-faq&#34;&gt;七、 避坑指南 (FAQ)
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;网络连接失败&lt;/strong&gt;：如果遇到连接超时，请确保你的终端环境正确配置了 &lt;code&gt;HTTP_PROXY&lt;/code&gt; 和 &lt;code&gt;HTTPS_PROXY&lt;/code&gt; 环境变量。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;权限报错&lt;/strong&gt;：在 Linux/macOS 上，如果提示权限不足，请避免使用 &lt;code&gt;sudo claude&lt;/code&gt;，而是通过 &lt;code&gt;chown&lt;/code&gt; 修改安装目录的归属。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;大文件处理&lt;/strong&gt;：如果项目文件过多，建议通过 &lt;code&gt;.claudeignore&lt;/code&gt; 排除非代码目录（如 &lt;code&gt;node_modules&lt;/code&gt;、&lt;code&gt;target&lt;/code&gt; 等）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第三方API配置&lt;/strong&gt;: 推荐&lt;a class=&#34;link&#34; href=&#34;https://github.com/farion1231/cc-switch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CC-Switch&lt;/a&gt;一键配置，目前支持Claude Code、Codex、Gemini、OpenClaw等应用的多平台第三方API一键配置，仅需填入API-Key即可一键使用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        <item>
         <title>如何将本地 Git 默认分支从 master 改为 main</title>
         <link>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
         <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
