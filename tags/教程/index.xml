@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnJoy</copyright>
-        <lastBuildDate>Fri, 24 Apr 2026 09:12:45 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 24 Apr 2026 09:16:12 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Claude Code 安装</title>
         <link>https://evzz74.github.io/p/claude-code-%E5%AE%89%E8%A3%85/</link>
         <pubDate>Fri, 24 Apr 2026 16:29:11 +0800</pubDate>
@@ -129,8 +129,8 @@
 &lt;li&gt;&lt;code&gt;/clear&lt;/code&gt;：当上下文太长或想切换任务时，清空当前对话记录以节省 Token。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;/compact&lt;/code&gt;：压缩长对话，保留核心上下文。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;/config&lt;/code&gt;：配置默认模型或更新通道。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/status&lt;/code&gt;:&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/model&lt;/code&gt;：&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/status&lt;/code&gt;: 查看当前会话的工作区状态，包括已读取的文件上下文、Token 消耗量以及预估的 API 费用，方便你随时把控开发成本。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/model&lt;/code&gt;：无缝切换底层大模型。你可以根据任务难度，在能力最强的Opus模型和速度极快、成本极低的Haiku模型或第三方模型之间灵活切换，以平衡性能与费用。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;2-强大的-cli-启动参数&#34;&gt;2. 强大的 CLI 启动参数
 &lt;/h3&gt;&lt;p&gt;你可以直接在 shell 中调用 Claude，无需进入交互界面：&lt;/p&gt;
