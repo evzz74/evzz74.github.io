@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Mon, 11 May 2026 20:23:17 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 11 May 2026 20:30:29 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>CLIProxyAPI 部署教程与使用说明</title>
         <link>https://shawpenn.qzz.io/p/cliproxyapi-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
         <pubDate>Tue, 12 May 2026 04:00:02 +0800</pubDate>
@@ -16,8 +16,8 @@
         <description>&lt;h1 id=&#34;cliproxyapi-部署教程与使用说明把-cli-ai-工具封装成统一-api-服务&#34;&gt;CLIProxyAPI 部署教程与使用说明：把 CLI AI 工具封装成统一 API 服务
 &lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;适用对象：想把 Gemini CLI、Claude Code、ChatGPT Codex、Antigravity 等 CLI/OAuth 工具封装成 OpenAI、Gemini、Claude、Codex 兼容 API 的用户。&lt;br&gt;
-更新时间：2026-05-12&lt;br&gt;
-项目地址：https://github.com/router-for-me/CLIProxyAPI&lt;/p&gt;
+项目地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/router-for-me/CLIProxyAPI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/router-for-me/CLIProxyAPI&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;一cliproxyapi-是什么&#34;&gt;一、CLIProxyAPI 是什么？
@@ -1438,10 +1438,14 @@
 &lt;/div&gt;&lt;hr&gt;
 &lt;h2 id=&#34;参考链接&#34;&gt;参考链接
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;CLIProxyAPI GitHub 仓库：https://github.com/router-for-me/CLIProxyAPI&lt;/li&gt;
-&lt;li&gt;CLIProxyAPI 官方文档：https://help.router-for.me/&lt;/li&gt;
-&lt;li&gt;CLIProxyAPI Releases：https://github.com/router-for-me/CLIProxyAPI/releases&lt;/li&gt;
-&lt;li&gt;CLIProxyAPI Issues：https://github.com/router-for-me/CLIProxyAPI/issues&lt;/li&gt;
+&lt;li&gt;CLIProxyAPI GitHub 仓库：&lt;a class=&#34;link&#34; href=&#34;https://github.com/router-for-me/CLIProxyAPI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/router-for-me/CLIProxyAPI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CLIProxyAPI 官方文档：&lt;a class=&#34;link&#34; href=&#34;https://help.router-for.me/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://help.router-for.me/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CLIProxyAPI Releases：&lt;a class=&#34;link&#34; href=&#34;https://github.com/router-for-me/CLIProxyAPI/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/router-for-me/CLIProxyAPI/releases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CLIProxyAPI Issues：&lt;a class=&#34;link&#34; href=&#34;https://github.com/router-for-me/CLIProxyAPI/issues&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/router-for-me/CLIProxyAPI/issues&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>
