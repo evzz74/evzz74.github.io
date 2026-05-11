@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>教程 on Shaw&#39;s Blog</title>
-        <link>https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+        <link>https://shawpenn.qzz.io/tags/%E6%95%99%E7%A8%8B/</link>
         <description>Recent content in 教程 on Shaw&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Thu, 30 Apr 2026 13:40:28 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 11 May 2026 17:39:46 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Claude Code 安装</title>
-        <link>https://evzz74.github.io/p/claude-code-%E5%AE%89%E8%A3%85/</link>
+        <link>https://shawpenn.qzz.io/p/claude-code-%E5%AE%89%E8%A3%85/</link>
         <pubDate>Fri, 24 Apr 2026 16:29:11 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/claude-code-%E5%AE%89%E8%A3%85/</guid>
+        <guid>https://shawpenn.qzz.io/p/claude-code-%E5%AE%89%E8%A3%85/</guid>
         <description>&lt;h1 id=&#34;claude-code-cli-完整安装与进阶指南&#34;&gt;Claude Code CLI 完整安装与进阶指南
 &lt;/h1&gt;&lt;h2 id=&#34;一-为什么选择-claude-code&#34;&gt;一、 为什么选择 Claude Code？
 &lt;/h2&gt;&lt;p&gt;与常见的 VS Code 插件（如 Cursor 或 Copilot）不同，&lt;strong&gt;Claude Code&lt;/strong&gt; 是一个运行在终端（Terminal）中的 &lt;strong&gt;Agentic CLI&lt;/strong&gt;。&lt;/p&gt;
@@ -162,10 +162,10 @@
         </item>
         <item>
         <title>如何将本地 Git 默认分支从 master 改为 main</title>
-        <link>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
+        <link>https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
         <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</guid>
+        <guid>https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</guid>
         <description>&lt;h2 id=&#34;场景一把全局默认分支改为-main适用于新项目&#34;&gt;场景一：把全局默认分支改为 main（适用于新项目）
 &lt;/h2&gt;&lt;p&gt;通过以下设置，以后使用 git init 初始化全新项目时，默认就会直接使用 main 作为主分支。这里提供两种修改方式，效果完全一致。&lt;/p&gt;
 &lt;h3 id=&#34;方法-1使用-git-命令推荐快捷方便&#34;&gt;方法 1：使用 Git 命令（推荐，快捷方便）
@@ -236,10 +236,10 @@
         </item>
         <item>
         <title>【Hugo】Hugo &#43; Github 免费部署自己的博客</title>
-        <link>https://evzz74.github.io/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</link>
+        <link>https://shawpenn.qzz.io/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</link>
         <pubDate>Mon, 30 Mar 2026 11:40:02 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</guid>
+        <guid>https://shawpenn.qzz.io/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</guid>
         <description>&lt;img src="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU1rYWNueFNwQXlXVlh2SmpGVklndFc3czBDb2ZnQUF1b01heHQtazFGV1djOHh1MWoyZXdvQkFBTUNBQU4zQUFNNkJBIiwiZSI6InBuZyIsIm4iOiJwYXN0ZV8xNzc0ODQyMTg0MTY3LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoxMTA5NjgwLCJ0IjoxNzc0ODQyMTg3MDM5LCJtaWQiOjM2fQ.RDDIGcTlsfo3QFfRptX4MRbwu4ht4pkbkEJWXEvS6UI.png" alt="Featured image of post 【Hugo】Hugo &#43; Github 免费部署自己的博客" /&gt;&lt;h1 id=&#34;hugohugo--github-免费部署自己的博客&#34;&gt;【Hugo】Hugo + Github 免费部署自己的博客
 &lt;/h1&gt;&lt;p&gt;使用 hugo 工具生成静态页面，然后在 github 上部署静态页面，来免费搭建自己的博客。&lt;/p&gt;
 &lt;hr&gt;
@@ -618,10 +618,10 @@
         </item>
         <item>
         <title>右键菜单删除uwtsetting</title>
-        <link>https://evzz74.github.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</link>
+        <link>https://shawpenn.qzz.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</link>
         <pubDate>Mon, 16 Mar 2026 11:39:20 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</guid>
+        <guid>https://shawpenn.qzz.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/</guid>
         <description>&lt;h2 id=&#34;方法一通过注册表编辑器删除&#34;&gt;方法一：通过注册表编辑器删除
 &lt;/h2&gt;&lt;p&gt;打开注册表编辑器：&lt;/p&gt;
 &lt;p&gt;按下“Win + R”组合键，打开“运行”对话框。
@@ -665,37 +665,37 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         </item>
         <item>
         <title>Word中MathType公式显示不全问题解决方法</title>
-        <link>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+        <link>https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
         <pubDate>Thu, 22 Jan 2026 20:10:32 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+        <guid>https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
         <description>&lt;h3 id=&#34;word或wps文档在固定行间距时mathtype公式会显示不全以下是一种比较方便的解决办法&#34;&gt;Word或WPS文档在固定行间距时，MathType公式会显示不全，以下是一种比较方便的解决办法。
 &lt;/h3&gt;&lt;p&gt;单倍行间距正常显示：&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image1.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image1.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;单倍行距效果演示&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 固定行间距为20磅，公式显示不全：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image2.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image2.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;调整前&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 点击math type公式，选择 **清除格式**；
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image3.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image3.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;清除格式&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 重新选择该段落，在 **段落** —— **文本对齐方式**中选择 **“居中”** ：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image4.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image4.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;文本居中&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 调整后效果展示：
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image5.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image5.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;调整后效果&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -703,14 +703,14 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         </item>
         <item>
         <title>Aseprite 简易在线编译教程</title>
-        <link>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
+        <link>https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</link>
         <pubDate>Wed, 17 Dec 2025 20:20:01 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
-        <description>&lt;img src="https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
+        <guid>https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png" alt="Featured image of post Aseprite 简易在线编译教程" /&gt;&lt;hr&gt;
 &lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
 &lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;Aseprite&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -743,7 +743,7 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;修改编译参数&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -780,7 +780,7 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;hr&gt;
 &lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -792,7 +792,7 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;解压后将 &lt;code&gt;x64/bin/&lt;/code&gt; 目录下的 &lt;code&gt;libcrypto-1_1-x64.dll&lt;/code&gt; 复制到 Aseprite 软件根目录（与 &lt;code&gt;.exe&lt;/code&gt; 同级）即可。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/4.jpg&#34; width=&#34;80%&#34;&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 ---
@@ -806,10 +806,10 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         </item>
         <item>
         <title>FISH语言学习</title>
-        <link>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
+        <link>https://shawpenn.qzz.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 29 Oct 2025 20:25:25 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://shawpenn.qzz.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
         <description>&lt;h1 id=&#34;fish语言学习教程&#34;&gt;FISH语言学习教程
 &lt;/h1&gt;&lt;h2 id=&#34;什么是fish&#34;&gt;什么是FISH？
 &lt;/h2&gt;&lt;p&gt;FISH（Friendly Interactive SHell）是一种现代的命令行shell和命令语言，旨在为用户提供友好、强大的交互体验。它具有以下特点：&lt;/p&gt;
@@ -1698,11 +1698,11 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         </item>
         <item>
         <title>win10透明任务栏</title>
-        <link>https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</link>
+        <link>https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</link>
         <pubDate>Fri, 11 Apr 2025 16:12:04 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</guid>
-        <description>&lt;img src="https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
+        <guid>https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</guid>
+        <description>&lt;img src="https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
 &lt;/h2&gt;&lt;h2 id=&#34;打开注册表找到路径&#34;&gt;打开注册表，找到路径：
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1716,7 +1716,7 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;/h2&gt;&lt;h2 id=&#34;将值修改为十进制0就是全透明也可以是十进制0-10之间的效果&#34;&gt;将值修改为十进制0就是全透明，也可以是十进制0-10之间的效果。
 &lt;/h2&gt;&lt;h2 id=&#34;不用重启电脑任务管理器重启windows资源管理器就行&#34;&gt;不用重启电脑，任务管理器重启windows资源管理器就行。
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;实际效果展示：&lt;/strong&gt;&lt;/p&gt;
-&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://evzz74.github.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/test.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
+&lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/test.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
       &lt;h4&gt;实际效果演示&lt;/h4&gt;
     &lt;/figcaption&gt;
 &lt;/figure&gt;

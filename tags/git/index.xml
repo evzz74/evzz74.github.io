@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Git on Shaw&#39;s Blog</title>
-        <link>https://evzz74.github.io/tags/git/</link>
+        <link>https://shawpenn.qzz.io/tags/git/</link>
         <description>Recent content in Git on Shaw&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Thu, 30 Apr 2026 13:40:28 +0000</lastBuildDate><atom:link href="https://evzz74.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 11 May 2026 17:39:46 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/git/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>如何将本地 Git 默认分支从 master 改为 main</title>
-        <link>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
+        <link>https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</link>
         <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</guid>
+        <guid>https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/</guid>
         <description>&lt;h2 id=&#34;场景一把全局默认分支改为-main适用于新项目&#34;&gt;场景一：把全局默认分支改为 main（适用于新项目）
 &lt;/h2&gt;&lt;p&gt;通过以下设置，以后使用 git init 初始化全新项目时，默认就会直接使用 main 作为主分支。这里提供两种修改方式，效果完全一致。&lt;/p&gt;
 &lt;h3 id=&#34;方法-1使用-git-命令推荐快捷方便&#34;&gt;方法 1：使用 Git 命令（推荐，快捷方便）
@@ -83,10 +83,10 @@
         </item>
         <item>
         <title>Git 使用说明及常用命令</title>
-        <link>https://evzz74.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+        <link>https://shawpenn.qzz.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
         <pubDate>Thu, 21 Aug 2025 10:25:27 +0800</pubDate>
         
-        <guid>https://evzz74.github.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+        <guid>https://shawpenn.qzz.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
         <description>&lt;p&gt;Git 是一个版本控制系统，允许开发人员跟踪其代码随时间的变化。它允许多个人同时处理同一个代码库，并且如果出现问题，可以轻松恢复到以前的代码版本。&lt;/p&gt;
 &lt;h1 id=&#34;一版本检查&#34;&gt;一、版本检查
 &lt;/h1&gt;&lt;p&gt;要检查系统上安装的 Git 版本，可以在终端或命令提示符中使用以下命令：&lt;/p&gt;
