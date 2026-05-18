@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复 一、问题背景 在 Windows 上安装 Xbox 应用时，遇到以下问题：\nMicrosoft Store 安装 Xbox 应用失败； 绕过 Store 下载 Xbox 安装包后仍然安装失败； winget 安装 Microsoft Store 程序包时报错； 安装或更新 Microsoft Store 程序包时报错： 1 0x80248014 同时还出现过 winget 访问 msstore 源失败的问题：\n">
+<title>Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复</title>
+
+<link rel='canonical' href='https://shawpenn.qzz.io/p/windows-%E5%AE%89%E8%A3%85-xbox-%E5%BA%94%E7%94%A8%E5%A4%B1%E8%B4%A5%E7%9A%84%E4%BF%AE%E5%A4%8D%E8%AE%B0%E5%BD%950x80248014gaming-services-%E4%B8%8E-xbox-%E4%BE%9D%E8%B5%96%E4%BF%AE%E5%A4%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复">
+<meta property='og:description' content="Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复 一、问题背景 在 Windows 上安装 Xbox 应用时，遇到以下问题：\nMicrosoft Store 安装 Xbox 应用失败； 绕过 Store 下载 Xbox 安装包后仍然安装失败； winget 安装 Microsoft Store 程序包时报错； 安装或更新 Microsoft Store 程序包时报错： 1 0x80248014 同时还出现过 winget 访问 msstore 源失败的问题：\n">
+<meta property='og:url' content='https://shawpenn.qzz.io/p/windows-%E5%AE%89%E8%A3%85-xbox-%E5%BA%94%E7%94%A8%E5%A4%B1%E8%B4%A5%E7%9A%84%E4%BF%AE%E5%A4%8D%E8%AE%B0%E5%BD%950x80248014gaming-services-%E4%B8%8E-xbox-%E4%BE%9D%E8%B5%96%E4%BF%AE%E5%A4%8D/'>
+<meta property='og:site_name' content='Shaw&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Windows' /><meta property='article:tag' content='教程' /><meta property='article:published_time' content='2026-05-18T16:52:41&#43;08:00'/><meta property='article:modified_time' content='2026-05-18T09:05:58&#43;00:00'/>
+<meta name="twitter:title" content="Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复">
+<meta name="twitter:description" content="Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复 一、问题背景 在 Windows 上安装 Xbox 应用时，遇到以下问题：\nMicrosoft Store 安装 Xbox 应用失败； 绕过 Store 下载 Xbox 安装包后仍然安装失败； winget 安装 Microsoft Store 程序包时报错； 安装或更新 Microsoft Store 程序包时报错： 1 0x80248014 同时还出现过 winget 访问 msstore 源失败的问题：\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Shaw&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/evzz74'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一问题背景">一、问题背景</a></li>
+    <li><a href="#二确认-winget-与-app-installer-状态">二、确认 winget 与 App Installer 状态</a></li>
+    <li><a href="#三处理-msstore-源证书校验问题">三、处理 msstore 源证书校验问题</a></li>
+    <li><a href="#四修复-gaming-services">四、修复 Gaming Services</a>
+      <ol>
+        <li><a href="#1-卸载残留-gaming-services">1. 卸载残留 Gaming Services</a></li>
+        <li><a href="#2-重新安装-gaming-services">2. 重新安装 Gaming Services</a></li>
+      </ol>
+    </li>
+    <li><a href="#五检查-xbox-应用主程序状态">五、检查 Xbox 应用主程序状态</a></li>
+    <li><a href="#六将-microsoftgamingapp-注册到当前用户">六、将 Microsoft.GamingApp 注册到当前用户</a></li>
+    <li><a href="#七处理旧版-microsoftxboxapp-残留">七、处理旧版 Microsoft.XboxApp 残留</a></li>
+    <li><a href="#八重新注册-xbox-依赖组件">八、重新注册 Xbox 依赖组件</a></li>
+    <li><a href="#九检查-xbox-live-相关服务">九、检查 Xbox Live 相关服务</a></li>
+    <li><a href="#十本次最终有效流程总结">十、本次最终有效流程总结</a>
+      <ol>
+        <li><a href="#1-临时解决-msstore-源证书问题">1. 临时解决 msstore 源证书问题</a></li>
+        <li><a href="#2-彻底清理并重新安装-gaming-services">2. 彻底清理并重新安装 Gaming Services</a></li>
+        <li><a href="#3-确认-gaming-services-服务正常">3. 确认 Gaming Services 服务正常</a></li>
+        <li><a href="#4-确认新版-xbox-应用包-microsoftgamingapp-已存在">4. 确认新版 Xbox 应用包 Microsoft.GamingApp 已存在</a></li>
+        <li><a href="#5-将-microsoftgamingapp-注册到当前用户">5. 将 Microsoft.GamingApp 注册到当前用户</a></li>
+        <li><a href="#6-移除旧版-xboxapp-预装模板">6. 移除旧版 XboxApp 预装模板</a></li>
+        <li><a href="#7-重新注册-xbox-相关依赖">7. 重新注册 Xbox 相关依赖</a></li>
+        <li><a href="#8-检查-xbox-live-服务">8. 检查 Xbox Live 服务</a></li>
+      </ol>
+    </li>
+    <li><a href="#十一经验总结">十一、经验总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%95%99%E7%A8%8B/" >
+                教程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/windows-%E5%AE%89%E8%A3%85-xbox-%E5%BA%94%E7%94%A8%E5%A4%B1%E8%B4%A5%E7%9A%84%E4%BF%AE%E5%A4%8D%E8%AE%B0%E5%BD%950x80248014gaming-services-%E4%B8%8E-xbox-%E4%BE%9D%E8%B5%96%E4%BF%AE%E5%A4%8D/">Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 18, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="windows-安装-xbox-应用失败的修复记录0x80248014gaming-services-与-xbox-依赖修复">Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复
+</h1><h2 id="一问题背景">一、问题背景
+</h2><p>在 Windows 上安装 Xbox 应用时，遇到以下问题：</p>
+<ul>
+<li>Microsoft Store 安装 Xbox 应用失败；</li>
+<li>绕过 Store 下载 Xbox 安装包后仍然安装失败；</li>
+<li><code>winget</code> 安装 Microsoft Store 程序包时报错；</li>
+<li>安装或更新 Microsoft Store 程序包时报错：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0x80248014
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时还出现过 <code>winget</code> 访问 <code>msstore</code> 源失败的问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0x8a15005e : 服务器证书与任何预期值都不匹配
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>后续经过排查发现，核心问题并不是 Xbox 安装包本身，而是以下几个组件存在异常：</p>
+<ol>
+<li>Gaming Services 服务注册异常；</li>
+<li>Xbox 新版应用 <code>Microsoft.GamingApp</code> 已经暂存，但没有注册到当前用户；</li>
+<li>旧版 <code>Microsoft.XboxApp</code> 存在残留；</li>
+<li>Xbox 相关依赖组件需要重新注册或启用。</li>
+</ol>
+<hr>
+<h2 id="二确认-winget-与-app-installer-状态">二、确认 winget 与 App Installer 状态
+</h2><p>首先检查 <code>winget</code> 和 App Installer 是否正常：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="p">-</span><span class="n">-version</span>
+</span></span><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">source</span> <span class="n">list</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">DesktopAppInstaller</span> <span class="n">-AllUsers</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本次排查中的输出显示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">winget version: v1.11.430
+</span></span><span class="line"><span class="cl">Microsoft.DesktopAppInstaller: 1.26.430.0
+</span></span><span class="line"><span class="cl">Status: Ok
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这说明：</p>
+<ul>
+<li><code>winget</code> 本身正常；</li>
+<li>App Installer 没有明显损坏；</li>
+<li>问题不在 <code>winget</code> 主程序，而更可能在 Microsoft Store / Windows Update / Xbox 相关 AppX 包注册链路。</li>
+</ul>
+<hr>
+<h2 id="三处理-msstore-源证书校验问题">三、处理 msstore 源证书校验问题
+</h2><p>安装过程中出现过：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0x8a15005e : 服务器证书与任何预期值都不匹配
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该问题会导致 <code>winget</code> 无法正常访问 <code>msstore</code> 源。</p>
+<p>本次使用的处理方式是临时启用 Microsoft Store 证书固定绕过：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">settings</span> <span class="p">-</span><span class="n">-enable</span> <span class="n">BypassCertificatePinningForMicrosoftStore</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后再执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">source</span> <span class="n">update</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个步骤的作用是绕过 <code>msstore</code> 源的证书固定校验异常，使后续 Microsoft Store 包安装能够继续进行。</p>
+<blockquote>
+<p>注意：该选项建议只作为临时修复手段。问题解决后可以关闭：</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">settings</span> <span class="p">-</span><span class="n">-disable</span> <span class="n">BypassCertificatePinningForMicrosoftStore</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="四修复-gaming-services">四、修复 Gaming Services
+</h2><p>Xbox 应用高度依赖 Gaming Services。</p>
+<p>本次排查中，最初使用以下命令检查服务时发现服务不存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="n">GamingServices</span><span class="p">,</span><span class="n">GamingServicesNet</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>报错类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">找不到任何服务名称为“GamingServices”的服务。
+</span></span><span class="line"><span class="cl">找不到任何服务名称为“GamingServicesNet”的服务。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这说明 Gaming Services 没有正确注册为系统服务。</p>
+<h3 id="1-卸载残留-gaming-services">1. 卸载残留 Gaming Services
+</h3><p>使用管理员 PowerShell 执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingServices</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="nb">Remove-AppxPackage</span> <span class="n">-AllUsers</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后清理残留服务注册表项：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="s2">&#34;HKLM:\System\CurrentControlSet\Services\GamingServices&#34;</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="s2">&#34;HKLM:\System\CurrentControlSet\Services\GamingServicesNet&#34;</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行完成后重启电脑。</p>
+<h3 id="2-重新安装-gaming-services">2. 重新安装 Gaming Services
+</h3><p>重启后，重新安装 Gaming Services。</p>
+<p>可以使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">9MWPM2CQNLHN</span> <span class="p">-</span><span class="n">-source</span> <span class="n">msstore</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果 Microsoft Store 链路仍然异常，也可以通过安装包方式安装 Gaming Services。</p>
+<p>本次最终确认有效的结果是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="n">GamingServices</span><span class="p">,</span><span class="n">GamingServicesNet</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>能够正常显示服务，说明 Gaming Services 已经恢复。</p>
+<hr>
+<h2 id="五检查-xbox-应用主程序状态">五、检查 Xbox 应用主程序状态
+</h2><p>新版 Xbox 应用对应的 AppX 包不是旧的 <code>Microsoft.XboxApp</code>，而是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Microsoft.GamingApp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检查命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingApp</span> <span class="n">-AllUsers</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本次排查中，发现 <code>Microsoft.GamingApp</code> 已经存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Name: Microsoft.GamingApp
+</span></span><span class="line"><span class="cl">Version: 2508.1001.27.0
+</span></span><span class="line"><span class="cl">Status: Ok
+</span></span><span class="line"><span class="cl">PackageUserInformation: S-1-5-18: Staged
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的关键点是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Staged
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这表示 Xbox 应用包已经下载或暂存到了系统中，但还没有注册到当前用户账户。</p>
+<p>因此，虽然包存在，但当前用户仍然无法正常使用 Xbox 应用。</p>
+<hr>
+<h2 id="六将-microsoftgamingapp-注册到当前用户">六、将 Microsoft.GamingApp 注册到当前用户
+</h2><p>这是本次修复中非常关键、并且最终有效的一步。</p>
+<p>管理员 PowerShell 执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingApp</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行后再次检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingApp</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果当前用户下能查询到 <code>Microsoft.GamingApp</code>，说明 Xbox 应用已经注册到当前用户。</p>
+<p>随后在开始菜单搜索：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Xbox
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时 Xbox 应用已经可以正常打开。</p>
+<hr>
+<h2 id="七处理旧版-microsoftxboxapp-残留">七、处理旧版 Microsoft.XboxApp 残留
+</h2><p>排查过程中还发现旧版 Xbox 应用包存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxApp</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">Name</span><span class="p">,</span> <span class="n">PackageFullName</span><span class="p">,</span> <span class="n">InstallLocation</span><span class="p">,</span> <span class="n">Status</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出中包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Microsoft.XboxApp_48.104.4001.0_x64__8wekyb3d8bbwe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>尝试卸载时出现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">错误为 0x80070002
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>说明该旧包存在残留或文件状态异常。</p>
+<p>不过，新版 Xbox 应用的主程序是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Microsoft.GamingApp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此旧版 <code>Microsoft.XboxApp</code> 不是必须解决的核心问题。</p>
+<p>本次验证有效的处理方式是移除旧版 XboxApp 的预装模板：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxProvisionedPackage</span> <span class="n">-Online</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">DisplayName</span> <span class="o">-eq</span> <span class="s2">&#34;Microsoft.XboxApp&#34;</span> <span class="p">|</span> <span class="nb">Remove-AppxProvisionedPackage</span> <span class="n">-Online</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Online        : True
+</span></span><span class="line"><span class="cl">RestartNeeded : False
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这表示旧版 XboxApp 的系统预装登记已被移除。</p>
+<p>需要注意的是，不建议继续使用下面这种大范围卸载命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="p">*</span><span class="n">Xbox</span><span class="p">*</span> <span class="p">|</span> <span class="nb">Remove-AppxPackage</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为它会匹配到 Windows 系统自带组件，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Microsoft.XboxGameCallableUI
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该组件是 Windows 的一部分，无法正常按用户卸载，强行卸载会报错。</p>
+<hr>
+<h2 id="八重新注册-xbox-依赖组件">八、重新注册 Xbox 依赖组件
+</h2><p>Xbox 应用成功打开后，仍提示缺少依赖，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Game Bar
+</span></span><span class="line"><span class="cl">Xbox Live
+</span></span><span class="line"><span class="cl">Xbox Identity Provider
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这时需要重新注册现有 Xbox 依赖组件。</p>
+<p>管理员 PowerShell 执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxGamingOverlay</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxGameOverlay</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxIdentityProvider</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">Xbox</span><span class="p">.</span><span class="py">TCUI</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些组件分别对应：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Microsoft.XboxGamingOverlay       Xbox Game Bar
+</span></span><span class="line"><span class="cl">Microsoft.XboxGameOverlay         Xbox 游戏覆盖层
+</span></span><span class="line"><span class="cl">Microsoft.XboxIdentityProvider    Xbox 身份验证组件
+</span></span><span class="line"><span class="cl">Microsoft.Xbox.TCUI               Xbox 登录/交互相关组件
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="九检查-xbox-live-相关服务">九、检查 Xbox Live 相关服务
+</h2><p>Xbox Live 不是单独的普通应用，而是依赖多个系统服务。</p>
+<p>使用以下命令检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="n">XblAuthManager</span><span class="p">,</span><span class="n">XblGameSave</span><span class="p">,</span><span class="n">XboxGipSvc</span><span class="p">,</span><span class="n">XboxNetApiSvc</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">Name</span><span class="p">,</span><span class="n">Status</span><span class="p">,</span><span class="n">StartType</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果服务被禁用，可以设置为手动启动：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Service</span> <span class="n">XblAuthManager</span> <span class="n">-StartupType</span> <span class="n">Manual</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Set-Service</span> <span class="n">XblGameSave</span> <span class="n">-StartupType</span> <span class="n">Manual</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Set-Service</span> <span class="n">XboxGipSvc</span> <span class="n">-StartupType</span> <span class="n">Manual</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Set-Service</span> <span class="n">XboxNetApiSvc</span> <span class="n">-StartupType</span> <span class="n">Manual</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后尝试启动：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Start-Service</span> <span class="n">XblAuthManager</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Start-Service</span> <span class="n">XblGameSave</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Start-Service</span> <span class="n">XboxGipSvc</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Start-Service</span> <span class="n">XboxNetApiSvc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="十本次最终有效流程总结">十、本次最终有效流程总结
+</h2><p>本次修复过程中，真正起作用的流程可以总结为：</p>
+<h3 id="1-临时解决-msstore-源证书问题">1. 临时解决 msstore 源证书问题
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">winget</span> <span class="n">settings</span> <span class="p">-</span><span class="n">-enable</span> <span class="n">BypassCertificatePinningForMicrosoftStore</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-彻底清理并重新安装-gaming-services">2. 彻底清理并重新安装 Gaming Services
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingServices</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="nb">Remove-AppxPackage</span> <span class="n">-AllUsers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="s2">&#34;HKLM:\System\CurrentControlSet\Services\GamingServices&#34;</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="s2">&#34;HKLM:\System\CurrentControlSet\Services\GamingServicesNet&#34;</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重启后重新安装 Gaming Services。</p>
+<h3 id="3-确认-gaming-services-服务正常">3. 确认 Gaming Services 服务正常
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="n">GamingServices</span><span class="p">,</span><span class="n">GamingServicesNet</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-确认新版-xbox-应用包-microsoftgamingapp-已存在">4. 确认新版 Xbox 应用包 Microsoft.GamingApp 已存在
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingApp</span> <span class="n">-AllUsers</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>发现其状态为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Staged
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5-将-microsoftgamingapp-注册到当前用户">5. 将 Microsoft.GamingApp 注册到当前用户
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">GamingApp</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="6-移除旧版-xboxapp-预装模板">6. 移除旧版 XboxApp 预装模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxProvisionedPackage</span> <span class="n">-Online</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">DisplayName</span> <span class="o">-eq</span> <span class="s2">&#34;Microsoft.XboxApp&#34;</span> <span class="p">|</span> <span class="nb">Remove-AppxProvisionedPackage</span> <span class="n">-Online</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="7-重新注册-xbox-相关依赖">7. 重新注册 Xbox 相关依赖
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxGamingOverlay</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxGameOverlay</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">XboxIdentityProvider</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-AppxPackage</span> <span class="n">Microsoft</span><span class="p">.</span><span class="py">Xbox</span><span class="p">.</span><span class="py">TCUI</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="k">Foreach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Add-AppxPackage</span> <span class="n">-DisableDevelopmentMode</span> <span class="n">-Register</span> <span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">InstallLocation</span><span class="p">)</span><span class="s2">\AppxManifest.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="8-检查-xbox-live-服务">8. 检查 Xbox Live 服务
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="n">XblAuthManager</span><span class="p">,</span><span class="n">XblGameSave</span><span class="p">,</span><span class="n">XboxGipSvc</span><span class="p">,</span><span class="n">XboxNetApiSvc</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">Name</span><span class="p">,</span><span class="n">Status</span><span class="p">,</span><span class="n">StartType</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="十一经验总结">十一、经验总结
+</h2><p>这次问题的关键不在 Xbox 安装包本身，而是 Windows 的 AppX / Store / Xbox 依赖链路异常。</p>
+<p>最终有效的关键点是：</p>
+<ol>
+<li><code>Gaming Services</code> 必须真正注册成系统服务；</li>
+<li><code>Microsoft.GamingApp</code> 不能只停留在 <code>Staged</code> 状态，需要注册到当前用户；</li>
+<li>旧版 <code>Microsoft.XboxApp</code> 残留不一定需要强行删除；</li>
+<li>不要盲目执行 <code>Get-AppxPackage *Xbox* | Remove-AppxPackage</code>，因为会误匹配系统组件；</li>
+<li>Xbox 应用打开后仍可能提示缺少 Game Bar、Xbox Live、Xbox Identity Provider，需要继续注册依赖组件和检查服务。</li>
+</ol>
+<p>最终，通过重新安装 Gaming Services、注册 <code>Microsoft.GamingApp</code>、移除旧版 XboxApp 预装模板、重新注册 Xbox 依赖组件后，Xbox 应用成功打开。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/windows/">Windows</a>
+        
+            <a href="/tags/%E6%95%99%E7%A8%8B/">教程</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 May 18, 2026 09:05 UTC
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/cliproxyapi-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CLIProxyAPI 部署教程与使用说明</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/claude-code-%E5%AE%89%E8%A3%85/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Claude Code 安装</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">如何将本地 Git 默认分支从 master 改为 main</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU1rYWNueFNwQXlXVlh2SmpGVklndFc3czBDb2ZnQUF1b01heHQtazFGV1djOHh1MWoyZXdvQkFBTUNBQU4zQUFNNkJBIiwiZSI6InBuZyIsIm4iOiJwYXN0ZV8xNzc0ODQyMTg0MTY3LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoxMTA5NjgwLCJ0IjoxNzc0ODQyMTg3MDM5LCJtaWQiOjM2fQ.RDDIGcTlsfo3QFfRptX4MRbwu4ht4pkbkEJWXEvS6UI.png" loading="lazy" data-key="" data-hash="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU1rYWNueFNwQXlXVlh2SmpGVklndFc3czBDb2ZnQUF1b01heHQtazFGV1djOHh1MWoyZXdvQkFBTUNBQU4zQUFNNkJBIiwiZSI6InBuZyIsIm4iOiJwYXN0ZV8xNzc0ODQyMTg0MTY3LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoxMTA5NjgwLCJ0IjoxNzc0ODQyMTg3MDM5LCJtaWQiOjM2fQ.RDDIGcTlsfo3QFfRptX4MRbwu4ht4pkbkEJWXEvS6UI.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">【Hugo】Hugo &#43; Github 免费部署自己的博客</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">右键菜单删除uwtsetting</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="evzz74/evzz74.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 Shawpenn
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://shawpenn.qzz.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://shawpenn.qzz.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main"，
+            ".sidebar",
+			".main-article",
+			".js-Pjax"
+        ],
+        cacheBust: false  
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+                
+                
+                updateMetaTags(newDom);
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+    
+    
+    function updateMetaTags(newDom) {
+        
+        const metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+        
+        metaSelectors.forEach(selector => {
+            const newMeta = newDom.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            const currentMeta = document.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
+            
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        
+        let comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        let script = document.createElement('script');
+        
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
+		script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title'); 
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+		script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://shawpenn.qzz.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://shawpenn.qzz.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://shawpenn.qzz.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
