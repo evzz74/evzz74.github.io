@@ -10,7 +10,7 @@
 <meta property='og:description' content="Attendre et espérer">
 <meta property='og:url' content='https://shawpenn.qzz.io/tags/markdown/'>
 <meta property='og:site_name' content='Shaw&#39;s Blog'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-05-18T09:05:58&#43;00:00 '/>
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-05-26T03:32:52&#43;00:00 '/>
 <meta name="twitter:title" content="Tag: Markdown - Shaw's Blog">
 <meta name="twitter:description" content="Attendre et espérer"><link rel="alternate" type="application/rss&#43;xml" href="https://shawpenn.qzz.io/tags/markdown/index.xml">
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -478,19 +478,18 @@
 </script>
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
 <script>
     var pjax = new Pjax({
         selectors: [
             ".main-container",
             "title",
-            ".color-text-primary gsc-main"，
+            ".color-text-primary gsc-main",
             ".sidebar",
-			".main-article",
-			".js-Pjax"
+            ".main-article",
+            ".js-Pjax"
         ],
-        cacheBust: false  
+        cacheBust: false
     })
 </script>
 <script>
@@ -498,31 +497,24 @@
     pjax.handleResponse = function(responseText, request, href, options) {
         if (request.responseText.match("<html")) {
             if (responseText) {
-                
-                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
-                
-                let bodyClass = newDom.body.className;
+                var newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                var bodyClass = newDom.body.className;
                 document.body.setAttribute("class", bodyClass);
-                
-                
+
                 updateMetaTags(newDom);
             }
-            
+
             pjax._handleResponse(responseText, request, href, options);
-        } else {
-            
         }
     }
-    
-    
+
     function updateMetaTags(newDom) {
-        
-        const metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
-        
-        metaSelectors.forEach(selector => {
-            const newMeta = newDom.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
-            const currentMeta = document.querySelector(`meta[name="${selector}"], meta[property="${selector}"]`);
-            
+        var metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+
+        metaSelectors.forEach(function(selector) {
+            var newMeta = newDom.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+            var currentMeta = document.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+
             if (newMeta && currentMeta) {
                 currentMeta.setAttribute('content', newMeta.getAttribute('content'));
             }
@@ -531,34 +523,31 @@
 </script><div class="js-Pjax">
 <script>
     (function () {
-        
-        let comment = document.querySelector(".comment");
+        var comment = document.querySelector(".comment");
         if (!comment) {
             return
         }
-        let script = document.createElement('script');
-        
+        var script = document.createElement('script');
         script.setAttribute('src', 'https://giscus.app/client.js');
         script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
-		script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
         script.setAttribute('data-category', 'Announcements');
         script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
-        script.setAttribute('data-mapping', 'title'); 
+        script.setAttribute('data-mapping', 'title');
         script.setAttribute('data-strict', '0');
         script.setAttribute('data-reactions-enabled', '1');
         script.setAttribute('data-emit-metadata', '0');
         script.setAttribute('data-input-position', 'top');
         script.setAttribute('data-theme', 'light');
         script.setAttribute('data-lang', 'en');
-		script.setAttribute('crossorigin', 'anonymous');
+        script.setAttribute('crossorigin', 'anonymous');
         script.async = true;
-        
         document.querySelector('.site-footer').before(script)
     })(document);
 </script>
 <div>
-
-<style>
+  
+ <style>
   #particles-js {
     position: fixed;
     top: 0;
