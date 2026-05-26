@@ -373,6 +373,11 @@
 &lt;li&gt;代码是否放在 &lt;code&gt;{{ define &amp;quot;main&amp;quot; }}&lt;/code&gt; 内部。&lt;/li&gt;
 &lt;li&gt;如果开启了 PJAX，切换文章后是否触发了 &lt;code&gt;pjax:complete&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/1197346&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cloud.tencent.com/developer/article/1197346&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
