@@ -1321,30 +1321,30 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;参数说明：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;参数&lt;/th&gt;
-          &lt;th&gt;说明&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;-p 8317:8317&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;将容器内端口映射到宿主机&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;config.yaml&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;CLIProxyAPI 主配置文件&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;auth-dir&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;OAuth 认证文件存储目录&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;eceasy/cli-proxy-api:latest&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;Docker 镜像&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;参数&lt;/th&gt;
+					&lt;th&gt;说明&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;-p 8317:8317&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;将容器内端口映射到宿主机&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;config.yaml&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;CLIProxyAPI 主配置文件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;auth-dir&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;OAuth 认证文件存储目录&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;eceasy/cli-proxy-api:latest&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;Docker 镜像&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;九docker-compose-部署&#34;&gt;九、Docker Compose 部署
@@ -1552,42 +1552,42 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;字段说明：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;字段&lt;/th&gt;
-          &lt;th&gt;作用&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;host&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;监听地址，&lt;code&gt;127.0.0.1&lt;/code&gt; 表示只允许本机访问&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;服务端口，常用 &lt;code&gt;8317&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;auth-dir&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;OAuth 认证文件存储目录&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;客户端访问 CLIProxyAPI 时使用的密钥&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;debug&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;是否开启调试日志&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;request-retry&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;请求失败后的重试次数&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;quota-exceeded&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;额度耗尽时的切换策略&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;字段&lt;/th&gt;
+					&lt;th&gt;作用&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;host&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;监听地址，&lt;code&gt;127.0.0.1&lt;/code&gt; 表示只允许本机访问&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;服务端口，常用 &lt;code&gt;8317&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;auth-dir&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;OAuth 认证文件存储目录&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;客户端访问 CLIProxyAPI 时使用的密钥&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;debug&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;是否开启调试日志&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;request-retry&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;请求失败后的重试次数&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;quota-exceeded&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;额度耗尽时的切换策略&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;十二服务器公开部署配置&#34;&gt;十二、服务器公开部署配置
@@ -1643,22 +1643,22 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;需要区分两个密钥：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;密钥&lt;/th&gt;
-          &lt;th&gt;用途&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;remote-management.secret-key&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;管理面板或管理 API 使用&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;AI 客户端调用模型接口时使用&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;密钥&lt;/th&gt;
+					&lt;th&gt;用途&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;remote-management.secret-key&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;管理面板或管理 API 使用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;AI 客户端调用模型接口时使用&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;公网环境中不建议使用弱密码，例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1985,30 +1985,30 @@
 &lt;h2 id=&#34;十八在-cherry-studio--open-webui-中使用&#34;&gt;十八、在 Cherry Studio / Open WebUI 中使用
 &lt;/h2&gt;&lt;p&gt;以 Cherry Studio 为例：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;配置项&lt;/th&gt;
-          &lt;th&gt;填写内容&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;API 类型&lt;/td&gt;
-          &lt;td&gt;OpenAI Compatible&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;API 地址&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;http://127.0.0.1:8317/v1&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;API Key&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;config.yaml&lt;/code&gt; 中的 &lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;模型名称&lt;/td&gt;
-          &lt;td&gt;例如 &lt;code&gt;gemini-2.5-pro&lt;/code&gt;、&lt;code&gt;gpt-5-codex&lt;/code&gt;、&lt;code&gt;claude-sonnet-4-5-20250929&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;配置项&lt;/th&gt;
+					&lt;th&gt;填写内容&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;API 类型&lt;/td&gt;
+					&lt;td&gt;OpenAI Compatible&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;API 地址&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;http://127.0.0.1:8317/v1&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;API Key&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;config.yaml&lt;/code&gt; 中的 &lt;code&gt;api-keys&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型名称&lt;/td&gt;
+					&lt;td&gt;例如 &lt;code&gt;gemini-2.5-pro&lt;/code&gt;、&lt;code&gt;gpt-5-codex&lt;/code&gt;、&lt;code&gt;claude-sonnet-4-5-20250929&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;如果使用服务器部署，把地址改成：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2048,26 +2048,26 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;字段说明：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;字段&lt;/th&gt;
-          &lt;th&gt;说明&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;allow-remote&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;是否允许远程访问管理端点&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;secret-key&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;管理请求所需密钥&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;disable-control-panel&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;是否禁用内置控制面板&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;字段&lt;/th&gt;
+					&lt;th&gt;说明&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;allow-remote&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;是否允许远程访问管理端点&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;secret-key&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;管理请求所需密钥&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;disable-control-panel&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;是否禁用内置控制面板&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;如果开启了管理面板，一般可以访问：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2228,22 +2228,22 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;常见策略包括：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;策略&lt;/th&gt;
-          &lt;th&gt;说明&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;round-robin&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;多个凭据之间轮询&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;fill-first&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;优先使用前面的凭据&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;策略&lt;/th&gt;
+					&lt;th&gt;说明&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;round-robin&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;多个凭据之间轮询&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;fill-first&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;优先使用前面的凭据&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;5-管理面板无法访问&#34;&gt;5. 管理面板无法访问
 &lt;/h3&gt;&lt;p&gt;检查配置：&lt;/p&gt;
@@ -3383,32 +3383,32 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         <description>&lt;h3 id=&#34;word或wps文档在固定行间距时mathtype公式会显示不全以下是一种比较方便的解决办法&#34;&gt;Word或WPS文档在固定行间距时，MathType公式会显示不全，以下是一种比较方便的解决办法。
 &lt;/h3&gt;&lt;p&gt;单倍行间距正常显示：&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image1.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;单倍行距效果演示&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;单倍行距效果演示&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 固定行间距为20磅，公式显示不全：
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image2.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;调整前&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;调整前&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 点击math type公式，选择 **清除格式**；
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image3.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;清除格式&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;清除格式&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 重新选择该段落，在 **段落** —— **文本对齐方式**中选择 **“居中”** ：
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image4.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;文本居中&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;文本居中&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 调整后效果展示：
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/image5.png&#34; width=&#34;60%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;调整后效果&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;调整后效果&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;</description>
         </item>
@@ -3422,8 +3422,8 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;h1 id=&#34;aseprite-简易在线编译教程&#34;&gt;Aseprite 简易在线编译教程
 &lt;/h1&gt;&lt;p&gt;Aseprite 是顶级的像素绘画与动画软件。由于其开源特性，我们可以通过 GitHub Actions 在线自动编译，无需在本地安装复杂的开发环境，即可获得与原版一致的体验。&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/1.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;Aseprite&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;Aseprite&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 &lt;h3 id=&#34;-准备工作&#34;&gt;📌 准备工作
@@ -3455,8 +3455,8 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;p&gt;&lt;code&gt;os: [windows-latest]&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/2.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;修改编译参数&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;修改编译参数&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 &lt;ul&gt;
@@ -3492,8 +3492,8 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 &lt;h3 id=&#34;-常见问题处理&#34;&gt;🛠 常见问题处理
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;报错：找不到 &lt;code&gt;libcrypto-1_1-x64.dll &lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/3.jpg&#34; width=&#34;80%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;报错：找不到libcrypto-1_1-x64.dll&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 &lt;ul&gt;
@@ -6694,58 +6694,58 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/div&gt;&lt;p&gt;branch 为远程仓库分支&lt;/p&gt;
 &lt;h1 id=&#34;三常用git命令&#34;&gt;三、常用Git命令
 &lt;/h1&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;功能&lt;/th&gt;
-          &lt;th&gt;命令&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;查看状态&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git status&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;查看提交历史&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git log&lt;/code&gt; 或 &lt;code&gt;git log --oneline&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;查看差异&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git diff&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;创建分支&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git branch &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;切换分支&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git checkout &amp;lt;branch-name&amp;gt;&lt;/code&gt; 或 &lt;code&gt;git switch &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;合并分支&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git merge &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;拉取远程更新&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git pull origin &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;克隆仓库&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git clone &amp;lt;repository-url&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;回退版本&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git reset --hard &amp;lt;commit-id&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;查看分支列表&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git branch -a&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;删除分支&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;git branch -d &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;功能&lt;/th&gt;
+					&lt;th&gt;命令&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;查看状态&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git status&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;查看提交历史&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git log&lt;/code&gt; 或 &lt;code&gt;git log --oneline&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;查看差异&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git diff&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;创建分支&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git branch &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;切换分支&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git checkout &amp;lt;branch-name&amp;gt;&lt;/code&gt; 或 &lt;code&gt;git switch &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;合并分支&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git merge &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;拉取远程更新&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git pull origin &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;克隆仓库&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git clone &amp;lt;repository-url&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;回退版本&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git reset --hard &amp;lt;commit-id&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;查看分支列表&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git branch -a&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;删除分支&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;git branch -d &amp;lt;branch-name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
 &lt;/table&gt;
 </description>
         </item>
@@ -6780,8 +6780,8 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;strong&gt;错误信息：&lt;/strong&gt;&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8xx%E8%84%9A%E6%9C%AC%E6%8A%A5%E9%94%99/img1.jpg&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;错误信息&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;错误信息&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 &lt;h1 id=&#34;解决办法&#34;&gt;解决办法
@@ -6796,8 +6796,8 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;再输入y确认即可&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8xx%E8%84%9A%E6%9C%AC%E6%8A%A5%E9%94%99/img2.jpg&#34; width=&#34;50%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;PowerShell&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;PowerShell&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;</description>
         </item>
@@ -6830,28 +6830,10 @@ Your commit message:具体的更改信息&lt;/p&gt;
 &lt;/h2&gt;&lt;h2 id=&#34;不用重启电脑任务管理器重启windows资源管理器就行&#34;&gt;不用重启电脑，任务管理器重启windows资源管理器就行。
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;实际效果展示：&lt;/strong&gt;&lt;/p&gt;
 &lt;center&gt;&lt;figure&gt;&lt;img src=&#34;https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/test.png&#34; width=&#34;100%&#34;&gt;&lt;figcaption&gt;
-      &lt;h4&gt;实际效果演示&lt;/h4&gt;
-    &lt;/figcaption&gt;
+			&lt;h4&gt;实际效果演示&lt;/h4&gt;
+		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
-</description>
-        </item>
-        <item>
-        <title>2048</title>
-        <link>https://shawpenn.qzz.io/p/2048/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://shawpenn.qzz.io/p/2048/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/2048/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;&lt;/iframe&gt;
-</description>
-        </item>
-        <item>
-        <title>电子木鱼</title>
-        <link>https://shawpenn.qzz.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</link>
-        <pubDate>Mon, 17 Mar 2025 16:12:04 +0800</pubDate>
-        
-        <guid>https://shawpenn.qzz.io/p/%E7%94%B5%E5%AD%90%E6%9C%A8%E9%B1%BC/</guid>
-        <description>&lt;iframe src=&#34;https://anjoy0723.github.io/pages/muyu/index.html&#34; width=&#34;100%&#34; height=&#34;600&#34;&gt;&lt;/iframe&gt;
 </description>
         </item>
         <item>
@@ -6869,22 +6851,9 @@ Your commit message:具体的更改信息&lt;/p&gt;
         
         <guid>https://shawpenn.qzz.io/%E5%85%B3%E4%BA%8E/</guid>
         <description>&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;使用HUGO搭建的个人博客&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;联系邮箱：&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;使用HUGO搭建的个人博客&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;evzz74@163.com&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
+</description>
         </item>
         <item>
         <title>链接</title>

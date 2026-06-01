@@ -10,7 +10,7 @@
 <meta property='og:description' content="CLIProxyAPI 部署教程与使用说明：把 CLI AI 工具封装成统一 API 服务 适用对象：想把 Gemini CLI、Claude Code、ChatGPT Codex、Antigravity 等 CLI/OAuth 工具封装成 OpenAI、Gemini、Claude、Codex 兼容 API 的用户。\n项目地址：https://github.com/router-for-me/CLIProxyAPI\n">
 <meta property='og:url' content='https://shawpenn.qzz.io/p/cliproxyapi-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/'>
 <meta property='og:site_name' content='Shaw&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ChatGPT' /><meta property='article:tag' content='CPA' /><meta property='article:tag' content='教程' /><meta property='article:published_time' content='2026-05-12T04:00:02&#43;08:00'/><meta property='article:modified_time' content='2026-05-26T03:49:21&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ChatGPT' /><meta property='article:tag' content='CPA' /><meta property='article:tag' content='教程' /><meta property='article:published_time' content='2026-05-12T04:00:02&#43;08:00'/><meta property='article:modified_time' content='2026-06-01T11:24:13&#43;00:00'/>
 <meta name="twitter:title" content="CLIProxyAPI 部署教程与使用说明">
 <meta name="twitter:description" content="CLIProxyAPI 部署教程与使用说明：把 CLI AI 工具封装成统一 API 服务 适用对象：想把 Gemini CLI、Claude Code、ChatGPT Codex、Antigravity 等 CLI/OAuth 工具封装成 OpenAI、Gemini、Claude、Codex 兼容 API 的用户。\n项目地址：https://github.com/router-for-me/CLIProxyAPI\n">
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -796,30 +796,30 @@
 </div>
 </div><p>参数说明：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>-p 8317:8317</code></td>
-          <td>将容器内端口映射到宿主机</td>
-      </tr>
-      <tr>
-          <td><code>config.yaml</code></td>
-          <td>CLIProxyAPI 主配置文件</td>
-      </tr>
-      <tr>
-          <td><code>auth-dir</code></td>
-          <td>OAuth 认证文件存储目录</td>
-      </tr>
-      <tr>
-          <td><code>eceasy/cli-proxy-api:latest</code></td>
-          <td>Docker 镜像</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>-p 8317:8317</code></td>
+					<td>将容器内端口映射到宿主机</td>
+			</tr>
+			<tr>
+					<td><code>config.yaml</code></td>
+					<td>CLIProxyAPI 主配置文件</td>
+			</tr>
+			<tr>
+					<td><code>auth-dir</code></td>
+					<td>OAuth 认证文件存储目录</td>
+			</tr>
+			<tr>
+					<td><code>eceasy/cli-proxy-api:latest</code></td>
+					<td>Docker 镜像</td>
+			</tr>
+	</tbody>
 </table></div>
 <hr>
 <h2 id="九docker-compose-部署">九、Docker Compose 部署
@@ -1027,42 +1027,42 @@
 </div>
 </div><p>字段说明：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>host</code></td>
-          <td>监听地址，<code>127.0.0.1</code> 表示只允许本机访问</td>
-      </tr>
-      <tr>
-          <td><code>port</code></td>
-          <td>服务端口，常用 <code>8317</code></td>
-      </tr>
-      <tr>
-          <td><code>auth-dir</code></td>
-          <td>OAuth 认证文件存储目录</td>
-      </tr>
-      <tr>
-          <td><code>api-keys</code></td>
-          <td>客户端访问 CLIProxyAPI 时使用的密钥</td>
-      </tr>
-      <tr>
-          <td><code>debug</code></td>
-          <td>是否开启调试日志</td>
-      </tr>
-      <tr>
-          <td><code>request-retry</code></td>
-          <td>请求失败后的重试次数</td>
-      </tr>
-      <tr>
-          <td><code>quota-exceeded</code></td>
-          <td>额度耗尽时的切换策略</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>host</code></td>
+					<td>监听地址，<code>127.0.0.1</code> 表示只允许本机访问</td>
+			</tr>
+			<tr>
+					<td><code>port</code></td>
+					<td>服务端口，常用 <code>8317</code></td>
+			</tr>
+			<tr>
+					<td><code>auth-dir</code></td>
+					<td>OAuth 认证文件存储目录</td>
+			</tr>
+			<tr>
+					<td><code>api-keys</code></td>
+					<td>客户端访问 CLIProxyAPI 时使用的密钥</td>
+			</tr>
+			<tr>
+					<td><code>debug</code></td>
+					<td>是否开启调试日志</td>
+			</tr>
+			<tr>
+					<td><code>request-retry</code></td>
+					<td>请求失败后的重试次数</td>
+			</tr>
+			<tr>
+					<td><code>quota-exceeded</code></td>
+					<td>额度耗尽时的切换策略</td>
+			</tr>
+	</tbody>
 </table></div>
 <hr>
 <h2 id="十二服务器公开部署配置">十二、服务器公开部署配置
@@ -1118,22 +1118,22 @@
 </div>
 </div><p>需要区分两个密钥：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>密钥</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>remote-management.secret-key</code></td>
-          <td>管理面板或管理 API 使用</td>
-      </tr>
-      <tr>
-          <td><code>api-keys</code></td>
-          <td>AI 客户端调用模型接口时使用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>密钥</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>remote-management.secret-key</code></td>
+					<td>管理面板或管理 API 使用</td>
+			</tr>
+			<tr>
+					<td><code>api-keys</code></td>
+					<td>AI 客户端调用模型接口时使用</td>
+			</tr>
+	</tbody>
 </table></div>
 <p>公网环境中不建议使用弱密码，例如：</p>
 <div class="highlight"><div class="chroma">
@@ -1460,30 +1460,30 @@
 <h2 id="十八在-cherry-studio--open-webui-中使用">十八、在 Cherry Studio / Open WebUI 中使用
 </h2><p>以 Cherry Studio 为例：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>配置项</th>
-          <th>填写内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>API 类型</td>
-          <td>OpenAI Compatible</td>
-      </tr>
-      <tr>
-          <td>API 地址</td>
-          <td><code>http://127.0.0.1:8317/v1</code></td>
-      </tr>
-      <tr>
-          <td>API Key</td>
-          <td><code>config.yaml</code> 中的 <code>api-keys</code></td>
-      </tr>
-      <tr>
-          <td>模型名称</td>
-          <td>例如 <code>gemini-2.5-pro</code>、<code>gpt-5-codex</code>、<code>claude-sonnet-4-5-20250929</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>配置项</th>
+					<th>填写内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>API 类型</td>
+					<td>OpenAI Compatible</td>
+			</tr>
+			<tr>
+					<td>API 地址</td>
+					<td><code>http://127.0.0.1:8317/v1</code></td>
+			</tr>
+			<tr>
+					<td>API Key</td>
+					<td><code>config.yaml</code> 中的 <code>api-keys</code></td>
+			</tr>
+			<tr>
+					<td>模型名称</td>
+					<td>例如 <code>gemini-2.5-pro</code>、<code>gpt-5-codex</code>、<code>claude-sonnet-4-5-20250929</code></td>
+			</tr>
+	</tbody>
 </table></div>
 <p>如果使用服务器部署，把地址改成：</p>
 <div class="highlight"><div class="chroma">
@@ -1523,26 +1523,26 @@
 </div>
 </div><p>字段说明：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>allow-remote</code></td>
-          <td>是否允许远程访问管理端点</td>
-      </tr>
-      <tr>
-          <td><code>secret-key</code></td>
-          <td>管理请求所需密钥</td>
-      </tr>
-      <tr>
-          <td><code>disable-control-panel</code></td>
-          <td>是否禁用内置控制面板</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>allow-remote</code></td>
+					<td>是否允许远程访问管理端点</td>
+			</tr>
+			<tr>
+					<td><code>secret-key</code></td>
+					<td>管理请求所需密钥</td>
+			</tr>
+			<tr>
+					<td><code>disable-control-panel</code></td>
+					<td>是否禁用内置控制面板</td>
+			</tr>
+	</tbody>
 </table></div>
 <p>如果开启了管理面板，一般可以访问：</p>
 <div class="highlight"><div class="chroma">
@@ -1703,22 +1703,22 @@
 </div>
 </div><p>常见策略包括：</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>策略</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>round-robin</code></td>
-          <td>多个凭据之间轮询</td>
-      </tr>
-      <tr>
-          <td><code>fill-first</code></td>
-          <td>优先使用前面的凭据</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>策略</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>round-robin</code></td>
+					<td>多个凭据之间轮询</td>
+			</tr>
+			<tr>
+					<td><code>fill-first</code></td>
+					<td>优先使用前面的凭据</td>
+			</tr>
+	</tbody>
 </table></div>
 <h3 id="5-管理面板无法访问">5. 管理面板无法访问
 </h3><p>检查配置：</p>
@@ -1926,7 +1926,7 @@
 
 
         <span>
-            最后更新于 May 26, 2026 03:49 UTC
+            最后更新于 Jun 01, 2026 11:24 UTC
         </span>
     </section></footer>
 
