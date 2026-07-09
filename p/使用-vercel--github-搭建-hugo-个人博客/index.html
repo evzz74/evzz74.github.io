@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="使用 Vercel + GitHub 搭建 Hugo 个人博客 一、前言 很多人会选择使用 GitHub Pages 搭建个人博客，但在部分网络环境下访问速度可能不够理想。Vercel 是一个静态站点和前端项目部署平台，可以与 GitHub 仓库联动：当仓库内容更新后，Vercel 会自动重新部署网站。\n">
+<title>使用 Vercel &#43; GitHub 搭建 Hugo 个人博客</title>
+
+<link rel='canonical' href='https://shawpenn.qzz.io/p/%E4%BD%BF%E7%94%A8-vercel--github-%E6%90%AD%E5%BB%BA-hugo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="使用 Vercel + GitHub 搭建 Hugo 个人博客">
+<meta property='og:description' content="使用 Vercel + GitHub 搭建 Hugo 个人博客 一、前言 很多人会选择使用 GitHub Pages 搭建个人博客，但在部分网络环境下访问速度可能不够理想。Vercel 是一个静态站点和前端项目部署平台，可以与 GitHub 仓库联动：当仓库内容更新后，Vercel 会自动重新部署网站。\n">
+<meta property='og:url' content='https://shawpenn.qzz.io/p/%E4%BD%BF%E7%94%A8-vercel--github-%E6%90%AD%E5%BB%BA-hugo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/'>
+<meta property='og:site_name' content='Shaw&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Vercel' /><meta property='article:tag' content='Github' /><meta property='article:tag' content='Hugo' /><meta property='article:published_time' content='2026-07-06T10:28:20&#43;08:00'/><meta property='article:modified_time' content='2026-07-09T06:54:47&#43;00:00'/>
+<meta name="twitter:title" content="使用 Vercel + GitHub 搭建 Hugo 个人博客">
+<meta name="twitter:description" content="使用 Vercel + GitHub 搭建 Hugo 个人博客 一、前言 很多人会选择使用 GitHub Pages 搭建个人博客，但在部分网络环境下访问速度可能不够理想。Vercel 是一个静态站点和前端项目部署平台，可以与 GitHub 仓库联动：当仓库内容更新后，Vercel 会自动重新部署网站。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Shaw&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/evzz74'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一前言">一、前言</a></li>
+    <li><a href="#二准备工作">二、准备工作</a></li>
+    <li><a href="#三注册-github-账号">三、注册 GitHub 账号</a></li>
+    <li><a href="#四注册-vercel-账号">四、注册 Vercel 账号</a></li>
+    <li><a href="#五创建-hugo-博客项目">五、创建 Hugo 博客项目</a>
+      <ol>
+        <li><a href="#1-导入项目">1. 导入项目</a></li>
+        <li><a href="#2-选择模板">2. 选择模板</a></li>
+        <li><a href="#3-安装-vercel-github-应用">3. 安装 Vercel GitHub 应用</a></li>
+        <li><a href="#4-创建-github-仓库">4. 创建 GitHub 仓库</a></li>
+        <li><a href="#5-部署项目">5. 部署项目</a></li>
+      </ol>
+    </li>
+    <li><a href="#六配置和修改博客">六、配置和修改博客</a>
+      <ol>
+        <li><a href="#1-克隆仓库到本地">1. 克隆仓库到本地</a></li>
+        <li><a href="#2-配置-hugo-主题">2. 配置 Hugo 主题</a></li>
+        <li><a href="#3-提交修改">3. 提交修改</a></li>
+      </ol>
+    </li>
+    <li><a href="#七自动部署机制">七、自动部署机制</a></li>
+    <li><a href="#八绑定自定义域名">八、绑定自定义域名</a>
+      <ol>
+        <li><a href="#1-添加域名">1. 添加域名</a></li>
+        <li><a href="#2-配置-dns-解析">2. 配置 DNS 解析</a></li>
+        <li><a href="#3-等待生效">3. 等待生效</a></li>
+      </ol>
+    </li>
+    <li><a href="#九整体流程总结">九、整体流程总结</a></li>
+    <li><a href="#十注意事项">十、注意事项</a></li>
+    <li><a href="#十一适合新手的建议">十一、适合新手的建议</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <progress id="content_progress" value="0"></progress>
+
+    <style>
+        #content_progress {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: none;
+            background-color: transparent;
+            color: #0095ea;
+        }
+
+        #content_progress::-webkit-progress-bar {
+            background-color: transparent;
+        }
+
+        #content_progress::-webkit-progress-value {
+            background-color: #0095ea;
+        }
+
+        #content_progress::-moz-progress-bar {
+            background-color: #0095ea;
+        }
+    </style>
+
+    <script>
+        (function () {
+            function initContentProgress() {
+                var progressBar = document.querySelector('#content_progress');
+                if (!progressBar) {
+                    return;
+                }
+
+                function updateProgress() {
+                    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    progressBar.max = Math.max(maxScroll, 0);
+                    progressBar.value = window.scrollY;
+                }
+
+                updateProgress();
+                document.removeEventListener('scroll', updateProgress);
+                document.addEventListener('scroll', updateProgress, { passive: true });
+                window.removeEventListener('resize', updateProgress);
+                window.addEventListener('resize', updateProgress);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initContentProgress);
+            } else {
+                initContentProgress();
+            }
+
+            document.addEventListener('pjax:complete', initContentProgress);
+        })();
+    </script>
+
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BB%BA%E7%AB%99%E6%95%99%E7%A8%8B/" >
+                建站教程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%BD%BF%E7%94%A8-vercel--github-%E6%90%AD%E5%BB%BA-hugo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">使用 Vercel &#43; GitHub 搭建 Hugo 个人博客</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 06, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="使用-vercel--github-搭建-hugo-个人博客">使用 Vercel + GitHub 搭建 Hugo 个人博客
+</h1><h2 id="一前言">一、前言
+</h2><p>很多人会选择使用 GitHub Pages 搭建个人博客，但在部分网络环境下访问速度可能不够理想。Vercel 是一个静态站点和前端项目部署平台，可以与 GitHub 仓库联动：当仓库内容更新后，Vercel 会自动重新部署网站。</p>
+<p>本文整理了一套从零开始搭建个人博客的流程，主要使用以下工具：</p>
+<ul>
+<li>GitHub：用于托管博客源码；</li>
+<li>Vercel：用于部署静态网站；</li>
+<li>Hugo：用于生成静态博客；</li>
+<li>GitHub Desktop：用于更方便地同步本地修改。</li>
+</ul>
+<blockquote>
+<p>说明：整理自博客园文章《使用Vercel+Github搭建个人博客》，原文写于 2020 年，Vercel 后台界面可能已经更新，但整体思路仍然可以参考。</p>
+</blockquote>
+<h2 id="二准备工作">二、准备工作
+</h2><p>在开始之前，需要准备：</p>
+<ol>
+<li>一个 GitHub 账号；</li>
+<li>一个 Vercel 账号；</li>
+<li>可选：一个自定义域名；</li>
+<li>可选：安装 GitHub Desktop，方便后续提交和推送文件。</li>
+</ol>
+<h2 id="三注册-github-账号">三、注册 GitHub 账号
+</h2><p>如果还没有 GitHub 账号，需要先前往 GitHub 官网注册。注册完成后，后续 Vercel 会通过 GitHub 授权创建或导入仓库。</p>
+<h2 id="四注册-vercel-账号">四、注册 Vercel 账号
+</h2><ol>
+<li>
+<p>打开 Vercel 注册页面：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://vercel.com/signup
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>选择 <strong>Continue with GitHub</strong>。</p>
+</li>
+<li>
+<p>页面跳转到 GitHub 授权界面后，点击 <strong>Authorize Vercel</strong>，允许 Vercel 访问 GitHub。</p>
+</li>
+</ol>
+<p>完成授权后，Vercel 账号就会与 GitHub 账号绑定。</p>
+<h2 id="五创建-hugo-博客项目">五、创建 Hugo 博客项目
+</h2><h3 id="1-导入项目">1. 导入项目
+</h3><p>进入 Vercel 控制台后，点击 <strong>Import Project</strong>。</p>
+<h3 id="2-选择模板">2. 选择模板
+</h3><p>在模板选择页面中找到 <strong>Hugo</strong> 模板。Hugo 是一个静态网站生成器，适合用来搭建个人博客。</p>
+<p>选择 Hugo 后，点击 <strong>Continue</strong>。</p>
+<h3 id="3-安装-vercel-github-应用">3. 安装 Vercel GitHub 应用
+</h3><p>如果是第一次使用 Vercel 连接 GitHub，页面会提示安装 Vercel 的 GitHub 应用。</p>
+<p>按照提示点击：</p>
+<ol>
+<li><strong>Install Vercel for GitHub</strong>；</li>
+<li>在 GitHub 授权页面点击 <strong>Install</strong>；</li>
+<li>保持默认配置；</li>
+<li>返回 Vercel 后继续下一步。</li>
+</ol>
+<h3 id="4-创建-github-仓库">4. 创建 GitHub 仓库
+</h3><p>在 <strong>Create Git Repository</strong> 页面：</p>
+<ul>
+<li>选择 GitHub；</li>
+<li>填写仓库名称；</li>
+<li>根据需要选择公开仓库或私有仓库；</li>
+<li>点击 <strong>Continue</strong>。</li>
+</ul>
+<p>Vercel 会自动在 GitHub 中创建一个仓库，用来存放 Hugo 博客源码。</p>
+<h3 id="5-部署项目">5. 部署项目
+</h3><p>在 <strong>Import Project</strong> 页面保持默认配置，点击 <strong>Deploy</strong>。</p>
+<p>部署完成后，点击 <strong>Visit</strong> 即可访问刚刚创建好的网站。</p>
+<p>此时网站已经可以访问，但默认样式比较基础，后续可以通过配置主题进行美化。</p>
+<h2 id="六配置和修改博客">六、配置和修改博客
+</h2><h3 id="1-克隆仓库到本地">1. 克隆仓库到本地
+</h3><p>可以使用 GitHub Desktop 来管理博客项目：</p>
+<ol>
+<li>打开 GitHub Desktop；</li>
+<li>登录 GitHub 账号；</li>
+<li>点击 <strong>File</strong>；</li>
+<li>选择 <strong>Clone repository</strong>；</li>
+<li>找到刚才创建的 Hugo 仓库；</li>
+<li>点击 <strong>Clone</strong>。</li>
+</ol>
+<p>克隆完成后，项目文件通常会保存在类似下面的位置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">C:\Users\你的用户名\Documents\GitHub\仓库名
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-配置-hugo-主题">2. 配置 Hugo 主题
+</h3><p>进入项目目录后，可以按照所选 Hugo 主题的文档进行配置。</p>
+<p>原文中推荐的主题是 <strong>Even</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://github.com/olOwOlo/hugo-theme-even
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置主题时通常需要修改以下内容：</p>
+<ul>
+<li>Hugo 配置文件；</li>
+<li>主题目录；</li>
+<li>文章目录；</li>
+<li>网站标题、作者、菜单、评论系统等信息。</li>
+</ul>
+<p>具体配置方式需要以主题官方文档为准。</p>
+<h3 id="3-提交修改">3. 提交修改
+</h3><p>修改完成后，回到 GitHub Desktop：</p>
+<ol>
+<li>
+<p>在左下角 <strong>Summary</strong> 中填写本次修改说明，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">update theme
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>点击 <strong>Commit to master</strong> 或 <strong>Commit to main</strong>；</p>
+</li>
+<li>
+<p>点击右上角 <strong>Push origin</strong>，将修改推送到 GitHub。</p>
+</li>
+</ol>
+<h2 id="七自动部署机制">七、自动部署机制
+</h2><p>当 GitHub 仓库发生变化后，Vercel 会自动检测更新并重新构建网站。</p>
+<p>因此，后续更新博客文章时，可以直接将 Markdown 文件上传或提交到 Hugo 的文章目录，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">./content/posts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>提交并推送到 GitHub 后，等待 Vercel 自动部署完成，网站内容就会更新。</p>
+<h2 id="八绑定自定义域名">八、绑定自定义域名
+</h2><p>如果有自己的域名，可以在 Vercel 中绑定。</p>
+<h3 id="1-添加域名">1. 添加域名
+</h3><p>进入 Vercel 控制台，打开对应项目：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Project &gt; Settings &gt; Domains
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在输入框中填写想要绑定的域名，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">test.example.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果域名还没有配置解析，Vercel 会提示需要添加 DNS 记录。</p>
+<h3 id="2-配置-dns-解析">2. 配置 DNS 解析
+</h3><p>根据 Vercel 的提示，在域名服务商处添加 CNAME 解析记录。</p>
+<p>一般情况下，需要设置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">类型：CNAME
+</span></span><span class="line"><span class="cl">主机记录：你的子域名前缀
+</span></span><span class="line"><span class="cl">记录值：Vercel 提供的目标地址
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不同域名服务商的后台界面略有区别，但核心操作都是添加对应的 DNS 解析记录。</p>
+<h3 id="3-等待生效">3. 等待生效
+</h3><p>DNS 配置完成后，回到 Vercel 控制台检查域名状态。</p>
+<p>解析生效后，Vercel 会自动为域名申请 HTTPS 证书，通常使用 Let&rsquo;s Encrypt 证书。</p>
+<p>完成后，就可以通过自己的域名访问博客了。</p>
+<h2 id="九整体流程总结">九、整体流程总结
+</h2><p>完整流程可以概括为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">注册 GitHub
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">注册并授权 Vercel
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">选择 Hugo 模板
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">创建 GitHub 仓库
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">部署到 Vercel
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">克隆仓库到本地
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">配置 Hugo 主题
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">提交并推送修改
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">Vercel 自动重新部署
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">绑定自定义域名
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="十注意事项">十、注意事项
+</h2><ol>
+<li>原文基于 2020 年的 Vercel 页面，当前按钮名称和页面位置可能有所变化。</li>
+<li>Hugo 主题配置要以主题官方文档为准，不同主题的目录结构和配置项可能不同。</li>
+<li>GitHub 默认分支可能是 <code>main</code>，而早期教程中常见的是 <code>master</code>。</li>
+<li>如果绑定域名后不能立即访问，通常是 DNS 解析尚未完全生效。</li>
+<li>后续写文章时，建议直接使用 Markdown 文件，并放入 Hugo 的文章目录。</li>
+</ol>
+<h2 id="十一适合新手的建议">十一、适合新手的建议
+</h2><p>如果你只是想快速搭建一个可访问的个人博客，可以先完成以下最低配置：</p>
+<ul>
+<li>使用 Vercel 的 Hugo 模板创建项目；</li>
+<li>不急着绑定域名，先使用 Vercel 默认域名；</li>
+<li>先学会在 <code>content/posts</code> 中新增文章；</li>
+<li>熟悉自动部署流程后，再配置主题和自定义域名。</li>
+</ul>
+<p>这样可以先保证博客成功上线，再逐步美化和完善。</p>
+<hr>
+<p>整理自博客园文章《使用Vercel+Github搭建个人博客》</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/vercel/">Vercel</a>
+        
+            <a href="/tags/github/">Github</a>
+        
+            <a href="/tags/hugo/">Hugo</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jul 09, 2026 06:54 UTC
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU1rYWNueFNwQXlXVlh2SmpGVklndFc3czBDb2ZnQUF1b01heHQtazFGV1djOHh1MWoyZXdvQkFBTUNBQU4zQUFNNkJBIiwiZSI6InBuZyIsIm4iOiJwYXN0ZV8xNzc0ODQyMTg0MTY3LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoxMTA5NjgwLCJ0IjoxNzc0ODQyMTg3MDM5LCJtaWQiOjM2fQ.RDDIGcTlsfo3QFfRptX4MRbwu4ht4pkbkEJWXEvS6UI.png" loading="lazy" data-key="" data-hash="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU1rYWNueFNwQXlXVlh2SmpGVklndFc3czBDb2ZnQUF1b01heHQtazFGV1djOHh1MWoyZXdvQkFBTUNBQU4zQUFNNkJBIiwiZSI6InBuZyIsIm4iOiJwYXN0ZV8xNzc0ODQyMTg0MTY3LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoxMTA5NjgwLCJ0IjoxNzc0ODQyMTg3MDM5LCJtaWQiOjM2fQ.RDDIGcTlsfo3QFfRptX4MRbwu4ht4pkbkEJWXEvS6UI.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">【Hugo】Hugo &#43; Github 免费部署自己的博客</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="evzz74/evzz74.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 Shawpenn
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://shawpenn.qzz.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://shawpenn.qzz.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main",
+            ".sidebar",
+            ".main-article",
+            ".js-Pjax"
+        ],
+        cacheBust: false
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                var newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                var bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+
+                updateMetaTags(newDom);
+            }
+
+            pjax._handleResponse(responseText, request, href, options);
+        }
+    }
+
+    function updateMetaTags(newDom) {
+        var metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+
+        metaSelectors.forEach(function(selector) {
+            var newMeta = newDom.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+            var currentMeta = document.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        var comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        var script = document.createElement('script');
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+  
+ <style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://shawpenn.qzz.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://shawpenn.qzz.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://shawpenn.qzz.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>

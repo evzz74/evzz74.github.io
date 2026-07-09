@@ -7,12 +7,28 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Mon, 01 Jun 2026 11:25:48 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 09 Jul 2026 06:54:47 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Github</title>
+        <link>https://shawpenn.qzz.io/tags/github/</link>
+        <pubDate>Mon, 06 Jul 2026 10:28:20 +0800</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/tags/github/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Hugo</title>
         <link>https://shawpenn.qzz.io/tags/hugo/</link>
-        <pubDate>Tue, 26 May 2026 00:00:00 +0800</pubDate>
+        <pubDate>Mon, 06 Jul 2026 10:28:20 +0800</pubDate>
         
         <guid>https://shawpenn.qzz.io/tags/hugo/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Vercel</title>
+        <link>https://shawpenn.qzz.io/tags/vercel/</link>
+        <pubDate>Mon, 06 Jul 2026 10:28:20 +0800</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/tags/vercel/</guid>
         <description></description>
         </item>
         <item>
@@ -101,14 +117,6 @@
         <pubDate>Sat, 11 Apr 2026 14:42:46 +0800</pubDate>
         
         <guid>https://shawpenn.qzz.io/tags/git/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Github</title>
-        <link>https://shawpenn.qzz.io/tags/github/</link>
-        <pubDate>Mon, 30 Mar 2026 11:40:02 +0800</pubDate>
-        
-        <guid>https://shawpenn.qzz.io/tags/github/</guid>
         <description></description>
         </item>
         <item>
