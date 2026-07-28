@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Tue, 28 Jul 2026 06:30:59 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/categories/%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 Jul 2026 06:47:47 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/categories/%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理</title>
         <link>https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/</link>
         <pubDate>Tue, 28 Jul 2026 14:24:59 +0800</pubDate>
@@ -54,8 +54,8 @@
 &lt;p&gt;注意：该仓库不是 Anthropic 官方开发仓库，而是从公开 npm 包和 source map 中还原的代码快照。它非常适合研究程序结构，但不能保证目录名、变量名和内部开发仓库完全一致。部分功能还受实验开关、账户类型、运行模式和平台影响。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;1-先建立一个更完整的架构图&#34;&gt;1. 先建立一个更完整的架构图
-&lt;/h1&gt;&lt;p&gt;Claude Code 不是一个单独的“聊天程序”，而是由多层系统共同组成。&lt;/p&gt;
+&lt;h2 id=&#34;先建立一个更完整的架构图&#34;&gt;先建立一个更完整的架构图
+&lt;/h2&gt;&lt;p&gt;Claude Code 不是一个单独的“聊天程序”，而是由多层系统共同组成。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -129,8 +129,8 @@
 &lt;/table&gt;
 &lt;p&gt;上一篇主要讲了决策层和执行层之间的循环；本文重点补全控制层和状态层。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;2-系统提示词不是一段固定文字&#34;&gt;2. 系统提示词不是一段固定文字
-&lt;/h1&gt;&lt;p&gt;很多人会把“系统提示词”理解成一段写死在程序里的长文本。实际运行时，它更像是由多个来源拼接而成的工作包。&lt;/p&gt;
+&lt;h2 id=&#34;系统提示词不是一段固定文字&#34;&gt;系统提示词不是一段固定文字
+&lt;/h2&gt;&lt;p&gt;很多人会把“系统提示词”理解成一段写死在程序里的长文本。实际运行时，它更像是由多个来源拼接而成的工作包。&lt;/p&gt;
 &lt;p&gt;Claude Code 启动和执行任务时，可能需要组织以下内容：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -159,8 +159,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这些内容并不一定全部放在同一个 API 字段里，但最终都会影响模型这一轮能够看到的信息。&lt;/p&gt;
-&lt;h2 id=&#34;21-claudemd-的角色&#34;&gt;2.1 &lt;code&gt;CLAUDE.md&lt;/code&gt; 的角色
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;CLAUDE.md&lt;/code&gt; 可以理解为提供给 Claude 的项目说明书。&lt;/p&gt;
+&lt;h3 id=&#34;claudemd-的角色&#34;&gt;&lt;code&gt;CLAUDE.md&lt;/code&gt; 的角色
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;CLAUDE.md&lt;/code&gt; 可以理解为提供给 Claude 的项目说明书。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -184,8 +184,8 @@
 &lt;p&gt;需要注意两点：&lt;/p&gt;
 &lt;p&gt;第一，&lt;code&gt;CLAUDE.md&lt;/code&gt; 只是上下文，不是强制执行代码。模型通常会遵守，但真正可靠的限制仍应由权限规则、Hooks、测试或 CI 实现。&lt;/p&gt;
 &lt;p&gt;第二，子代理不一定获得与主代理完全相同的 &lt;code&gt;CLAUDE.md&lt;/code&gt;。在还原源码中，某些只读的 Explore 或 Plan 代理可以省略部分项目说明，以节省上下文 token；这属于具体版本中的优化策略。&lt;/p&gt;
-&lt;h2 id=&#34;22-git-信息为什么要等信任项目后再读取&#34;&gt;2.2 Git 信息为什么要等“信任项目”后再读取？
-&lt;/h2&gt;&lt;p&gt;系统上下文可能包含：&lt;/p&gt;
+&lt;h3 id=&#34;git-信息为什么要等信任项目后再读取&#34;&gt;Git 信息为什么要等“信任项目”后再读取？
+&lt;/h3&gt;&lt;p&gt;系统上下文可能包含：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;当前分支；&lt;/li&gt;
 &lt;li&gt;主分支；&lt;/li&gt;
@@ -195,8 +195,8 @@
 &lt;/ul&gt;
 &lt;p&gt;但源码中专门提醒：运行某些 Git 命令可能触发 Git 配置、过滤器或 Hook，因此在交互模式下，程序会考虑项目是否已经被用户信任，再执行相关的上下文收集。&lt;/p&gt;
 &lt;p&gt;这说明即使看起来只是“读取仓库状态”，Claude Code 也把它视为可能接触本地执行环境的行为，而不是纯文本操作。&lt;/p&gt;
-&lt;h2 id=&#34;23-为什么不把整个项目都塞进提示词&#34;&gt;2.3 为什么不把整个项目都塞进提示词？
-&lt;/h2&gt;&lt;p&gt;因为上下文窗口有限，而且大型项目可能包含数万个文件。&lt;/p&gt;
+&lt;h3 id=&#34;为什么不把整个项目都塞进提示词&#34;&gt;为什么不把整个项目都塞进提示词？
+&lt;/h3&gt;&lt;p&gt;因为上下文窗口有限，而且大型项目可能包含数万个文件。&lt;/p&gt;
 &lt;p&gt;Claude Code 更常采用“先给地图，再按需读取”的方式：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -216,11 +216,11 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;所以 Claude Code 对项目的认识是逐步建立的。没有读取过的文件，模型并不会自动知道其中的精确内容。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;3-api-消息不是只有提问和回答&#34;&gt;3. API 消息不是只有“提问”和“回答”
-&lt;/h1&gt;&lt;p&gt;普通聊天看起来只有两种消息：用户消息和助手消息。&lt;/p&gt;
+&lt;h2 id=&#34;api-消息不是只有提问和回答&#34;&gt;API 消息不是只有“提问”和“回答”
+&lt;/h2&gt;&lt;p&gt;普通聊天看起来只有两种消息：用户消息和助手消息。&lt;/p&gt;
 &lt;p&gt;Claude Code 的对话中还包含结构化内容块。下面使用简化格式说明。&lt;/p&gt;
-&lt;h2 id=&#34;31-普通文字块&#34;&gt;3.1 普通文字块
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;普通文字块&#34;&gt;普通文字块
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -235,8 +235,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这部分会显示给用户。&lt;/p&gt;
-&lt;h2 id=&#34;32-思考块&#34;&gt;3.2 思考块
-&lt;/h2&gt;&lt;p&gt;某些模型和配置可能返回 &lt;code&gt;thinking&lt;/code&gt; 或经过处理的思考内容块。Claude Code 需要正确接收、保存或转换这些块，但它们不等同于工具执行结果。&lt;/p&gt;
+&lt;h3 id=&#34;思考块&#34;&gt;思考块
+&lt;/h3&gt;&lt;p&gt;某些模型和配置可能返回 &lt;code&gt;thinking&lt;/code&gt; 或经过处理的思考内容块。Claude Code 需要正确接收、保存或转换这些块，但它们不等同于工具执行结果。&lt;/p&gt;
 &lt;p&gt;从程序角度看，最重要的是区分：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -250,8 +250,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;模型在请求工具
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;33-工具请求-tool_use&#34;&gt;3.3 工具请求 &lt;code&gt;tool_use&lt;/code&gt;
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;工具请求-tool_use&#34;&gt;工具请求 &lt;code&gt;tool_use&lt;/code&gt;
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -275,8 +275,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里的 &lt;code&gt;id&lt;/code&gt; 非常重要。&lt;/p&gt;
 &lt;p&gt;它表示：这是一次特定的工具调用。即使同一轮中连续调用三个 Read，每一个调用也有自己的 ID。&lt;/p&gt;
-&lt;h2 id=&#34;34-工具结果-tool_result&#34;&gt;3.4 工具结果 &lt;code&gt;tool_result&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;Claude Code 执行后，会构造类似下面的结果：&lt;/p&gt;
+&lt;h3 id=&#34;工具结果-tool_result&#34;&gt;工具结果 &lt;code&gt;tool_result&lt;/code&gt;
+&lt;/h3&gt;&lt;p&gt;Claude Code 执行后，会构造类似下面的结果：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -306,8 +306,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果配错，模型就无法判断某个输出究竟属于哪个工具调用。&lt;/p&gt;
-&lt;h2 id=&#34;35-为什么-tool_use-比-stop_reason-更适合判断是否继续&#34;&gt;3.5 为什么 &lt;code&gt;tool_use&lt;/code&gt; 比 &lt;code&gt;stop_reason&lt;/code&gt; 更适合判断是否继续？
-&lt;/h2&gt;&lt;p&gt;在还原源码的查询循环中，程序会直接检查助手消息里是否存在 &lt;code&gt;tool_use&lt;/code&gt; 内容块，并把它作为是否继续工具循环的重要信号。&lt;/p&gt;
+&lt;h3 id=&#34;为什么-tool_use-比-stop_reason-更适合判断是否继续&#34;&gt;为什么 &lt;code&gt;tool_use&lt;/code&gt; 比 &lt;code&gt;stop_reason&lt;/code&gt; 更适合判断是否继续？
+&lt;/h3&gt;&lt;p&gt;在还原源码的查询循环中，程序会直接检查助手消息里是否存在 &lt;code&gt;tool_use&lt;/code&gt; 内容块，并把它作为是否继续工具循环的重要信号。&lt;/p&gt;
 &lt;p&gt;原因很简单：流式接口、网关兼容和不同结束状态可能让 &lt;code&gt;stop_reason&lt;/code&gt; 的表现不够统一，但消息中存在明确的工具请求，就意味着客户端必须先处理它。&lt;/p&gt;
 &lt;p&gt;因此，可靠的判断逻辑更接近：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -331,8 +331,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;4-工具不是一个函数而是一套统一接口&#34;&gt;4. 工具不是一个函数，而是一套统一接口
-&lt;/h1&gt;&lt;p&gt;Claude Code 中的工具需要遵循统一抽象。不同工具的内部实现不同，但对调度器而言，它们拥有相似的外形。&lt;/p&gt;
+&lt;h2 id=&#34;工具不是一个函数而是一套统一接口&#34;&gt;工具不是一个函数，而是一套统一接口
+&lt;/h2&gt;&lt;p&gt;Claude Code 中的工具需要遵循统一抽象。不同工具的内部实现不同，但对调度器而言，它们拥有相似的外形。&lt;/p&gt;
 &lt;p&gt;下面是高度简化后的概念接口：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -370,8 +370,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;41-每个字段解决什么问题&#34;&gt;4.1 每个字段解决什么问题？
-&lt;/h2&gt;&lt;table&gt;
+&lt;/div&gt;&lt;h3 id=&#34;每个字段解决什么问题&#34;&gt;每个字段解决什么问题？
+&lt;/h3&gt;&lt;table&gt;
 	&lt;thead&gt;
 			&lt;tr&gt;
 					&lt;th&gt;成员&lt;/th&gt;
@@ -413,8 +413,8 @@
 			&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;42-为什么需要两层验证&#34;&gt;4.2 为什么需要两层验证？
-&lt;/h2&gt;&lt;p&gt;Schema 可以判断：&lt;/p&gt;
+&lt;h3 id=&#34;为什么需要两层验证&#34;&gt;为什么需要两层验证？
+&lt;/h3&gt;&lt;p&gt;Schema 可以判断：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -459,8 +459,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;→ call() 执行
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;43-为什么工具结果还要限制大小&#34;&gt;4.3 为什么工具结果还要限制大小？
-&lt;/h2&gt;&lt;p&gt;命令可能输出几百 MB 日志，读取文件也可能得到超长内容。如果原样全部返回模型，会迅速占满上下文窗口。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;为什么工具结果还要限制大小&#34;&gt;为什么工具结果还要限制大小？
+&lt;/h3&gt;&lt;p&gt;命令可能输出几百 MB 日志，读取文件也可能得到超长内容。如果原样全部返回模型，会迅速占满上下文窗口。&lt;/p&gt;
 &lt;p&gt;工具系统可以：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;截断过长结果；&lt;/li&gt;
@@ -469,8 +469,8 @@
 &lt;li&gt;对特定工具使用不同上限。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这样既保留完整数据，又避免一次工具调用占满整个会话。&lt;/p&gt;
-&lt;h2 id=&#34;44-延迟工具和-tool-search&#34;&gt;4.4 延迟工具和 Tool Search
-&lt;/h2&gt;&lt;p&gt;当内置工具、插件和 MCP 工具很多时，把全部 schema 每轮都发送给模型也会浪费大量 token。&lt;/p&gt;
+&lt;h3 id=&#34;延迟工具和-tool-search&#34;&gt;延迟工具和 Tool Search
+&lt;/h3&gt;&lt;p&gt;当内置工具、插件和 MCP 工具很多时，把全部 schema 每轮都发送给模型也会浪费大量 token。&lt;/p&gt;
 &lt;p&gt;因此，某些工具可以采用延迟加载：先只暴露工具搜索能力，模型确认需要某类能力后，再把匹配的工具加入可用集合。&lt;/p&gt;
 &lt;p&gt;这类似于：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -484,8 +484,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;5-一次工具调用实际经历了什么&#34;&gt;5. 一次工具调用实际经历了什么？
-&lt;/h1&gt;&lt;p&gt;工具执行并不是直接调用 &lt;code&gt;tool.call()&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;一次工具调用实际经历了什么&#34;&gt;一次工具调用实际经历了什么？
+&lt;/h2&gt;&lt;p&gt;工具执行并不是直接调用 &lt;code&gt;tool.call()&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;更完整的执行链大致如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -536,8 +536,8 @@
 &lt;p&gt;Claude 只能提出请求；本地客户端保留验证、修改、拒绝和中止请求的权力。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;6-权限系统怎样决定-allowask-和-deny&#34;&gt;6. 权限系统怎样决定 Allow、Ask 和 Deny？
-&lt;/h1&gt;&lt;p&gt;Claude Code 的权限并不只是一个“是否自动允许”的开关，而是多种模式和多来源规则共同作用的结果。&lt;/p&gt;
+&lt;h2 id=&#34;权限系统怎样决定-allowask-和-deny&#34;&gt;权限系统怎样决定 Allow、Ask 和 Deny？
+&lt;/h2&gt;&lt;p&gt;Claude Code 的权限并不只是一个“是否自动允许”的开关，而是多种模式和多来源规则共同作用的结果。&lt;/p&gt;
 &lt;p&gt;在该源码快照中可以看到的主要权限模式包括：&lt;/p&gt;
 &lt;table&gt;
 	&lt;thead&gt;
@@ -574,8 +574,8 @@
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;具体版本和账户环境可能对模式有所限制。&lt;/p&gt;
-&lt;h2 id=&#34;61-权限规则来自哪里&#34;&gt;6.1 权限规则来自哪里？
-&lt;/h2&gt;&lt;p&gt;规则可能来自多个层次：&lt;/p&gt;
+&lt;h3 id=&#34;权限规则来自哪里&#34;&gt;权限规则来自哪里？
+&lt;/h3&gt;&lt;p&gt;规则可能来自多个层次：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -625,8 +625,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Read(/outside/secret.txt)      询问或拒绝
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;62-mcp-工具怎样写权限规则&#34;&gt;6.2 MCP 工具怎样写权限规则？
-&lt;/h2&gt;&lt;p&gt;MCP 工具通常使用带服务器名的完整名称，例如：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;mcp-工具怎样写权限规则&#34;&gt;MCP 工具怎样写权限规则？
+&lt;/h3&gt;&lt;p&gt;MCP 工具通常使用带服务器名的完整名称，例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -638,14 +638,14 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这样权限系统可以只允许某个服务器的特定工具，也可以按服务器范围设置规则，避免不同 MCP 服务器出现同名工具时混淆。&lt;/p&gt;
-&lt;h2 id=&#34;63-dontask-为什么不等于全部自动允许&#34;&gt;6.3 &lt;code&gt;dontAsk&lt;/code&gt; 为什么不等于“全部自动允许”？
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;dontAsk&lt;/code&gt; 的意思更接近：&lt;/p&gt;
+&lt;h3 id=&#34;dontask-为什么不等于全部自动允许&#34;&gt;&lt;code&gt;dontAsk&lt;/code&gt; 为什么不等于“全部自动允许”？
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;dontAsk&lt;/code&gt; 的意思更接近：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;不要中断当前流程向用户弹窗。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;当操作无法自动判定为允许时，安全做法通常是拒绝，而不是擅自放行。这对于后台子代理尤其重要，因为后台任务未必能够显示交互确认界面。&lt;/p&gt;
-&lt;h2 id=&#34;64-bypasspermissions-仍不应该被理解成绝对沙箱逃逸&#34;&gt;6.4 &lt;code&gt;bypassPermissions&lt;/code&gt; 仍不应该被理解成绝对沙箱逃逸
-&lt;/h2&gt;&lt;p&gt;该模式会显著减少权限阻挡，但实际操作仍受以下因素约束：&lt;/p&gt;
+&lt;h3 id=&#34;bypasspermissions-仍不应该被理解成绝对沙箱逃逸&#34;&gt;&lt;code&gt;bypassPermissions&lt;/code&gt; 仍不应该被理解成绝对沙箱逃逸
+&lt;/h3&gt;&lt;p&gt;该模式会显著减少权限阻挡，但实际操作仍受以下因素约束：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;操作系统账户权限；&lt;/li&gt;
 &lt;li&gt;文件系统权限；&lt;/li&gt;
@@ -658,14 +658,14 @@
 &lt;/ul&gt;
 &lt;p&gt;因此它不是“获得管理员权限”，但会移除 Claude Code 自身的一大层保护，使用时风险很高。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;7-bash-工具并不是一个永远不关闭的终端&#34;&gt;7. Bash 工具并不是一个永远不关闭的终端
-&lt;/h1&gt;&lt;p&gt;很多用户认为 Claude Code 启动后，会一直控制同一个 Shell 进程。&lt;/p&gt;
+&lt;h2 id=&#34;bash-工具并不是一个永远不关闭的终端&#34;&gt;Bash 工具并不是一个永远不关闭的终端
+&lt;/h2&gt;&lt;p&gt;很多用户认为 Claude Code 启动后，会一直控制同一个 Shell 进程。&lt;/p&gt;
 &lt;p&gt;从还原源码看，更准确的理解是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;每次命令调用通常会启动新的 Shell 子进程，但 Claude Code 会保存并传递必要的工作目录和环境状态，让多次调用表现得像在连续使用同一个终端。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;71-shell-怎样选择&#34;&gt;7.1 Shell 怎样选择？
-&lt;/h2&gt;&lt;p&gt;程序会考虑：&lt;/p&gt;
+&lt;h3 id=&#34;shell-怎样选择&#34;&gt;Shell 怎样选择？
+&lt;/h3&gt;&lt;p&gt;程序会考虑：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;CLAUDE_CODE_SHELL&lt;/code&gt; 等覆盖变量；&lt;/li&gt;
 &lt;li&gt;当前环境的 &lt;code&gt;SHELL&lt;/code&gt;；&lt;/li&gt;
@@ -674,8 +674,8 @@
 &lt;li&gt;必要的命令包装器。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因此，Claude Code 中 Bash 工具的名称不代表所有平台都直接调用同一个 &lt;code&gt;/bin/bash&lt;/code&gt; 路径。&lt;/p&gt;
-&lt;h2 id=&#34;72-工作目录怎样保持&#34;&gt;7.2 工作目录怎样保持？
-&lt;/h2&gt;&lt;p&gt;假设第一条命令是：&lt;/p&gt;
+&lt;h3 id=&#34;工作目录怎样保持&#34;&gt;工作目录怎样保持？
+&lt;/h3&gt;&lt;p&gt;假设第一条命令是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -695,8 +695,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;即使两个命令位于不同的 Shell 进程，Claude Code 也可以通过包装脚本或临时状态文件获得前一条命令结束时的目录，并更新会话中的当前工作目录。&lt;/p&gt;
 &lt;p&gt;因此用户看到的是连续终端体验，但底层不一定是同一个长期存活的 Shell。&lt;/p&gt;
-&lt;h2 id=&#34;73-输出怎样返回&#34;&gt;7.3 输出怎样返回？
-&lt;/h2&gt;&lt;p&gt;Bash 工具需要同时处理：&lt;/p&gt;
+&lt;h3 id=&#34;输出怎样返回&#34;&gt;输出怎样返回？
+&lt;/h3&gt;&lt;p&gt;Bash 工具需要同时处理：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -718,8 +718,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;前台命令可以边运行边产生进度消息。最终结果再被整理成模型能够阅读的文本。&lt;/p&gt;
-&lt;h2 id=&#34;74-长命令和后台任务&#34;&gt;7.4 长命令和后台任务
-&lt;/h2&gt;&lt;p&gt;Bash 输入中可以带有超时或后台执行意图。对于长时间任务，程序可能：&lt;/p&gt;
+&lt;h3 id=&#34;长命令和后台任务&#34;&gt;长命令和后台任务
+&lt;/h3&gt;&lt;p&gt;Bash 输入中可以带有超时或后台执行意图。对于长时间任务，程序可能：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;继续以前台方式等待；&lt;/li&gt;
 &lt;li&gt;超时后报告；&lt;/li&gt;
@@ -728,8 +728,8 @@
 &lt;li&gt;让后续工具查询任务状态。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这也是为什么某些服务器、构建或测试命令不会永远卡住整个对话。&lt;/p&gt;
-&lt;h2 id=&#34;75-ctrlc-做了什么&#34;&gt;7.5 &lt;code&gt;Ctrl+C&lt;/code&gt; 做了什么？
-&lt;/h2&gt;&lt;p&gt;当用户中断时，Claude Code 不仅要停止界面显示，还要把取消信号传递给：&lt;/p&gt;
+&lt;h3 id=&#34;ctrlc-做了什么&#34;&gt;&lt;code&gt;Ctrl+C&lt;/code&gt; 做了什么？
+&lt;/h3&gt;&lt;p&gt;当用户中断时，Claude Code 不仅要停止界面显示，还要把取消信号传递给：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;当前 API 流；&lt;/li&gt;
 &lt;li&gt;工具调用；&lt;/li&gt;
@@ -739,8 +739,8 @@
 &lt;/ul&gt;
 &lt;p&gt;源码中大量使用 &lt;code&gt;AbortController&lt;/code&gt; 和 signal，就是为了让不同模块能够响应同一次取消操作。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;8-edit-工具为什么经常要求先读取文件&#34;&gt;8. Edit 工具为什么经常要求“先读取文件”？
-&lt;/h1&gt;&lt;p&gt;这是 Claude Code 防止误修改的重要机制。&lt;/p&gt;
+&lt;h2 id=&#34;edit-工具为什么经常要求先读取文件&#34;&gt;Edit 工具为什么经常要求“先读取文件”？
+&lt;/h2&gt;&lt;p&gt;这是 Claude Code 防止误修改的重要机制。&lt;/p&gt;
 &lt;p&gt;假设 Claude 之前读取到：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -773,8 +773,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果文件已经变化，工具会拒绝直接编辑，并提示模型重新读取。&lt;/p&gt;
 &lt;p&gt;这可以称为一种简单的“乐观并发控制”。&lt;/p&gt;
-&lt;h2 id=&#34;81-old_string-为什么必须唯一&#34;&gt;8.1 &lt;code&gt;old_string&lt;/code&gt; 为什么必须唯一？
-&lt;/h2&gt;&lt;p&gt;典型编辑请求包含：&lt;/p&gt;
+&lt;h3 id=&#34;old_string-为什么必须唯一&#34;&gt;&lt;code&gt;old_string&lt;/code&gt; 为什么必须唯一？
+&lt;/h3&gt;&lt;p&gt;典型编辑请求包含：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -806,8 +806,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这样匹配范围更具体。&lt;/p&gt;
-&lt;h2 id=&#34;82-edit-和-write-的区别&#34;&gt;8.2 Edit 和 Write 的区别
-&lt;/h2&gt;&lt;p&gt;可以简单理解为：&lt;/p&gt;
+&lt;h3 id=&#34;edit-和-write-的区别&#34;&gt;Edit 和 Write 的区别
+&lt;/h3&gt;&lt;p&gt;可以简单理解为：&lt;/p&gt;
 &lt;table&gt;
 	&lt;thead&gt;
 			&lt;tr&gt;
@@ -827,8 +827,8 @@
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;Edit 对旧内容有明确匹配要求，通常更容易审查和防止意外覆盖；Write 的影响范围更大，权限系统也可能更加谨慎。&lt;/p&gt;
-&lt;h2 id=&#34;83-修改后还有哪些后续动作&#34;&gt;8.3 修改后还有哪些后续动作？
-&lt;/h2&gt;&lt;p&gt;编辑完成后，程序还可能：&lt;/p&gt;
+&lt;h3 id=&#34;修改后还有哪些后续动作&#34;&gt;修改后还有哪些后续动作？
+&lt;/h3&gt;&lt;p&gt;编辑完成后，程序还可能：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;更新文件历史记录；&lt;/li&gt;
 &lt;li&gt;通知语言服务器文件已经变化；&lt;/li&gt;
@@ -839,8 +839,8 @@
 &lt;/ul&gt;
 &lt;p&gt;所以一次 Edit 不只是调用 &lt;code&gt;writeFile()&lt;/code&gt;。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;9-上下文管理不是只有一次-compact&#34;&gt;9. 上下文管理不是只有一次 &lt;code&gt;/compact&lt;/code&gt;
-&lt;/h1&gt;&lt;p&gt;长会话中，Claude Code 面临两个不同问题：&lt;/p&gt;
+&lt;h2 id=&#34;上下文管理不是只有一次-compact&#34;&gt;上下文管理不是只有一次 &lt;code&gt;/compact&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;长会话中，Claude Code 面临两个不同问题：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;历史消息太长，模型请求即将超出上下文窗口；&lt;/li&gt;
 &lt;li&gt;单个工具结果太大，占用了大量 token。&lt;/li&gt;
@@ -864,8 +864,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;不同功能可能受模型、功能开关和运行环境影响。&lt;/p&gt;
-&lt;h2 id=&#34;91-工具结果裁剪&#34;&gt;9.1 工具结果裁剪
-&lt;/h2&gt;&lt;p&gt;最先处理的通常是容易膨胀的内容，例如：&lt;/p&gt;
+&lt;h3 id=&#34;工具结果裁剪&#34;&gt;工具结果裁剪
+&lt;/h3&gt;&lt;p&gt;最先处理的通常是容易膨胀的内容，例如：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;超长 Bash 日志；&lt;/li&gt;
 &lt;li&gt;大文件读取结果；&lt;/li&gt;
@@ -874,15 +874,15 @@
 &lt;li&gt;图片和文档结果。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;完整内容可以保存到磁盘，只在上下文里保留摘要或预览。&lt;/p&gt;
-&lt;h2 id=&#34;92-microcompact-是什么&#34;&gt;9.2 Microcompact 是什么？
-&lt;/h2&gt;&lt;p&gt;Microcompact 可以理解为“小手术”。&lt;/p&gt;
+&lt;h3 id=&#34;microcompact-是什么&#34;&gt;Microcompact 是什么？
+&lt;/h3&gt;&lt;p&gt;Microcompact 可以理解为“小手术”。&lt;/p&gt;
 &lt;p&gt;它不会立刻重写整段对话，而是优先缩减旧的、体积很大的工具结果，例如早期的 Read、Grep、Glob、Shell、Edit 或 Write 输出。&lt;/p&gt;
 &lt;p&gt;目标是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;尽量保留对话结构，只删除继续工作已经不再需要的细节。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;93-auto-compact-什么时候触发&#34;&gt;9.3 Auto compact 什么时候触发？
-&lt;/h2&gt;&lt;p&gt;源码会根据模型上下文窗口、需要为压缩摘要保留的输出空间，以及安全缓冲区估算阈值。&lt;/p&gt;
+&lt;h3 id=&#34;auto-compact-什么时候触发&#34;&gt;Auto compact 什么时候触发？
+&lt;/h3&gt;&lt;p&gt;源码会根据模型上下文窗口、需要为压缩摘要保留的输出空间，以及安全缓冲区估算阈值。&lt;/p&gt;
 &lt;p&gt;该版本中的计算思路大致是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -898,8 +898,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;当估算 token 接近自动压缩阈值时，Claude Code 会生成压缩摘要，并用压缩后的消息继续查询。&lt;/p&gt;
 &lt;p&gt;具体 token 数值属于版本实现细节，不应当视为所有模型和未来版本的固定规则。&lt;/p&gt;
-&lt;h2 id=&#34;94-压缩后为什么会忘记&#34;&gt;9.4 压缩后为什么会“忘记”？
-&lt;/h2&gt;&lt;p&gt;压缩不是无损压缩。&lt;/p&gt;
+&lt;h3 id=&#34;压缩后为什么会忘记&#34;&gt;压缩后为什么会“忘记”？
+&lt;/h3&gt;&lt;p&gt;压缩不是无损压缩。&lt;/p&gt;
 &lt;p&gt;原始历史可能包含：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -927,8 +927,8 @@
 &lt;li&gt;待办列表或计划文件。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;不要只依赖几十轮以前的一句聊天内容。&lt;/p&gt;
-&lt;h2 id=&#34;95-为什么要设置压缩失败熔断&#34;&gt;9.5 为什么要设置压缩失败熔断？
-&lt;/h2&gt;&lt;p&gt;如果自动压缩连续失败，程序不能无限重复同一过程，否则可能陷入：&lt;/p&gt;
+&lt;h3 id=&#34;为什么要设置压缩失败熔断&#34;&gt;为什么要设置压缩失败熔断？
+&lt;/h3&gt;&lt;p&gt;如果自动压缩连续失败，程序不能无限重复同一过程，否则可能陷入：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -949,14 +949,14 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;还原源码中存在连续失败后的保护机制，用于停止反复尝试并转向错误处理。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;10-子代理到底是什么&#34;&gt;10. 子代理到底是什么？
-&lt;/h1&gt;&lt;p&gt;子代理不是主 Claude 的“另一个人格”，也不是一个长期独立存在的程序员。&lt;/p&gt;
+&lt;h2 id=&#34;子代理到底是什么&#34;&gt;子代理到底是什么？
+&lt;/h2&gt;&lt;p&gt;子代理不是主 Claude 的“另一个人格”，也不是一个长期独立存在的程序员。&lt;/p&gt;
 &lt;p&gt;它更接近：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Claude Code 为一个子任务创建的独立查询循环，拥有自己的 Agent ID、消息、工具集合、权限上下文、模型选择和会话记录。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;101-子代理可以拥有不同配置&#34;&gt;10.1 子代理可以拥有不同配置
-&lt;/h2&gt;&lt;p&gt;Agent 定义可以影响：&lt;/p&gt;
+&lt;h3 id=&#34;子代理可以拥有不同配置&#34;&gt;子代理可以拥有不同配置
+&lt;/h3&gt;&lt;p&gt;Agent 定义可以影响：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;使用哪个模型；&lt;/li&gt;
 &lt;li&gt;能使用哪些工具；&lt;/li&gt;
@@ -969,8 +969,8 @@
 &lt;li&gt;是否使用独立工作树。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;例如 Explore 代理适合搜索和阅读，而不是直接修改项目。&lt;/p&gt;
-&lt;h2 id=&#34;102-子代理获得多少主会话上下文&#34;&gt;10.2 子代理获得多少主会话上下文？
-&lt;/h2&gt;&lt;p&gt;这取决于创建方式。&lt;/p&gt;
+&lt;h3 id=&#34;子代理获得多少主会话上下文&#34;&gt;子代理获得多少主会话上下文？
+&lt;/h3&gt;&lt;p&gt;这取决于创建方式。&lt;/p&gt;
 &lt;p&gt;普通子代理往往只得到：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -988,8 +988,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;某些实验性的 fork 路径则可以继承主代理更完整的消息前缀，并复制文件读取状态，从而减少重复搜索并提高提示词缓存命中率。&lt;/p&gt;
 &lt;p&gt;因此，不能笼统地说“每个子代理都完整复制主会话”。源码中存在多种路径和功能开关。&lt;/p&gt;
-&lt;h2 id=&#34;103-前台代理与后台代理的权限差异&#34;&gt;10.3 前台代理与后台代理的权限差异
-&lt;/h2&gt;&lt;p&gt;前台代理可以在终端显示权限确认。&lt;/p&gt;
+&lt;h3 id=&#34;前台代理与后台代理的权限差异&#34;&gt;前台代理与后台代理的权限差异
+&lt;/h3&gt;&lt;p&gt;前台代理可以在终端显示权限确认。&lt;/p&gt;
 &lt;p&gt;后台代理如果没有可用的交互界面，遇到需要询问的操作就不能一直等待用户。因此它可能：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;自动拒绝需要弹窗的操作；&lt;/li&gt;
@@ -998,8 +998,8 @@
 &lt;li&gt;只使用预先允许的工具。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;源码中会设置类似“避免权限提示”的状态，以防后台代理卡死。&lt;/p&gt;
-&lt;h2 id=&#34;104-子代理的结果怎样回到主代理&#34;&gt;10.4 子代理的结果怎样回到主代理？
-&lt;/h2&gt;&lt;p&gt;子代理内部仍然运行同样的 &lt;code&gt;query()&lt;/code&gt; 循环。它完成后，会把结果整理成主代理能够读取的消息或工具结果。&lt;/p&gt;
+&lt;h3 id=&#34;子代理的结果怎样回到主代理&#34;&gt;子代理的结果怎样回到主代理？
+&lt;/h3&gt;&lt;p&gt;子代理内部仍然运行同样的 &lt;code&gt;query()&lt;/code&gt; 循环。它完成后，会把结果整理成主代理能够读取的消息或工具结果。&lt;/p&gt;
 &lt;p&gt;主代理看到的通常不是子代理的全部内部过程，而是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1017,8 +1017,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;子代理自己的详细记录可以单独保存在 &lt;code&gt;subagents&lt;/code&gt; 目录下。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;11-mcp-的完整生命周期&#34;&gt;11. MCP 的完整生命周期
-&lt;/h1&gt;&lt;p&gt;MCP，即 Model Context Protocol，可以让外部程序向 Claude Code 提供工具、资源或命令。&lt;/p&gt;
+&lt;h2 id=&#34;mcp-的完整生命周期&#34;&gt;MCP 的完整生命周期
+&lt;/h2&gt;&lt;p&gt;MCP，即 Model Context Protocol，可以让外部程序向 Claude Code 提供工具、资源或命令。&lt;/p&gt;
 &lt;p&gt;一次 MCP 连接大致经历：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1050,8 +1050,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;K&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;L&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;转换成&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tool_result&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;111-支持哪些连接方式&#34;&gt;11.1 支持哪些连接方式？
-&lt;/h2&gt;&lt;p&gt;该源码快照中可以看到多种传输实现，包括：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;支持哪些连接方式&#34;&gt;支持哪些连接方式？
+&lt;/h3&gt;&lt;p&gt;该源码快照中可以看到多种传输实现，包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;stdio&lt;/code&gt;：启动本地子进程，通过标准输入输出通信；&lt;/li&gt;
 &lt;li&gt;SSE：通过 Server-Sent Events 通信；&lt;/li&gt;
@@ -1059,8 +1059,8 @@
 &lt;li&gt;某些 IDE、WebSocket、代理或进程内传输路径。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;对普通用户而言，最常见的是 stdio 和 HTTP 类连接。&lt;/p&gt;
-&lt;h2 id=&#34;112-工具怎样被发现&#34;&gt;11.2 工具怎样被发现？
-&lt;/h2&gt;&lt;p&gt;连接成功后，客户端会先检查服务器声明的 capabilities。&lt;/p&gt;
+&lt;h3 id=&#34;工具怎样被发现&#34;&gt;工具怎样被发现？
+&lt;/h3&gt;&lt;p&gt;连接成功后，客户端会先检查服务器声明的 capabilities。&lt;/p&gt;
 &lt;p&gt;如果服务器支持 tools，Claude Code 会发出类似：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1078,8 +1078,8 @@
 &lt;li&gt;skills 类资源；&lt;/li&gt;
 &lt;li&gt;进度通知。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;113-mcp-工具怎样执行&#34;&gt;11.3 MCP 工具怎样执行？
-&lt;/h2&gt;&lt;p&gt;当模型调用：&lt;/p&gt;
+&lt;h3 id=&#34;mcp-工具怎样执行&#34;&gt;MCP 工具怎样执行？
+&lt;/h3&gt;&lt;p&gt;当模型调用：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1111,8 +1111,8 @@
 &lt;li&gt;元数据。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;服务器返回结果后，Claude Code 再把文本、图片或错误转换成 Anthropic API 能接受的内容块。&lt;/p&gt;
-&lt;h2 id=&#34;114-断线后怎么办&#34;&gt;11.4 断线后怎么办？
-&lt;/h2&gt;&lt;p&gt;MCP 客户端需要处理：&lt;/p&gt;
+&lt;h3 id=&#34;断线后怎么办&#34;&gt;断线后怎么办？
+&lt;/h3&gt;&lt;p&gt;MCP 客户端需要处理：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;子进程退出；&lt;/li&gt;
 &lt;li&gt;SSE 重连耗尽；&lt;/li&gt;
@@ -1124,8 +1124,8 @@
 &lt;p&gt;源码中会在连接失效时清理连接和工具缓存，使后续调用能够重新连接并重新获取工具，而不是永久使用旧列表。&lt;/p&gt;
 &lt;p&gt;对于 stdio 服务器，清理时还可能显式向子进程发送终止信号，以避免服务器进程残留。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;12-hooks-是-claude-code-的检查站&#34;&gt;12. Hooks 是 Claude Code 的“检查站”
-&lt;/h1&gt;&lt;p&gt;Hooks 允许用户、插件或组织策略在关键事件发生时执行额外逻辑。&lt;/p&gt;
+&lt;h2 id=&#34;hooks-是-claude-code-的检查站&#34;&gt;Hooks 是 Claude Code 的“检查站”
+&lt;/h2&gt;&lt;p&gt;Hooks 允许用户、插件或组织策略在关键事件发生时执行额外逻辑。&lt;/p&gt;
 &lt;p&gt;它们可以用来：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;记录日志；&lt;/li&gt;
@@ -1158,8 +1158,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;具体可用事件会随版本和运行模式变化。&lt;/p&gt;
-&lt;h2 id=&#34;121-pretooluse&#34;&gt;12.1 PreToolUse
-&lt;/h2&gt;&lt;p&gt;在工具真正执行前运行。&lt;/p&gt;
+&lt;h3 id=&#34;pretooluse&#34;&gt;PreToolUse
+&lt;/h3&gt;&lt;p&gt;在工具真正执行前运行。&lt;/p&gt;
 &lt;p&gt;它可以：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;查看工具名和输入；&lt;/li&gt;
@@ -1169,8 +1169,8 @@
 &lt;li&gt;输出附加信息。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;例如，一个 Hook 可以禁止任何删除数据库的命令。&lt;/p&gt;
-&lt;h2 id=&#34;122-permissionrequest&#34;&gt;12.2 PermissionRequest
-&lt;/h2&gt;&lt;p&gt;当普通规则无法自动判断、原本需要用户确认时，可以先交给权限 Hook。&lt;/p&gt;
+&lt;h3 id=&#34;permissionrequest&#34;&gt;PermissionRequest
+&lt;/h3&gt;&lt;p&gt;当普通规则无法自动判断、原本需要用户确认时，可以先交给权限 Hook。&lt;/p&gt;
 &lt;p&gt;例如企业环境可以规定：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1185,8 +1185,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;对于不能显示 UI 的后台 Agent，如果 Hook 也没有作出允许决定，客户端通常应采用拒绝策略，而不是无限等待。&lt;/p&gt;
-&lt;h2 id=&#34;123-posttooluse&#34;&gt;12.3 PostToolUse
-&lt;/h2&gt;&lt;p&gt;在工具完成后运行，可用于：&lt;/p&gt;
+&lt;h3 id=&#34;posttooluse&#34;&gt;PostToolUse
+&lt;/h3&gt;&lt;p&gt;在工具完成后运行，可用于：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;检查执行结果；&lt;/li&gt;
 &lt;li&gt;追加说明；&lt;/li&gt;
@@ -1194,8 +1194,8 @@
 &lt;li&gt;记录审计信息；&lt;/li&gt;
 &lt;li&gt;将错误升级为阻止性结果。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;124-hook-本身也有运行状态&#34;&gt;12.4 Hook 本身也有运行状态
-&lt;/h2&gt;&lt;p&gt;还原源码中为 Hook 定义了独立事件流，包括：&lt;/p&gt;
+&lt;h3 id=&#34;hook-本身也有运行状态&#34;&gt;Hook 本身也有运行状态
+&lt;/h3&gt;&lt;p&gt;还原源码中为 Hook 定义了独立事件流，包括：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1218,8 +1218,8 @@
 &lt;/ul&gt;
 &lt;p&gt;这使终端界面或 SDK 能够展示 Hook 的实时进度，而不必把所有 Hook 日志混入主模型消息流。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;13-会话保存不是简单的一条聊天数组&#34;&gt;13. 会话保存不是简单的一条聊天数组
-&lt;/h1&gt;&lt;p&gt;Claude Code 的主会话通常保存为项目目录下的 JSONL 文件，例如：&lt;/p&gt;
+&lt;h2 id=&#34;会话保存不是简单的一条聊天数组&#34;&gt;会话保存不是简单的一条聊天数组
+&lt;/h2&gt;&lt;p&gt;Claude Code 的主会话通常保存为项目目录下的 JSONL 文件，例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1238,8 +1238,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;每一行是一个独立 JSON 记录，适合不断追加，而不必每次重写整个会话文件。&lt;/p&gt;
-&lt;h2 id=&#34;131-为什么消息需要-uuid-和-parentuuid&#34;&gt;13.1 为什么消息需要 UUID 和 parentUuid？
-&lt;/h2&gt;&lt;p&gt;如果会话永远只有一条直线，数组就够了。&lt;/p&gt;
+&lt;h3 id=&#34;为什么消息需要-uuid-和-parentuuid&#34;&gt;为什么消息需要 UUID 和 parentUuid？
+&lt;/h3&gt;&lt;p&gt;如果会话永远只有一条直线，数组就够了。&lt;/p&gt;
 &lt;p&gt;但 Claude Code 可能出现：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;从某条历史消息继续；&lt;/li&gt;
@@ -1281,8 +1281,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;恢复某个分支时，程序从叶节点沿着 &lt;code&gt;parentUuid&lt;/code&gt; 向前追溯，再反转得到完整消息链。&lt;/p&gt;
-&lt;h2 id=&#34;132-compact-边界怎样记录&#34;&gt;13.2 Compact 边界怎样记录？
-&lt;/h2&gt;&lt;p&gt;压缩后，原始历史和摘要之间需要建立逻辑关系。&lt;/p&gt;
+&lt;h3 id=&#34;compact-边界怎样记录&#34;&gt;Compact 边界怎样记录？
+&lt;/h3&gt;&lt;p&gt;压缩后，原始历史和摘要之间需要建立逻辑关系。&lt;/p&gt;
 &lt;p&gt;源码中可以看到 compact boundary、logical parent 等概念，用于表示：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1295,8 +1295,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这比简单删除旧消息更容易支持恢复和审计。&lt;/p&gt;
-&lt;h2 id=&#34;133-resume-恢复的到底是什么&#34;&gt;13.3 &lt;code&gt;/resume&lt;/code&gt; 恢复的到底是什么？
-&lt;/h2&gt;&lt;p&gt;恢复过程大致是：&lt;/p&gt;
+&lt;h3 id=&#34;resume-恢复的到底是什么&#34;&gt;&lt;code&gt;/resume&lt;/code&gt; 恢复的到底是什么？
+&lt;/h3&gt;&lt;p&gt;恢复过程大致是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1317,8 +1317,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;它恢复的是本地记录和可重建状态，不是唤醒某个一直存在于服务器中的“原模型大脑”。&lt;/p&gt;
 &lt;p&gt;模型之所以表现得像记得以前，是因为客户端再次把相关历史或摘要发送给了它。&lt;/p&gt;
-&lt;h2 id=&#34;134-哪些状态不能百分之百恢复&#34;&gt;13.4 哪些状态不能百分之百恢复？
-&lt;/h2&gt;&lt;p&gt;以下运行时状态未必能够原样恢复：&lt;/p&gt;
+&lt;h3 id=&#34;哪些状态不能百分之百恢复&#34;&gt;哪些状态不能百分之百恢复？
+&lt;/h3&gt;&lt;p&gt;以下运行时状态未必能够原样恢复：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;已经结束的 Shell 进程；&lt;/li&gt;
 &lt;li&gt;丢失的临时文件；&lt;/li&gt;
@@ -1330,8 +1330,8 @@
 &lt;/ul&gt;
 &lt;p&gt;所以 &lt;code&gt;/resume&lt;/code&gt; 是“根据日志继续工作”，不是虚拟机快照恢复。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;14-错误发生时为什么还要补充-tool_result&#34;&gt;14. 错误发生时，为什么还要补充 tool_result？
-&lt;/h1&gt;&lt;p&gt;Anthropic 消息协议要求工具请求和工具结果保持合理配对。&lt;/p&gt;
+&lt;h2 id=&#34;错误发生时为什么还要补充-tool_result&#34;&gt;错误发生时，为什么还要补充 tool_result？
+&lt;/h2&gt;&lt;p&gt;Anthropic 消息协议要求工具请求和工具结果保持合理配对。&lt;/p&gt;
 &lt;p&gt;假设模型一轮请求了三个工具：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1369,8 +1369,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;这次工具调用没有成功，不要把它误认为仍在等待或已经完成。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;141-api-错误怎样处理&#34;&gt;14.1 API 错误怎样处理？
-&lt;/h2&gt;&lt;p&gt;API 层需要面对：&lt;/p&gt;
+&lt;h3 id=&#34;api-错误怎样处理&#34;&gt;API 错误怎样处理？
+&lt;/h3&gt;&lt;p&gt;API 层需要面对：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;连接失败；&lt;/li&gt;
 &lt;li&gt;流式响应中断；&lt;/li&gt;
@@ -1401,8 +1401,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;MCP 会话过期           清缓存后重新连接
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;142-为什么错误也必须返回给模型&#34;&gt;14.2 为什么错误也必须返回给模型？
-&lt;/h2&gt;&lt;p&gt;工具失败本身也是环境反馈。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;为什么错误也必须返回给模型&#34;&gt;为什么错误也必须返回给模型？
+&lt;/h3&gt;&lt;p&gt;工具失败本身也是环境反馈。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1426,8 +1426,8 @@
 &lt;p&gt;能观察失败，并在下一轮根据失败原因重新决策。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;15-把所有模块串成一次完整执行&#34;&gt;15. 把所有模块串成一次完整执行
-&lt;/h1&gt;&lt;p&gt;假设用户输入：&lt;/p&gt;
+&lt;h2 id=&#34;把所有模块串成一次完整执行&#34;&gt;把所有模块串成一次完整执行
+&lt;/h2&gt;&lt;p&gt;假设用户输入：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1437,8 +1437,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;更完整的执行过程如下。&lt;/p&gt;
-&lt;h2 id=&#34;阶段一准备上下文&#34;&gt;阶段一：准备上下文
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;阶段一准备上下文&#34;&gt;阶段一：准备上下文
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1456,8 +1456,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6. 检查是否需要先压缩上下文
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;阶段二第一次请求模型&#34;&gt;阶段二：第一次请求模型
-&lt;/h2&gt;&lt;p&gt;发送内容包含：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;阶段二第一次请求模型&#34;&gt;阶段二：第一次请求模型
+&lt;/h3&gt;&lt;p&gt;发送内容包含：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1485,8 +1485,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tool_use：Bash(&amp;#34;npm test -- login&amp;#34;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;阶段三执行-bash&#34;&gt;阶段三：执行 Bash
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;阶段三执行-bash&#34;&gt;阶段三：执行 Bash
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1511,8 +1511,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;测试结果指出 &lt;code&gt;src/auth/login.ts&lt;/code&gt; 某处失败。&lt;/p&gt;
-&lt;h2 id=&#34;阶段四读取与定位&#34;&gt;阶段四：读取与定位
-&lt;/h2&gt;&lt;p&gt;Claude 请求多个只读工具：&lt;/p&gt;
+&lt;h3 id=&#34;阶段四读取与定位&#34;&gt;阶段四：读取与定位
+&lt;/h3&gt;&lt;p&gt;Claude 请求多个只读工具：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1526,8 +1526,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;调度器判断这些工具可以并发执行，于是同时运行，再按工具调用 ID 返回结果。&lt;/p&gt;
-&lt;h2 id=&#34;阶段五编辑&#34;&gt;阶段五：编辑
-&lt;/h2&gt;&lt;p&gt;Claude 请求 Edit。&lt;/p&gt;
+&lt;h3 id=&#34;阶段五编辑&#34;&gt;阶段五：编辑
+&lt;/h3&gt;&lt;p&gt;Claude 请求 Edit。&lt;/p&gt;
 &lt;p&gt;Claude Code 会检查：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1546,11 +1546,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;检查通过后执行替换，并更新文件状态和语言服务器信息。&lt;/p&gt;
-&lt;h2 id=&#34;阶段六验证&#34;&gt;阶段六：验证
-&lt;/h2&gt;&lt;p&gt;Claude 再次运行测试。&lt;/p&gt;
+&lt;h3 id=&#34;阶段六验证&#34;&gt;阶段六：验证
+&lt;/h3&gt;&lt;p&gt;Claude 再次运行测试。&lt;/p&gt;
 &lt;p&gt;如果测试通过，模型输出最终说明；如果失败，则进入下一轮分析。&lt;/p&gt;
-&lt;h2 id=&#34;阶段七保存&#34;&gt;阶段七：保存
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;阶段七保存&#34;&gt;阶段七：保存
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1662,8 +1662,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这段代码不是仓库原文，而是对多个源码模块关系的教学化概括。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;16-到这里claude-code-的工作原理讲完整了吗&#34;&gt;16. 到这里，Claude Code 的工作原理讲完整了吗？
-&lt;/h1&gt;&lt;p&gt;经过上一篇和本文，已经覆盖了 Claude Code 的核心实现链路：&lt;/p&gt;
+&lt;h2 id=&#34;到这里claude-code-的工作原理讲完整了吗&#34;&gt;到这里，Claude Code 的工作原理讲完整了吗？
+&lt;/h2&gt;&lt;p&gt;经过上一篇和本文，已经覆盖了 Claude Code 的核心实现链路：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1739,8 +1739,8 @@
 &lt;p&gt;Claude 负责根据当前信息选择下一步；Claude Code 负责组织信息、验证请求、执行工具、保护本地环境、保存状态并把现实结果反馈给 Claude。所谓“自主编程”，正是这个闭环连续运行后产生的效果。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;17-建议的源码阅读路线&#34;&gt;17. 建议的源码阅读路线
-&lt;/h1&gt;&lt;p&gt;阅读还原源码时，可以按照任务链路，而不是目录顺序阅读：&lt;/p&gt;
+&lt;h2 id=&#34;建议的源码阅读路线&#34;&gt;建议的源码阅读路线
+&lt;/h2&gt;&lt;p&gt;阅读还原源码时，可以按照任务链路，而不是目录顺序阅读：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1809,8 +1809,8 @@
 &lt;/ol&gt;
 &lt;p&gt;用这种方式，比试图一次理解数千个文件更有效。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;参考源码&#34;&gt;参考源码
-&lt;/h1&gt;&lt;p&gt;以下链接均指向 &lt;code&gt;evzz74/claude-code-sourcemap&lt;/code&gt; 仓库的还原源码快照：&lt;/p&gt;
+&lt;h2 id=&#34;参考源码&#34;&gt;参考源码
+&lt;/h2&gt;&lt;p&gt;以下链接均指向 &lt;code&gt;evzz74/claude-code-sourcemap&lt;/code&gt; 仓库的还原源码快照：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/evzz74/claude-code-sourcemap&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;仓库主页&lt;/a&gt;&lt;/li&gt;
@@ -1867,7 +1867,7 @@
 &lt;/blockquote&gt;
 &lt;p&gt;本文基于 &lt;code&gt;evzz74/claude-code-sourcemap&lt;/code&gt; 仓库中还原的 Claude Code 源码进行说明，重点解释 Claude Code 从接收命令到执行工具的完整过程。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;1-阅读源码前必须知道的事情&#34;&gt;1. 阅读源码前必须知道的事情
+&lt;h2 id=&#34;阅读源码前必须知道的事情&#34;&gt;阅读源码前必须知道的事情
 &lt;/h2&gt;&lt;p&gt;这个仓库并不是 Anthropic 官方公开的 Claude Code 开发仓库。&lt;/p&gt;
 &lt;p&gt;仓库作者是从公开发布的 Claude Code npm 软件包及其 &lt;code&gt;cli.js.map&lt;/code&gt; source map 中恢复源码。仓库对应的版本为 &lt;strong&gt;Claude Code 2.1.88&lt;/strong&gt;，恢复结果包含数千个 TypeScript、TSX 和其他文件。它很适合用来理解程序结构，但目录划分和变量名称不一定完全等同于 Anthropic 内部原始项目。&lt;/p&gt;
 &lt;p&gt;因此，本文解释的是：&lt;/p&gt;
@@ -1876,8 +1876,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;未来版本的具体代码可能变化，但“模型决策—本地工具执行—结果返回模型”的核心模式通常不会发生根本改变。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;2-一句话理解-claude-code&#34;&gt;2. 一句话理解 Claude Code
-&lt;/h1&gt;&lt;p&gt;Claude Code 可以理解为一个运行在你电脑上的 &lt;strong&gt;AI 代理程序&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;一句话理解-claude-code&#34;&gt;一句话理解 Claude Code
+&lt;/h2&gt;&lt;p&gt;Claude Code 可以理解为一个运行在你电脑上的 &lt;strong&gt;AI 代理程序&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;它主要由以下几部分组成：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;命令行交互界面；&lt;/li&gt;
@@ -1896,8 +1896,8 @@
 &lt;li&gt;&lt;strong&gt;JSONL 会话文件&lt;/strong&gt;相当于工作记录。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;3-claude-code-的总体工作流程&#34;&gt;3. Claude Code 的总体工作流程
-&lt;/h1&gt;&lt;p&gt;下面是 Claude Code 一次任务的基本流程。&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-的总体工作流程&#34;&gt;Claude Code 的总体工作流程
+&lt;/h2&gt;&lt;p&gt;下面是 Claude Code 一次任务的基本流程。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1969,8 +1969,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这个循环会重复很多次，直到 Claude 判断任务已经完成。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;4-claude-code-不是大模型直接操作电脑&#34;&gt;4. Claude Code 不是“大模型直接操作电脑”
-&lt;/h1&gt;&lt;p&gt;假设你输入：&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-不是大模型直接操作电脑&#34;&gt;Claude Code 不是“大模型直接操作电脑”
+&lt;/h2&gt;&lt;p&gt;假设你输入：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2020,8 +2020,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;源码中的工具执行流程会先根据名称查找工具，再验证输入、运行权限和钩子，最后调用工具对象的 &lt;code&gt;call()&lt;/code&gt; 方法。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;5-claude-code-的核心agent-loop&#34;&gt;5. Claude Code 的核心：Agent Loop
-&lt;/h1&gt;&lt;p&gt;Claude Code 最核心的结构可以概括成一个循环。&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-的核心agent-loop&#34;&gt;Claude Code 的核心：Agent Loop
+&lt;/h2&gt;&lt;p&gt;Claude Code 最核心的结构可以概括成一个循环。&lt;/p&gt;
 &lt;p&gt;下面不是原始源码，而是便于理解的简化伪代码：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2115,8 +2115,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;6-一次真实任务是怎样完成的&#34;&gt;6. 一次真实任务是怎样完成的？
-&lt;/h1&gt;&lt;p&gt;假设用户输入：&lt;/p&gt;
+&lt;h2 id=&#34;一次真实任务是怎样完成的&#34;&gt;一次真实任务是怎样完成的？
+&lt;/h2&gt;&lt;p&gt;假设用户输入：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2126,8 +2126,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Claude Code 的执行过程可能如下。&lt;/p&gt;
-&lt;h2 id=&#34;第一次模型请求&#34;&gt;第一次模型请求
-&lt;/h2&gt;&lt;p&gt;Claude 还不知道项目有什么问题，于是提出：&lt;/p&gt;
+&lt;h3 id=&#34;第一次模型请求&#34;&gt;第一次模型请求
+&lt;/h3&gt;&lt;p&gt;Claude 还不知道项目有什么问题，于是提出：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2158,8 +2158,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Claude Code 把这个结果返回给 Claude。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;第二次模型请求&#34;&gt;第二次模型请求
-&lt;/h2&gt;&lt;p&gt;Claude 根据报错判断，需要查看相关文件：&lt;/p&gt;
+&lt;h3 id=&#34;第二次模型请求&#34;&gt;第二次模型请求
+&lt;/h3&gt;&lt;p&gt;Claude 根据报错判断，需要查看相关文件：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2172,8 +2172,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果这些工具属于可以安全并发执行的只读工具，Claude Code 可以同时读取多个文件，而不必一个一个等待。源码中的工具调度器会把具有并发安全属性的调用放在一起运行，而可能修改状态的调用通常会更谨慎地串行执行。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;第三次模型请求&#34;&gt;第三次模型请求
-&lt;/h2&gt;&lt;p&gt;Claude 阅读代码后发现循环边界写错了，于是请求：&lt;/p&gt;
+&lt;h3 id=&#34;第三次模型请求&#34;&gt;第三次模型请求
+&lt;/h3&gt;&lt;p&gt;Claude 阅读代码后发现循环边界写错了，于是请求：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2184,8 +2184,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Claude Code 检查修改权限，然后实际写入文件。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;第四次模型请求&#34;&gt;第四次模型请求
-&lt;/h2&gt;&lt;p&gt;Claude 为了确认修复有效，再次请求：&lt;/p&gt;
+&lt;h3 id=&#34;第四次模型请求&#34;&gt;第四次模型请求
+&lt;/h3&gt;&lt;p&gt;Claude 为了确认修复有效，再次请求：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2204,8 +2204,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h2 id=&#34;最终回答&#34;&gt;最终回答
-&lt;/h2&gt;&lt;p&gt;Claude 获得测试通过的结果后，不再请求工具，而是输出：&lt;/p&gt;
+&lt;h3 id=&#34;最终回答&#34;&gt;最终回答
+&lt;/h3&gt;&lt;p&gt;Claude 获得测试通过的结果后，不再请求工具，而是输出：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2250,8 +2250,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;7-claude-code-启动后做了什么&#34;&gt;7. Claude Code 启动后做了什么？
-&lt;/h1&gt;&lt;p&gt;Claude Code 的主要入口位于 &lt;code&gt;main.tsx&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-启动后做了什么&#34;&gt;Claude Code 启动后做了什么？
+&lt;/h2&gt;&lt;p&gt;Claude Code 的主要入口位于 &lt;code&gt;main.tsx&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;从还原源码可以看出，它既支持交互式终端会话，也支持类似 &lt;code&gt;--print&lt;/code&gt; 的非交互执行方式。在交互模式下，程序会启动终端 REPL 界面；在执行任务前，还会加载工具、用户配置、系统上下文、技能和其他运行环境信息。&lt;/p&gt;
 &lt;p&gt;大致启动过程如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2301,8 +2301,8 @@
 &lt;/ul&gt;
 &lt;p&gt;它本身不是“人工智能”，只是 Claude 和用户之间的交互外壳。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;8-claude-api-请求中包含什么&#34;&gt;8. Claude API 请求中包含什么？
-&lt;/h1&gt;&lt;p&gt;Claude Code 调用模型时，不会只发送用户刚输入的一句话。&lt;/p&gt;
+&lt;h2 id=&#34;claude-api-请求中包含什么&#34;&gt;Claude API 请求中包含什么？
+&lt;/h2&gt;&lt;p&gt;Claude Code 调用模型时，不会只发送用户刚输入的一句话。&lt;/p&gt;
 &lt;p&gt;一次请求通常会包含以下信息：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2370,8 +2370,8 @@
 &lt;/ul&gt;
 &lt;p&gt;但模型仍然只是在生成结构化请求，不能自行越过 Claude Code 直接访问文件。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;9-为什么回答会一个字一个字出现&#34;&gt;9. 为什么回答会一个字一个字出现？
-&lt;/h1&gt;&lt;p&gt;Claude Code 使用的是流式响应。&lt;/p&gt;
+&lt;h2 id=&#34;为什么回答会一个字一个字出现&#34;&gt;为什么回答会一个字一个字出现？
+&lt;/h2&gt;&lt;p&gt;Claude Code 使用的是流式响应。&lt;/p&gt;
 &lt;p&gt;普通非流式请求类似于：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2424,8 +2424,8 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;code&gt;StreamingToolExecutor&lt;/code&gt; 会在流式响应中接收到完整工具请求后立即加入执行队列，同时尽量按照模型提出工具的顺序返回结果。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;10-工具执行前有哪些安全检查&#34;&gt;10. 工具执行前有哪些安全检查？
-&lt;/h1&gt;&lt;p&gt;Claude Code 并不是看到工具调用就无条件执行。&lt;/p&gt;
+&lt;h2 id=&#34;工具执行前有哪些安全检查&#34;&gt;工具执行前有哪些安全检查？
+&lt;/h2&gt;&lt;p&gt;Claude Code 并不是看到工具调用就无条件执行。&lt;/p&gt;
 &lt;p&gt;在真正执行工具前，通常要经过以下几层处理：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2455,11 +2455,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PostToolUse 钩子
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;101-工具名称检查&#34;&gt;10.1 工具名称检查
-&lt;/h2&gt;&lt;p&gt;程序会检查 Claude 请求的工具是否真实存在。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;工具名称检查&#34;&gt;工具名称检查
+&lt;/h3&gt;&lt;p&gt;程序会检查 Claude 请求的工具是否真实存在。&lt;/p&gt;
 &lt;p&gt;如果 Claude 生成了一个不存在的工具名称，Claude Code 不会胡乱运行，而是把“工具不存在”作为错误结果返回给模型。&lt;/p&gt;
-&lt;h2 id=&#34;102-参数验证&#34;&gt;10.2 参数验证
-&lt;/h2&gt;&lt;p&gt;每个工具都定义了参数 schema。&lt;/p&gt;
+&lt;h3 id=&#34;参数验证&#34;&gt;参数验证
+&lt;/h3&gt;&lt;p&gt;每个工具都定义了参数 schema。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2474,8 +2474,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;源码使用结构化 schema 验证工具输入。如果参数不符合要求，工具不会正常执行。&lt;/p&gt;
-&lt;h2 id=&#34;103-pretooluse-钩子&#34;&gt;10.3 PreToolUse 钩子
-&lt;/h2&gt;&lt;p&gt;工具执行前，可以运行 &lt;code&gt;PreToolUse&lt;/code&gt; 钩子。&lt;/p&gt;
+&lt;h3 id=&#34;pretooluse-钩子&#34;&gt;PreToolUse 钩子
+&lt;/h3&gt;&lt;p&gt;工具执行前，可以运行 &lt;code&gt;PreToolUse&lt;/code&gt; 钩子。&lt;/p&gt;
 &lt;p&gt;钩子可以：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;检查即将执行的操作；&lt;/li&gt;
@@ -2483,8 +2483,8 @@
 &lt;li&gt;给出权限判断；&lt;/li&gt;
 &lt;li&gt;阻止工具继续执行。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;104-权限检查&#34;&gt;10.4 权限检查
-&lt;/h2&gt;&lt;p&gt;Claude Code 会根据权限模式判断当前操作是否允许。&lt;/p&gt;
+&lt;h3 id=&#34;权限检查&#34;&gt;权限检查
+&lt;/h3&gt;&lt;p&gt;Claude Code 会根据权限模式判断当前操作是否允许。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;读取普通项目文件可能直接允许；&lt;/li&gt;
@@ -2493,13 +2493,13 @@
 &lt;li&gt;某些路径或操作可能被直接拒绝。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;如果用户拒绝，Claude Code 会把拒绝包装成一个工具结果返回给 Claude。Claude 可以据此选择其他方案，而不是认为工具已经成功执行。&lt;/p&gt;
-&lt;h2 id=&#34;105-posttooluse-钩子&#34;&gt;10.5 PostToolUse 钩子
-&lt;/h2&gt;&lt;p&gt;工具执行完成后，还可以运行 &lt;code&gt;PostToolUse&lt;/code&gt; 钩子。&lt;/p&gt;
+&lt;h3 id=&#34;posttooluse-钩子&#34;&gt;PostToolUse 钩子
+&lt;/h3&gt;&lt;p&gt;工具执行完成后，还可以运行 &lt;code&gt;PostToolUse&lt;/code&gt; 钩子。&lt;/p&gt;
 &lt;p&gt;它可以检查、补充或调整执行结果，然后再把结果送回模型。&lt;/p&gt;
 &lt;p&gt;因此，Claude Code 的安全边界主要位于本地客户端，而不是单纯依赖模型“自觉”。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;11-为什么有些工具可以同时运行&#34;&gt;11. 为什么有些工具可以同时运行？
-&lt;/h1&gt;&lt;p&gt;假设 Claude 同时想读取三个文件：&lt;/p&gt;
+&lt;h2 id=&#34;为什么有些工具可以同时运行&#34;&gt;为什么有些工具可以同时运行？
+&lt;/h2&gt;&lt;p&gt;假设 Claude 同时想读取三个文件：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2546,8 +2546,8 @@
 &lt;li&gt;避免多个修改操作互相冲突。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;12-claude-code-如何记住前面的内容&#34;&gt;12. Claude Code 如何“记住”前面的内容？
-&lt;/h1&gt;&lt;p&gt;Claude Code 不是每次都从零开始。&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-如何记住前面的内容&#34;&gt;Claude Code 如何“记住”前面的内容？
+&lt;/h2&gt;&lt;p&gt;Claude Code 不是每次都从零开始。&lt;/p&gt;
 &lt;p&gt;程序会维护一组消息，大致包括：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2612,8 +2612,8 @@
 &lt;p&gt;在有限上下文中保留继续完成任务所需的关键信息。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;13-claudemdskills-和项目上下文有什么作用&#34;&gt;13. CLAUDE.md、Skills 和项目上下文有什么作用？
-&lt;/h1&gt;&lt;p&gt;Claude Code 除了保存聊天记录，还会向模型提供项目相关的上下文。&lt;/p&gt;
+&lt;h2 id=&#34;claudemdskills-和项目上下文有什么作用&#34;&gt;CLAUDE.md、Skills 和项目上下文有什么作用？
+&lt;/h2&gt;&lt;p&gt;Claude Code 除了保存聊天记录，还会向模型提供项目相关的上下文。&lt;/p&gt;
 &lt;p&gt;这些上下文可能包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;项目级说明；&lt;/li&gt;
@@ -2647,8 +2647,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;仓库结构中包含 &lt;code&gt;plugins&lt;/code&gt;、&lt;code&gt;skills&lt;/code&gt;、&lt;code&gt;context&lt;/code&gt;、&lt;code&gt;assistant&lt;/code&gt; 和 &lt;code&gt;coordinator&lt;/code&gt; 等模块，说明 Claude Code 不只管理简单聊天，还负责组织扩展能力、代理信息和不同来源的上下文。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;14-mcp-在-claude-code-中扮演什么角色&#34;&gt;14. MCP 在 Claude Code 中扮演什么角色？
-&lt;/h1&gt;&lt;p&gt;Claude Code 内置的工具通常可以处理：&lt;/p&gt;
+&lt;h2 id=&#34;mcp-在-claude-code-中扮演什么角色&#34;&gt;MCP 在 Claude Code 中扮演什么角色？
+&lt;/h2&gt;&lt;p&gt;Claude Code 内置的工具通常可以处理：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;文件读取；&lt;/li&gt;
 &lt;li&gt;文件搜索；&lt;/li&gt;
@@ -2696,8 +2696,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;但 MCP 工具仍然需要由 Claude Code 或相应的 MCP 客户端实际调用，并不是模型直接连接外部服务。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;15-claude-code-如何保存和恢复会话&#34;&gt;15. Claude Code 如何保存和恢复会话？
-&lt;/h1&gt;&lt;p&gt;Claude Code 会将会话记录保存在 Claude 配置目录下的项目存储区域。&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-如何保存和恢复会话&#34;&gt;Claude Code 如何保存和恢复会话？
+&lt;/h2&gt;&lt;p&gt;Claude Code 会将会话记录保存在 Claude 配置目录下的项目存储区域。&lt;/p&gt;
 &lt;p&gt;在还原源码中，每个会话可以对应一个以会话 ID 命名的 &lt;code&gt;.jsonl&lt;/code&gt; 文件。子代理的记录还可以保存在单独的 &lt;code&gt;subagents&lt;/code&gt; 目录中。&lt;/p&gt;
 &lt;p&gt;JSONL 可以理解为：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -2742,8 +2742,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;16-子代理是怎样工作的&#34;&gt;16. 子代理是怎样工作的？
-&lt;/h1&gt;&lt;p&gt;Claude Code 可以让一个主要代理把部分任务交给子代理。&lt;/p&gt;
+&lt;h2 id=&#34;子代理是怎样工作的&#34;&gt;子代理是怎样工作的？
+&lt;/h2&gt;&lt;p&gt;Claude Code 可以让一个主要代理把部分任务交给子代理。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2775,14 +2775,14 @@
 &lt;p&gt;Claude Code 针对一个子任务发起的另一组模型调用和工具执行循环。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;17-为什么-claude-code-看起来具有自主性&#34;&gt;17. 为什么 Claude Code 看起来具有“自主性”？
-&lt;/h1&gt;&lt;p&gt;Claude Code 看起来像是在自主工作，主要来自以下五种能力。&lt;/p&gt;
-&lt;h2 id=&#34;171-能够连续调用模型&#34;&gt;17.1 能够连续调用模型
-&lt;/h2&gt;&lt;p&gt;它不会在第一次回答后立即停止，而是可以根据工具结果继续询问模型。&lt;/p&gt;
-&lt;h2 id=&#34;172-能够操作本地工具&#34;&gt;17.2 能够操作本地工具
-&lt;/h2&gt;&lt;p&gt;模型可以请求读取文件、运行命令和修改代码。&lt;/p&gt;
-&lt;h2 id=&#34;173-能够观察操作结果&#34;&gt;17.3 能够观察操作结果
-&lt;/h2&gt;&lt;p&gt;模型不是盲目执行。&lt;/p&gt;
+&lt;h2 id=&#34;为什么-claude-code-看起来具有自主性&#34;&gt;为什么 Claude Code 看起来具有“自主性”？
+&lt;/h2&gt;&lt;p&gt;Claude Code 看起来像是在自主工作，主要来自以下五种能力。&lt;/p&gt;
+&lt;h3 id=&#34;能够连续调用模型&#34;&gt;能够连续调用模型
+&lt;/h3&gt;&lt;p&gt;它不会在第一次回答后立即停止，而是可以根据工具结果继续询问模型。&lt;/p&gt;
+&lt;h3 id=&#34;能够操作本地工具&#34;&gt;能够操作本地工具
+&lt;/h3&gt;&lt;p&gt;模型可以请求读取文件、运行命令和修改代码。&lt;/p&gt;
+&lt;h3 id=&#34;能够观察操作结果&#34;&gt;能够观察操作结果
+&lt;/h3&gt;&lt;p&gt;模型不是盲目执行。&lt;/p&gt;
 &lt;p&gt;它可以看到：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2798,8 +2798,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;修改是否生效
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;174-能够根据失败改变计划&#34;&gt;17.4 能够根据失败改变计划
-&lt;/h2&gt;&lt;p&gt;例如：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;能够根据失败改变计划&#34;&gt;能够根据失败改变计划
+&lt;/h3&gt;&lt;p&gt;例如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2820,8 +2820,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;更换修改方案
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;175-能够保存任务状态&#34;&gt;17.5 能够保存任务状态
-&lt;/h2&gt;&lt;p&gt;会话记录和上下文管理让后续模型请求知道前面发生了什么。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;能够保存任务状态&#34;&gt;能够保存任务状态
+&lt;/h3&gt;&lt;p&gt;会话记录和上下文管理让后续模型请求知道前面发生了什么。&lt;/p&gt;
 &lt;p&gt;因此，Claude Code 的“自主性”并不是来自单次模型回答，而是来自下面这个组合：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2841,8 +2841,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这也是 AI Agent 与普通聊天机器人的核心区别。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;18-claude-code-并不是每次都读取整个项目&#34;&gt;18. Claude Code 并不是每次都读取整个项目
-&lt;/h1&gt;&lt;p&gt;一个常见误解是：&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-并不是每次都读取整个项目&#34;&gt;Claude Code 并不是每次都读取整个项目
+&lt;/h2&gt;&lt;p&gt;一个常见误解是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Claude Code 启动后会把整个项目的所有文件全部上传给 Claude。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -2892,8 +2892,8 @@
 &lt;p&gt;Claude 没有读取过的文件，它不可能凭空准确知道其中的具体内容。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;19-claude-code-与普通聊天网页有什么区别&#34;&gt;19. Claude Code 与普通聊天网页有什么区别？
-&lt;/h1&gt;&lt;p&gt;普通聊天的大致流程是：&lt;/p&gt;
+&lt;h2 id=&#34;claude-code-与普通聊天网页有什么区别&#34;&gt;Claude Code 与普通聊天网页有什么区别？
+&lt;/h2&gt;&lt;p&gt;普通聊天的大致流程是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2995,21 +2995,21 @@
 &lt;p&gt;模型被放进了一个能够观察和操作开发环境的代理框架中。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;20-五个最常见的误解&#34;&gt;20. 五个最常见的误解
-&lt;/h1&gt;&lt;h2 id=&#34;误解一claude-模型直接运行了-shell&#34;&gt;误解一：Claude 模型直接运行了 Shell
-&lt;/h2&gt;&lt;p&gt;错误。&lt;/p&gt;
+&lt;h2 id=&#34;五个最常见的误解&#34;&gt;五个最常见的误解
+&lt;/h2&gt;&lt;h3 id=&#34;误解一claude-模型直接运行了-shell&#34;&gt;误解一：Claude 模型直接运行了 Shell
+&lt;/h3&gt;&lt;p&gt;错误。&lt;/p&gt;
 &lt;p&gt;Claude 只生成工具调用请求，本地 Claude Code 才实际运行命令。&lt;/p&gt;
-&lt;h2 id=&#34;误解二每个任务只请求一次-api&#34;&gt;误解二：每个任务只请求一次 API
-&lt;/h2&gt;&lt;p&gt;错误。&lt;/p&gt;
+&lt;h3 id=&#34;误解二每个任务只请求一次-api&#34;&gt;误解二：每个任务只请求一次 API
+&lt;/h3&gt;&lt;p&gt;错误。&lt;/p&gt;
 &lt;p&gt;复杂任务通常包含多轮模型请求和工具结果返回。&lt;/p&gt;
-&lt;h2 id=&#34;误解三claude-默认知道整个项目&#34;&gt;误解三：Claude 默认知道整个项目
-&lt;/h2&gt;&lt;p&gt;错误。&lt;/p&gt;
+&lt;h3 id=&#34;误解三claude-默认知道整个项目&#34;&gt;误解三：Claude 默认知道整个项目
+&lt;/h3&gt;&lt;p&gt;错误。&lt;/p&gt;
 &lt;p&gt;Claude 主要依靠搜索和读取工具按需获得项目内容。&lt;/p&gt;
-&lt;h2 id=&#34;误解四claude-永远不会忘记前面的内容&#34;&gt;误解四：Claude 永远不会忘记前面的内容
-&lt;/h2&gt;&lt;p&gt;错误。&lt;/p&gt;
+&lt;h3 id=&#34;误解四claude-永远不会忘记前面的内容&#34;&gt;误解四：Claude 永远不会忘记前面的内容
+&lt;/h3&gt;&lt;p&gt;错误。&lt;/p&gt;
 &lt;p&gt;上下文有容量限制，较长会话需要截断或压缩。&lt;/p&gt;
-&lt;h2 id=&#34;误解五允许使用-claude-code-就等于所有操作都安全&#34;&gt;误解五：允许使用 Claude Code 就等于所有操作都安全
-&lt;/h2&gt;&lt;p&gt;错误。&lt;/p&gt;
+&lt;h3 id=&#34;误解五允许使用-claude-code-就等于所有操作都安全&#34;&gt;误解五：允许使用 Claude Code 就等于所有操作都安全
+&lt;/h3&gt;&lt;p&gt;错误。&lt;/p&gt;
 &lt;p&gt;Claude Code 有权限和钩子机制，但用户仍然应该检查高风险命令，尤其是：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3030,11 +3030,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
-&lt;h1 id=&#34;21-推荐的源码阅读顺序&#34;&gt;21. 推荐的源码阅读顺序
-&lt;/h1&gt;&lt;p&gt;对于初学者，不建议直接从数千个文件中随机阅读。&lt;/p&gt;
+&lt;h2 id=&#34;推荐的源码阅读顺序&#34;&gt;推荐的源码阅读顺序
+&lt;/h2&gt;&lt;p&gt;对于初学者，不建议直接从数千个文件中随机阅读。&lt;/p&gt;
 &lt;p&gt;可以按照下面的顺序理解。&lt;/p&gt;
-&lt;h2 id=&#34;第一步程序怎样启动&#34;&gt;第一步：程序怎样启动
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第一步程序怎样启动&#34;&gt;第一步：程序怎样启动
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -3050,8 +3050,8 @@
 &lt;li&gt;工具加载；&lt;/li&gt;
 &lt;li&gt;配置初始化。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;第二步agent-loop-怎样运行&#34;&gt;第二步：Agent Loop 怎样运行
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第二步agent-loop-怎样运行&#34;&gt;第二步：Agent Loop 怎样运行
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -3068,8 +3068,8 @@
 &lt;li&gt;工具结果怎样加入下一轮请求；&lt;/li&gt;
 &lt;li&gt;循环在什么情况下结束。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;第三步模型-api-怎样调用&#34;&gt;第三步：模型 API 怎样调用
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第三步模型-api-怎样调用&#34;&gt;第三步：模型 API 怎样调用
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -3085,8 +3085,8 @@
 &lt;li&gt;流式 API 请求；&lt;/li&gt;
 &lt;li&gt;模型响应处理。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;第四步工具怎样调度&#34;&gt;第四步：工具怎样调度
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第四步工具怎样调度&#34;&gt;第四步：工具怎样调度
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -3103,8 +3103,8 @@
 &lt;li&gt;流式执行；&lt;/li&gt;
 &lt;li&gt;结果顺序。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;第五步单个工具怎样执行&#34;&gt;第五步：单个工具怎样执行
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第五步单个工具怎样执行&#34;&gt;第五步：单个工具怎样执行
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -3124,8 +3124,8 @@
 &lt;li&gt;PostToolUse；&lt;/li&gt;
 &lt;li&gt;工具结果构造。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;第六步会话怎样保存&#34;&gt;第六步：会话怎样保存
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;第六步会话怎样保存&#34;&gt;第六步：会话怎样保存
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -3141,8 +3141,8 @@
 &lt;li&gt;子代理记录。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h1 id=&#34;22-最终总结&#34;&gt;22. 最终总结
-&lt;/h1&gt;&lt;p&gt;Claude Code 可以用下面这段话概括：&lt;/p&gt;
+&lt;h2 id=&#34;最终总结&#34;&gt;最终总结
+&lt;/h2&gt;&lt;p&gt;Claude Code 可以用下面这段话概括：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Claude Code 是运行在本地的 AI Agent 客户端。它负责收集用户输入和项目上下文，将工具说明与消息发送给 Claude 模型；模型返回文字或工具调用请求；Claude Code 经过参数验证、钩子和权限检查后，在本地执行工具，再把执行结果返回给模型。这个过程不断循环，直到模型不再需要工具并给出最终回答。&lt;/p&gt;
 &lt;/blockquote&gt;

@@ -10,7 +10,7 @@
 <meta property='og:description' content="Claude Code 是怎样工作的（二） 上一篇解释了 Claude Code 最重要的主循环：\n1 2 3 4 5 6 7 用户输入 → Claude Code 组织上下文 → 请求 Claude 模型 → 模型返回文字或 tool_use → 本地执行工具 → 将 tool_result 返回模型 → 继续循环 这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。\n">
 <meta property='og:url' content='https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/'>
 <meta property='og:site_name' content='Shaw&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Claude Code' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='MCP' /><meta property='article:published_time' content='2026-07-28T14:24:59&#43;08:00'/><meta property='article:modified_time' content='2026-07-28T06:30:59&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Claude Code' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='MCP' /><meta property='article:published_time' content='2026-07-28T14:24:59&#43;08:00'/><meta property='article:modified_time' content='2026-07-28T06:47:47&#43;00:00'/>
 <meta name="twitter:title" content="Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理">
 <meta name="twitter:description" content="Claude Code 是怎样工作的（二） 上一篇解释了 Claude Code 最重要的主循环：\n1 2 3 4 5 6 7 用户输入 → Claude Code 组织上下文 → 请求 Claude 模型 → 模型返回文字或 tool_use → 本地执行工具 → 将 tool_result 返回模型 → 继续循环 这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。\n">
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -247,96 +247,117 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#21-claudemd-的角色">2.1 <code>CLAUDE.md</code> 的角色</a></li>
-    <li><a href="#22-git-信息为什么要等信任项目后再读取">2.2 Git 信息为什么要等“信任项目”后再读取？</a></li>
-    <li><a href="#23-为什么不把整个项目都塞进提示词">2.3 为什么不把整个项目都塞进提示词？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#31-普通文字块">3.1 普通文字块</a></li>
-    <li><a href="#32-思考块">3.2 思考块</a></li>
-    <li><a href="#33-工具请求-tool_use">3.3 工具请求 <code>tool_use</code></a></li>
-    <li><a href="#34-工具结果-tool_result">3.4 工具结果 <code>tool_result</code></a></li>
-    <li><a href="#35-为什么-tool_use-比-stop_reason-更适合判断是否继续">3.5 为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#41-每个字段解决什么问题">4.1 每个字段解决什么问题？</a></li>
-    <li><a href="#42-为什么需要两层验证">4.2 为什么需要两层验证？</a></li>
-    <li><a href="#43-为什么工具结果还要限制大小">4.3 为什么工具结果还要限制大小？</a></li>
-    <li><a href="#44-延迟工具和-tool-search">4.4 延迟工具和 Tool Search</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#61-权限规则来自哪里">6.1 权限规则来自哪里？</a></li>
-    <li><a href="#62-mcp-工具怎样写权限规则">6.2 MCP 工具怎样写权限规则？</a></li>
-    <li><a href="#63-dontask-为什么不等于全部自动允许">6.3 <code>dontAsk</code> 为什么不等于“全部自动允许”？</a></li>
-    <li><a href="#64-bypasspermissions-仍不应该被理解成绝对沙箱逃逸">6.4 <code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#71-shell-怎样选择">7.1 Shell 怎样选择？</a></li>
-    <li><a href="#72-工作目录怎样保持">7.2 工作目录怎样保持？</a></li>
-    <li><a href="#73-输出怎样返回">7.3 输出怎样返回？</a></li>
-    <li><a href="#74-长命令和后台任务">7.4 长命令和后台任务</a></li>
-    <li><a href="#75-ctrlc-做了什么">7.5 <code>Ctrl+C</code> 做了什么？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#81-old_string-为什么必须唯一">8.1 <code>old_string</code> 为什么必须唯一？</a></li>
-    <li><a href="#82-edit-和-write-的区别">8.2 Edit 和 Write 的区别</a></li>
-    <li><a href="#83-修改后还有哪些后续动作">8.3 修改后还有哪些后续动作？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#91-工具结果裁剪">9.1 工具结果裁剪</a></li>
-    <li><a href="#92-microcompact-是什么">9.2 Microcompact 是什么？</a></li>
-    <li><a href="#93-auto-compact-什么时候触发">9.3 Auto compact 什么时候触发？</a></li>
-    <li><a href="#94-压缩后为什么会忘记">9.4 压缩后为什么会“忘记”？</a></li>
-    <li><a href="#95-为什么要设置压缩失败熔断">9.5 为什么要设置压缩失败熔断？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#101-子代理可以拥有不同配置">10.1 子代理可以拥有不同配置</a></li>
-    <li><a href="#102-子代理获得多少主会话上下文">10.2 子代理获得多少主会话上下文？</a></li>
-    <li><a href="#103-前台代理与后台代理的权限差异">10.3 前台代理与后台代理的权限差异</a></li>
-    <li><a href="#104-子代理的结果怎样回到主代理">10.4 子代理的结果怎样回到主代理？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#111-支持哪些连接方式">11.1 支持哪些连接方式？</a></li>
-    <li><a href="#112-工具怎样被发现">11.2 工具怎样被发现？</a></li>
-    <li><a href="#113-mcp-工具怎样执行">11.3 MCP 工具怎样执行？</a></li>
-    <li><a href="#114-断线后怎么办">11.4 断线后怎么办？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#121-pretooluse">12.1 PreToolUse</a></li>
-    <li><a href="#122-permissionrequest">12.2 PermissionRequest</a></li>
-    <li><a href="#123-posttooluse">12.3 PostToolUse</a></li>
-    <li><a href="#124-hook-本身也有运行状态">12.4 Hook 本身也有运行状态</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#131-为什么消息需要-uuid-和-parentuuid">13.1 为什么消息需要 UUID 和 parentUuid？</a></li>
-    <li><a href="#132-compact-边界怎样记录">13.2 Compact 边界怎样记录？</a></li>
-    <li><a href="#133-resume-恢复的到底是什么">13.3 <code>/resume</code> 恢复的到底是什么？</a></li>
-    <li><a href="#134-哪些状态不能百分之百恢复">13.4 哪些状态不能百分之百恢复？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#141-api-错误怎样处理">14.1 API 错误怎样处理？</a></li>
-    <li><a href="#142-为什么错误也必须返回给模型">14.2 为什么错误也必须返回给模型？</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#阶段一准备上下文">阶段一：准备上下文</a></li>
-    <li><a href="#阶段二第一次请求模型">阶段二：第一次请求模型</a></li>
-    <li><a href="#阶段三执行-bash">阶段三：执行 Bash</a></li>
-    <li><a href="#阶段四读取与定位">阶段四：读取与定位</a></li>
-    <li><a href="#阶段五编辑">阶段五：编辑</a></li>
-    <li><a href="#阶段六验证">阶段六：验证</a></li>
-    <li><a href="#阶段七保存">阶段七：保存</a></li>
+    <li><a href="#先建立一个更完整的架构图">先建立一个更完整的架构图</a></li>
+    <li><a href="#系统提示词不是一段固定文字">系统提示词不是一段固定文字</a>
+      <ol>
+        <li><a href="#claudemd-的角色"><code>CLAUDE.md</code> 的角色</a></li>
+        <li><a href="#git-信息为什么要等信任项目后再读取">Git 信息为什么要等“信任项目”后再读取？</a></li>
+        <li><a href="#为什么不把整个项目都塞进提示词">为什么不把整个项目都塞进提示词？</a></li>
+      </ol>
+    </li>
+    <li><a href="#api-消息不是只有提问和回答">API 消息不是只有“提问”和“回答”</a>
+      <ol>
+        <li><a href="#普通文字块">普通文字块</a></li>
+        <li><a href="#思考块">思考块</a></li>
+        <li><a href="#工具请求-tool_use">工具请求 <code>tool_use</code></a></li>
+        <li><a href="#工具结果-tool_result">工具结果 <code>tool_result</code></a></li>
+        <li><a href="#为什么-tool_use-比-stop_reason-更适合判断是否继续">为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？</a></li>
+      </ol>
+    </li>
+    <li><a href="#工具不是一个函数而是一套统一接口">工具不是一个函数，而是一套统一接口</a>
+      <ol>
+        <li><a href="#每个字段解决什么问题">每个字段解决什么问题？</a></li>
+        <li><a href="#为什么需要两层验证">为什么需要两层验证？</a></li>
+        <li><a href="#为什么工具结果还要限制大小">为什么工具结果还要限制大小？</a></li>
+        <li><a href="#延迟工具和-tool-search">延迟工具和 Tool Search</a></li>
+      </ol>
+    </li>
+    <li><a href="#一次工具调用实际经历了什么">一次工具调用实际经历了什么？</a></li>
+    <li><a href="#权限系统怎样决定-allowask-和-deny">权限系统怎样决定 Allow、Ask 和 Deny？</a>
+      <ol>
+        <li><a href="#权限规则来自哪里">权限规则来自哪里？</a></li>
+        <li><a href="#mcp-工具怎样写权限规则">MCP 工具怎样写权限规则？</a></li>
+        <li><a href="#dontask-为什么不等于全部自动允许"><code>dontAsk</code> 为什么不等于“全部自动允许”？</a></li>
+        <li><a href="#bypasspermissions-仍不应该被理解成绝对沙箱逃逸"><code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸</a></li>
+      </ol>
+    </li>
+    <li><a href="#bash-工具并不是一个永远不关闭的终端">Bash 工具并不是一个永远不关闭的终端</a>
+      <ol>
+        <li><a href="#shell-怎样选择">Shell 怎样选择？</a></li>
+        <li><a href="#工作目录怎样保持">工作目录怎样保持？</a></li>
+        <li><a href="#输出怎样返回">输出怎样返回？</a></li>
+        <li><a href="#长命令和后台任务">长命令和后台任务</a></li>
+        <li><a href="#ctrlc-做了什么"><code>Ctrl+C</code> 做了什么？</a></li>
+      </ol>
+    </li>
+    <li><a href="#edit-工具为什么经常要求先读取文件">Edit 工具为什么经常要求“先读取文件”？</a>
+      <ol>
+        <li><a href="#old_string-为什么必须唯一"><code>old_string</code> 为什么必须唯一？</a></li>
+        <li><a href="#edit-和-write-的区别">Edit 和 Write 的区别</a></li>
+        <li><a href="#修改后还有哪些后续动作">修改后还有哪些后续动作？</a></li>
+      </ol>
+    </li>
+    <li><a href="#上下文管理不是只有一次-compact">上下文管理不是只有一次 <code>/compact</code></a>
+      <ol>
+        <li><a href="#工具结果裁剪">工具结果裁剪</a></li>
+        <li><a href="#microcompact-是什么">Microcompact 是什么？</a></li>
+        <li><a href="#auto-compact-什么时候触发">Auto compact 什么时候触发？</a></li>
+        <li><a href="#压缩后为什么会忘记">压缩后为什么会“忘记”？</a></li>
+        <li><a href="#为什么要设置压缩失败熔断">为什么要设置压缩失败熔断？</a></li>
+      </ol>
+    </li>
+    <li><a href="#子代理到底是什么">子代理到底是什么？</a>
+      <ol>
+        <li><a href="#子代理可以拥有不同配置">子代理可以拥有不同配置</a></li>
+        <li><a href="#子代理获得多少主会话上下文">子代理获得多少主会话上下文？</a></li>
+        <li><a href="#前台代理与后台代理的权限差异">前台代理与后台代理的权限差异</a></li>
+        <li><a href="#子代理的结果怎样回到主代理">子代理的结果怎样回到主代理？</a></li>
+      </ol>
+    </li>
+    <li><a href="#mcp-的完整生命周期">MCP 的完整生命周期</a>
+      <ol>
+        <li><a href="#支持哪些连接方式">支持哪些连接方式？</a></li>
+        <li><a href="#工具怎样被发现">工具怎样被发现？</a></li>
+        <li><a href="#mcp-工具怎样执行">MCP 工具怎样执行？</a></li>
+        <li><a href="#断线后怎么办">断线后怎么办？</a></li>
+      </ol>
+    </li>
+    <li><a href="#hooks-是-claude-code-的检查站">Hooks 是 Claude Code 的“检查站”</a>
+      <ol>
+        <li><a href="#pretooluse">PreToolUse</a></li>
+        <li><a href="#permissionrequest">PermissionRequest</a></li>
+        <li><a href="#posttooluse">PostToolUse</a></li>
+        <li><a href="#hook-本身也有运行状态">Hook 本身也有运行状态</a></li>
+      </ol>
+    </li>
+    <li><a href="#会话保存不是简单的一条聊天数组">会话保存不是简单的一条聊天数组</a>
+      <ol>
+        <li><a href="#为什么消息需要-uuid-和-parentuuid">为什么消息需要 UUID 和 parentUuid？</a></li>
+        <li><a href="#compact-边界怎样记录">Compact 边界怎样记录？</a></li>
+        <li><a href="#resume-恢复的到底是什么"><code>/resume</code> 恢复的到底是什么？</a></li>
+        <li><a href="#哪些状态不能百分之百恢复">哪些状态不能百分之百恢复？</a></li>
+      </ol>
+    </li>
+    <li><a href="#错误发生时为什么还要补充-tool_result">错误发生时，为什么还要补充 tool_result？</a>
+      <ol>
+        <li><a href="#api-错误怎样处理">API 错误怎样处理？</a></li>
+        <li><a href="#为什么错误也必须返回给模型">为什么错误也必须返回给模型？</a></li>
+      </ol>
+    </li>
+    <li><a href="#把所有模块串成一次完整执行">把所有模块串成一次完整执行</a>
+      <ol>
+        <li><a href="#阶段一准备上下文">阶段一：准备上下文</a></li>
+        <li><a href="#阶段二第一次请求模型">阶段二：第一次请求模型</a></li>
+        <li><a href="#阶段三执行-bash">阶段三：执行 Bash</a></li>
+        <li><a href="#阶段四读取与定位">阶段四：读取与定位</a></li>
+        <li><a href="#阶段五编辑">阶段五：编辑</a></li>
+        <li><a href="#阶段六验证">阶段六：验证</a></li>
+        <li><a href="#阶段七保存">阶段七：保存</a></li>
+      </ol>
+    </li>
+    <li><a href="#到这里claude-code-的工作原理讲完整了吗">到这里，Claude Code 的工作原理讲完整了吗？</a></li>
+    <li><a href="#建议的源码阅读路线">建议的源码阅读路线</a></li>
+    <li><a href="#参考源码">参考源码</a></li>
   </ol>
 </nav>
         </div>
@@ -463,7 +484,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 23 分钟
+                    阅读时长: 22 分钟
                 </time>
             </div>
         
@@ -527,8 +548,8 @@
 <p>注意：该仓库不是 Anthropic 官方开发仓库，而是从公开 npm 包和 source map 中还原的代码快照。它非常适合研究程序结构，但不能保证目录名、变量名和内部开发仓库完全一致。部分功能还受实验开关、账户类型、运行模式和平台影响。</p>
 </blockquote>
 <hr>
-<h1 id="1-先建立一个更完整的架构图">1. 先建立一个更完整的架构图
-</h1><p>Claude Code 不是一个单独的“聊天程序”，而是由多层系统共同组成。</p>
+<h2 id="先建立一个更完整的架构图">先建立一个更完整的架构图
+</h2><p>Claude Code 不是一个单独的“聊天程序”，而是由多层系统共同组成。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -602,8 +623,8 @@
 </table></div>
 <p>上一篇主要讲了决策层和执行层之间的循环；本文重点补全控制层和状态层。</p>
 <hr>
-<h1 id="2-系统提示词不是一段固定文字">2. 系统提示词不是一段固定文字
-</h1><p>很多人会把“系统提示词”理解成一段写死在程序里的长文本。实际运行时，它更像是由多个来源拼接而成的工作包。</p>
+<h2 id="系统提示词不是一段固定文字">系统提示词不是一段固定文字
+</h2><p>很多人会把“系统提示词”理解成一段写死在程序里的长文本。实际运行时，它更像是由多个来源拼接而成的工作包。</p>
 <p>Claude Code 启动和执行任务时，可能需要组织以下内容：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -632,8 +653,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这些内容并不一定全部放在同一个 API 字段里，但最终都会影响模型这一轮能够看到的信息。</p>
-<h2 id="21-claudemd-的角色">2.1 <code>CLAUDE.md</code> 的角色
-</h2><p><code>CLAUDE.md</code> 可以理解为提供给 Claude 的项目说明书。</p>
+<h3 id="claudemd-的角色"><code>CLAUDE.md</code> 的角色
+</h3><p><code>CLAUDE.md</code> 可以理解为提供给 Claude 的项目说明书。</p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -657,8 +678,8 @@
 <p>需要注意两点：</p>
 <p>第一，<code>CLAUDE.md</code> 只是上下文，不是强制执行代码。模型通常会遵守，但真正可靠的限制仍应由权限规则、Hooks、测试或 CI 实现。</p>
 <p>第二，子代理不一定获得与主代理完全相同的 <code>CLAUDE.md</code>。在还原源码中，某些只读的 Explore 或 Plan 代理可以省略部分项目说明，以节省上下文 token；这属于具体版本中的优化策略。</p>
-<h2 id="22-git-信息为什么要等信任项目后再读取">2.2 Git 信息为什么要等“信任项目”后再读取？
-</h2><p>系统上下文可能包含：</p>
+<h3 id="git-信息为什么要等信任项目后再读取">Git 信息为什么要等“信任项目”后再读取？
+</h3><p>系统上下文可能包含：</p>
 <ul>
 <li>当前分支；</li>
 <li>主分支；</li>
@@ -668,8 +689,8 @@
 </ul>
 <p>但源码中专门提醒：运行某些 Git 命令可能触发 Git 配置、过滤器或 Hook，因此在交互模式下，程序会考虑项目是否已经被用户信任，再执行相关的上下文收集。</p>
 <p>这说明即使看起来只是“读取仓库状态”，Claude Code 也把它视为可能接触本地执行环境的行为，而不是纯文本操作。</p>
-<h2 id="23-为什么不把整个项目都塞进提示词">2.3 为什么不把整个项目都塞进提示词？
-</h2><p>因为上下文窗口有限，而且大型项目可能包含数万个文件。</p>
+<h3 id="为什么不把整个项目都塞进提示词">为什么不把整个项目都塞进提示词？
+</h3><p>因为上下文窗口有限，而且大型项目可能包含数万个文件。</p>
 <p>Claude Code 更常采用“先给地图，再按需读取”的方式：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -689,11 +710,11 @@
 </div>
 </div><p>所以 Claude Code 对项目的认识是逐步建立的。没有读取过的文件，模型并不会自动知道其中的精确内容。</p>
 <hr>
-<h1 id="3-api-消息不是只有提问和回答">3. API 消息不是只有“提问”和“回答”
-</h1><p>普通聊天看起来只有两种消息：用户消息和助手消息。</p>
+<h2 id="api-消息不是只有提问和回答">API 消息不是只有“提问”和“回答”
+</h2><p>普通聊天看起来只有两种消息：用户消息和助手消息。</p>
 <p>Claude Code 的对话中还包含结构化内容块。下面使用简化格式说明。</p>
-<h2 id="31-普通文字块">3.1 普通文字块
-</h2><div class="highlight"><div class="chroma">
+<h3 id="普通文字块">普通文字块
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -708,8 +729,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这部分会显示给用户。</p>
-<h2 id="32-思考块">3.2 思考块
-</h2><p>某些模型和配置可能返回 <code>thinking</code> 或经过处理的思考内容块。Claude Code 需要正确接收、保存或转换这些块，但它们不等同于工具执行结果。</p>
+<h3 id="思考块">思考块
+</h3><p>某些模型和配置可能返回 <code>thinking</code> 或经过处理的思考内容块。Claude Code 需要正确接收、保存或转换这些块，但它们不等同于工具执行结果。</p>
 <p>从程序角度看，最重要的是区分：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -723,8 +744,8 @@
 </span></span><span class="line"><span class="cl">模型在请求工具
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="33-工具请求-tool_use">3.3 工具请求 <code>tool_use</code>
-</h2><div class="highlight"><div class="chroma">
+</div><h3 id="工具请求-tool_use">工具请求 <code>tool_use</code>
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -748,8 +769,8 @@
 </div>
 </div><p>这里的 <code>id</code> 非常重要。</p>
 <p>它表示：这是一次特定的工具调用。即使同一轮中连续调用三个 Read，每一个调用也有自己的 ID。</p>
-<h2 id="34-工具结果-tool_result">3.4 工具结果 <code>tool_result</code>
-</h2><p>Claude Code 执行后，会构造类似下面的结果：</p>
+<h3 id="工具结果-tool_result">工具结果 <code>tool_result</code>
+</h3><p>Claude Code 执行后，会构造类似下面的结果：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -779,8 +800,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果配错，模型就无法判断某个输出究竟属于哪个工具调用。</p>
-<h2 id="35-为什么-tool_use-比-stop_reason-更适合判断是否继续">3.5 为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？
-</h2><p>在还原源码的查询循环中，程序会直接检查助手消息里是否存在 <code>tool_use</code> 内容块，并把它作为是否继续工具循环的重要信号。</p>
+<h3 id="为什么-tool_use-比-stop_reason-更适合判断是否继续">为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？
+</h3><p>在还原源码的查询循环中，程序会直接检查助手消息里是否存在 <code>tool_use</code> 内容块，并把它作为是否继续工具循环的重要信号。</p>
 <p>原因很简单：流式接口、网关兼容和不同结束状态可能让 <code>stop_reason</code> 的表现不够统一，但消息中存在明确的工具请求，就意味着客户端必须先处理它。</p>
 <p>因此，可靠的判断逻辑更接近：</p>
 <div class="highlight"><div class="chroma">
@@ -804,8 +825,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h1 id="4-工具不是一个函数而是一套统一接口">4. 工具不是一个函数，而是一套统一接口
-</h1><p>Claude Code 中的工具需要遵循统一抽象。不同工具的内部实现不同，但对调度器而言，它们拥有相似的外形。</p>
+<h2 id="工具不是一个函数而是一套统一接口">工具不是一个函数，而是一套统一接口
+</h2><p>Claude Code 中的工具需要遵循统一抽象。不同工具的内部实现不同，但对调度器而言，它们拥有相似的外形。</p>
 <p>下面是高度简化后的概念接口：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -843,8 +864,8 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="41-每个字段解决什么问题">4.1 每个字段解决什么问题？
-</h2><div class="table-wrapper"><table>
+</div><h3 id="每个字段解决什么问题">每个字段解决什么问题？
+</h3><div class="table-wrapper"><table>
 	<thead>
 			<tr>
 					<th>成员</th>
@@ -886,8 +907,8 @@
 			</tr>
 	</tbody>
 </table></div>
-<h2 id="42-为什么需要两层验证">4.2 为什么需要两层验证？
-</h2><p>Schema 可以判断：</p>
+<h3 id="为什么需要两层验证">为什么需要两层验证？
+</h3><p>Schema 可以判断：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -932,8 +953,8 @@
 </span></span><span class="line"><span class="cl">→ call() 执行
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="43-为什么工具结果还要限制大小">4.3 为什么工具结果还要限制大小？
-</h2><p>命令可能输出几百 MB 日志，读取文件也可能得到超长内容。如果原样全部返回模型，会迅速占满上下文窗口。</p>
+</div><h3 id="为什么工具结果还要限制大小">为什么工具结果还要限制大小？
+</h3><p>命令可能输出几百 MB 日志，读取文件也可能得到超长内容。如果原样全部返回模型，会迅速占满上下文窗口。</p>
 <p>工具系统可以：</p>
 <ul>
 <li>截断过长结果；</li>
@@ -942,8 +963,8 @@
 <li>对特定工具使用不同上限。</li>
 </ul>
 <p>这样既保留完整数据，又避免一次工具调用占满整个会话。</p>
-<h2 id="44-延迟工具和-tool-search">4.4 延迟工具和 Tool Search
-</h2><p>当内置工具、插件和 MCP 工具很多时，把全部 schema 每轮都发送给模型也会浪费大量 token。</p>
+<h3 id="延迟工具和-tool-search">延迟工具和 Tool Search
+</h3><p>当内置工具、插件和 MCP 工具很多时，把全部 schema 每轮都发送给模型也会浪费大量 token。</p>
 <p>因此，某些工具可以采用延迟加载：先只暴露工具搜索能力，模型确认需要某类能力后，再把匹配的工具加入可用集合。</p>
 <p>这类似于：</p>
 <div class="highlight"><div class="chroma">
@@ -957,8 +978,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h1 id="5-一次工具调用实际经历了什么">5. 一次工具调用实际经历了什么？
-</h1><p>工具执行并不是直接调用 <code>tool.call()</code>。</p>
+<h2 id="一次工具调用实际经历了什么">一次工具调用实际经历了什么？
+</h2><p>工具执行并不是直接调用 <code>tool.call()</code>。</p>
 <p>更完整的执行链大致如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1009,8 +1030,8 @@
 <p>Claude 只能提出请求；本地客户端保留验证、修改、拒绝和中止请求的权力。</p>
 </blockquote>
 <hr>
-<h1 id="6-权限系统怎样决定-allowask-和-deny">6. 权限系统怎样决定 Allow、Ask 和 Deny？
-</h1><p>Claude Code 的权限并不只是一个“是否自动允许”的开关，而是多种模式和多来源规则共同作用的结果。</p>
+<h2 id="权限系统怎样决定-allowask-和-deny">权限系统怎样决定 Allow、Ask 和 Deny？
+</h2><p>Claude Code 的权限并不只是一个“是否自动允许”的开关，而是多种模式和多来源规则共同作用的结果。</p>
 <p>在该源码快照中可以看到的主要权限模式包括：</p>
 <div class="table-wrapper"><table>
 	<thead>
@@ -1047,8 +1068,8 @@
 	</tbody>
 </table></div>
 <p>具体版本和账户环境可能对模式有所限制。</p>
-<h2 id="61-权限规则来自哪里">6.1 权限规则来自哪里？
-</h2><p>规则可能来自多个层次：</p>
+<h3 id="权限规则来自哪里">权限规则来自哪里？
+</h3><p>规则可能来自多个层次：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1098,8 +1119,8 @@
 </span></span><span class="line"><span class="cl">Read(/outside/secret.txt)      询问或拒绝
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="62-mcp-工具怎样写权限规则">6.2 MCP 工具怎样写权限规则？
-</h2><p>MCP 工具通常使用带服务器名的完整名称，例如：</p>
+</div><h3 id="mcp-工具怎样写权限规则">MCP 工具怎样写权限规则？
+</h3><p>MCP 工具通常使用带服务器名的完整名称，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1111,14 +1132,14 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样权限系统可以只允许某个服务器的特定工具，也可以按服务器范围设置规则，避免不同 MCP 服务器出现同名工具时混淆。</p>
-<h2 id="63-dontask-为什么不等于全部自动允许">6.3 <code>dontAsk</code> 为什么不等于“全部自动允许”？
-</h2><p><code>dontAsk</code> 的意思更接近：</p>
+<h3 id="dontask-为什么不等于全部自动允许"><code>dontAsk</code> 为什么不等于“全部自动允许”？
+</h3><p><code>dontAsk</code> 的意思更接近：</p>
 <blockquote>
 <p>不要中断当前流程向用户弹窗。</p>
 </blockquote>
 <p>当操作无法自动判定为允许时，安全做法通常是拒绝，而不是擅自放行。这对于后台子代理尤其重要，因为后台任务未必能够显示交互确认界面。</p>
-<h2 id="64-bypasspermissions-仍不应该被理解成绝对沙箱逃逸">6.4 <code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸
-</h2><p>该模式会显著减少权限阻挡，但实际操作仍受以下因素约束：</p>
+<h3 id="bypasspermissions-仍不应该被理解成绝对沙箱逃逸"><code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸
+</h3><p>该模式会显著减少权限阻挡，但实际操作仍受以下因素约束：</p>
 <ul>
 <li>操作系统账户权限；</li>
 <li>文件系统权限；</li>
@@ -1131,14 +1152,14 @@
 </ul>
 <p>因此它不是“获得管理员权限”，但会移除 Claude Code 自身的一大层保护，使用时风险很高。</p>
 <hr>
-<h1 id="7-bash-工具并不是一个永远不关闭的终端">7. Bash 工具并不是一个永远不关闭的终端
-</h1><p>很多用户认为 Claude Code 启动后，会一直控制同一个 Shell 进程。</p>
+<h2 id="bash-工具并不是一个永远不关闭的终端">Bash 工具并不是一个永远不关闭的终端
+</h2><p>很多用户认为 Claude Code 启动后，会一直控制同一个 Shell 进程。</p>
 <p>从还原源码看，更准确的理解是：</p>
 <blockquote>
 <p>每次命令调用通常会启动新的 Shell 子进程，但 Claude Code 会保存并传递必要的工作目录和环境状态，让多次调用表现得像在连续使用同一个终端。</p>
 </blockquote>
-<h2 id="71-shell-怎样选择">7.1 Shell 怎样选择？
-</h2><p>程序会考虑：</p>
+<h3 id="shell-怎样选择">Shell 怎样选择？
+</h3><p>程序会考虑：</p>
 <ul>
 <li><code>CLAUDE_CODE_SHELL</code> 等覆盖变量；</li>
 <li>当前环境的 <code>SHELL</code>；</li>
@@ -1147,8 +1168,8 @@
 <li>必要的命令包装器。</li>
 </ul>
 <p>因此，Claude Code 中 Bash 工具的名称不代表所有平台都直接调用同一个 <code>/bin/bash</code> 路径。</p>
-<h2 id="72-工作目录怎样保持">7.2 工作目录怎样保持？
-</h2><p>假设第一条命令是：</p>
+<h3 id="工作目录怎样保持">工作目录怎样保持？
+</h3><p>假设第一条命令是：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1168,8 +1189,8 @@
 </div>
 </div><p>即使两个命令位于不同的 Shell 进程，Claude Code 也可以通过包装脚本或临时状态文件获得前一条命令结束时的目录，并更新会话中的当前工作目录。</p>
 <p>因此用户看到的是连续终端体验，但底层不一定是同一个长期存活的 Shell。</p>
-<h2 id="73-输出怎样返回">7.3 输出怎样返回？
-</h2><p>Bash 工具需要同时处理：</p>
+<h3 id="输出怎样返回">输出怎样返回？
+</h3><p>Bash 工具需要同时处理：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1191,8 +1212,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>前台命令可以边运行边产生进度消息。最终结果再被整理成模型能够阅读的文本。</p>
-<h2 id="74-长命令和后台任务">7.4 长命令和后台任务
-</h2><p>Bash 输入中可以带有超时或后台执行意图。对于长时间任务，程序可能：</p>
+<h3 id="长命令和后台任务">长命令和后台任务
+</h3><p>Bash 输入中可以带有超时或后台执行意图。对于长时间任务，程序可能：</p>
 <ul>
 <li>继续以前台方式等待；</li>
 <li>超时后报告；</li>
@@ -1201,8 +1222,8 @@
 <li>让后续工具查询任务状态。</li>
 </ul>
 <p>这也是为什么某些服务器、构建或测试命令不会永远卡住整个对话。</p>
-<h2 id="75-ctrlc-做了什么">7.5 <code>Ctrl+C</code> 做了什么？
-</h2><p>当用户中断时，Claude Code 不仅要停止界面显示，还要把取消信号传递给：</p>
+<h3 id="ctrlc-做了什么"><code>Ctrl+C</code> 做了什么？
+</h3><p>当用户中断时，Claude Code 不仅要停止界面显示，还要把取消信号传递给：</p>
 <ul>
 <li>当前 API 流；</li>
 <li>工具调用；</li>
@@ -1212,8 +1233,8 @@
 </ul>
 <p>源码中大量使用 <code>AbortController</code> 和 signal，就是为了让不同模块能够响应同一次取消操作。</p>
 <hr>
-<h1 id="8-edit-工具为什么经常要求先读取文件">8. Edit 工具为什么经常要求“先读取文件”？
-</h1><p>这是 Claude Code 防止误修改的重要机制。</p>
+<h2 id="edit-工具为什么经常要求先读取文件">Edit 工具为什么经常要求“先读取文件”？
+</h2><p>这是 Claude Code 防止误修改的重要机制。</p>
 <p>假设 Claude 之前读取到：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1246,8 +1267,8 @@
 </div>
 </div><p>如果文件已经变化，工具会拒绝直接编辑，并提示模型重新读取。</p>
 <p>这可以称为一种简单的“乐观并发控制”。</p>
-<h2 id="81-old_string-为什么必须唯一">8.1 <code>old_string</code> 为什么必须唯一？
-</h2><p>典型编辑请求包含：</p>
+<h3 id="old_string-为什么必须唯一"><code>old_string</code> 为什么必须唯一？
+</h3><p>典型编辑请求包含：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1279,8 +1300,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样匹配范围更具体。</p>
-<h2 id="82-edit-和-write-的区别">8.2 Edit 和 Write 的区别
-</h2><p>可以简单理解为：</p>
+<h3 id="edit-和-write-的区别">Edit 和 Write 的区别
+</h3><p>可以简单理解为：</p>
 <div class="table-wrapper"><table>
 	<thead>
 			<tr>
@@ -1300,8 +1321,8 @@
 	</tbody>
 </table></div>
 <p>Edit 对旧内容有明确匹配要求，通常更容易审查和防止意外覆盖；Write 的影响范围更大，权限系统也可能更加谨慎。</p>
-<h2 id="83-修改后还有哪些后续动作">8.3 修改后还有哪些后续动作？
-</h2><p>编辑完成后，程序还可能：</p>
+<h3 id="修改后还有哪些后续动作">修改后还有哪些后续动作？
+</h3><p>编辑完成后，程序还可能：</p>
 <ul>
 <li>更新文件历史记录；</li>
 <li>通知语言服务器文件已经变化；</li>
@@ -1312,8 +1333,8 @@
 </ul>
 <p>所以一次 Edit 不只是调用 <code>writeFile()</code>。</p>
 <hr>
-<h1 id="9-上下文管理不是只有一次-compact">9. 上下文管理不是只有一次 <code>/compact</code>
-</h1><p>长会话中，Claude Code 面临两个不同问题：</p>
+<h2 id="上下文管理不是只有一次-compact">上下文管理不是只有一次 <code>/compact</code>
+</h2><p>长会话中，Claude Code 面临两个不同问题：</p>
 <ol>
 <li>历史消息太长，模型请求即将超出上下文窗口；</li>
 <li>单个工具结果太大，占用了大量 token。</li>
@@ -1337,8 +1358,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>不同功能可能受模型、功能开关和运行环境影响。</p>
-<h2 id="91-工具结果裁剪">9.1 工具结果裁剪
-</h2><p>最先处理的通常是容易膨胀的内容，例如：</p>
+<h3 id="工具结果裁剪">工具结果裁剪
+</h3><p>最先处理的通常是容易膨胀的内容，例如：</p>
 <ul>
 <li>超长 Bash 日志；</li>
 <li>大文件读取结果；</li>
@@ -1347,15 +1368,15 @@
 <li>图片和文档结果。</li>
 </ul>
 <p>完整内容可以保存到磁盘，只在上下文里保留摘要或预览。</p>
-<h2 id="92-microcompact-是什么">9.2 Microcompact 是什么？
-</h2><p>Microcompact 可以理解为“小手术”。</p>
+<h3 id="microcompact-是什么">Microcompact 是什么？
+</h3><p>Microcompact 可以理解为“小手术”。</p>
 <p>它不会立刻重写整段对话，而是优先缩减旧的、体积很大的工具结果，例如早期的 Read、Grep、Glob、Shell、Edit 或 Write 输出。</p>
 <p>目标是：</p>
 <blockquote>
 <p>尽量保留对话结构，只删除继续工作已经不再需要的细节。</p>
 </blockquote>
-<h2 id="93-auto-compact-什么时候触发">9.3 Auto compact 什么时候触发？
-</h2><p>源码会根据模型上下文窗口、需要为压缩摘要保留的输出空间，以及安全缓冲区估算阈值。</p>
+<h3 id="auto-compact-什么时候触发">Auto compact 什么时候触发？
+</h3><p>源码会根据模型上下文窗口、需要为压缩摘要保留的输出空间，以及安全缓冲区估算阈值。</p>
 <p>该版本中的计算思路大致是：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1371,8 +1392,8 @@
 </div>
 </div><p>当估算 token 接近自动压缩阈值时，Claude Code 会生成压缩摘要，并用压缩后的消息继续查询。</p>
 <p>具体 token 数值属于版本实现细节，不应当视为所有模型和未来版本的固定规则。</p>
-<h2 id="94-压缩后为什么会忘记">9.4 压缩后为什么会“忘记”？
-</h2><p>压缩不是无损压缩。</p>
+<h3 id="压缩后为什么会忘记">压缩后为什么会“忘记”？
+</h3><p>压缩不是无损压缩。</p>
 <p>原始历史可能包含：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1400,8 +1421,8 @@
 <li>待办列表或计划文件。</li>
 </ul>
 <p>不要只依赖几十轮以前的一句聊天内容。</p>
-<h2 id="95-为什么要设置压缩失败熔断">9.5 为什么要设置压缩失败熔断？
-</h2><p>如果自动压缩连续失败，程序不能无限重复同一过程，否则可能陷入：</p>
+<h3 id="为什么要设置压缩失败熔断">为什么要设置压缩失败熔断？
+</h3><p>如果自动压缩连续失败，程序不能无限重复同一过程，否则可能陷入：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1422,14 +1443,14 @@
 </div>
 </div><p>还原源码中存在连续失败后的保护机制，用于停止反复尝试并转向错误处理。</p>
 <hr>
-<h1 id="10-子代理到底是什么">10. 子代理到底是什么？
-</h1><p>子代理不是主 Claude 的“另一个人格”，也不是一个长期独立存在的程序员。</p>
+<h2 id="子代理到底是什么">子代理到底是什么？
+</h2><p>子代理不是主 Claude 的“另一个人格”，也不是一个长期独立存在的程序员。</p>
 <p>它更接近：</p>
 <blockquote>
 <p>Claude Code 为一个子任务创建的独立查询循环，拥有自己的 Agent ID、消息、工具集合、权限上下文、模型选择和会话记录。</p>
 </blockquote>
-<h2 id="101-子代理可以拥有不同配置">10.1 子代理可以拥有不同配置
-</h2><p>Agent 定义可以影响：</p>
+<h3 id="子代理可以拥有不同配置">子代理可以拥有不同配置
+</h3><p>Agent 定义可以影响：</p>
 <ul>
 <li>使用哪个模型；</li>
 <li>能使用哪些工具；</li>
@@ -1442,8 +1463,8 @@
 <li>是否使用独立工作树。</li>
 </ul>
 <p>例如 Explore 代理适合搜索和阅读，而不是直接修改项目。</p>
-<h2 id="102-子代理获得多少主会话上下文">10.2 子代理获得多少主会话上下文？
-</h2><p>这取决于创建方式。</p>
+<h3 id="子代理获得多少主会话上下文">子代理获得多少主会话上下文？
+</h3><p>这取决于创建方式。</p>
 <p>普通子代理往往只得到：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1461,8 +1482,8 @@
 </div>
 </div><p>某些实验性的 fork 路径则可以继承主代理更完整的消息前缀，并复制文件读取状态，从而减少重复搜索并提高提示词缓存命中率。</p>
 <p>因此，不能笼统地说“每个子代理都完整复制主会话”。源码中存在多种路径和功能开关。</p>
-<h2 id="103-前台代理与后台代理的权限差异">10.3 前台代理与后台代理的权限差异
-</h2><p>前台代理可以在终端显示权限确认。</p>
+<h3 id="前台代理与后台代理的权限差异">前台代理与后台代理的权限差异
+</h3><p>前台代理可以在终端显示权限确认。</p>
 <p>后台代理如果没有可用的交互界面，遇到需要询问的操作就不能一直等待用户。因此它可能：</p>
 <ul>
 <li>自动拒绝需要弹窗的操作；</li>
@@ -1471,8 +1492,8 @@
 <li>只使用预先允许的工具。</li>
 </ul>
 <p>源码中会设置类似“避免权限提示”的状态，以防后台代理卡死。</p>
-<h2 id="104-子代理的结果怎样回到主代理">10.4 子代理的结果怎样回到主代理？
-</h2><p>子代理内部仍然运行同样的 <code>query()</code> 循环。它完成后，会把结果整理成主代理能够读取的消息或工具结果。</p>
+<h3 id="子代理的结果怎样回到主代理">子代理的结果怎样回到主代理？
+</h3><p>子代理内部仍然运行同样的 <code>query()</code> 循环。它完成后，会把结果整理成主代理能够读取的消息或工具结果。</p>
 <p>主代理看到的通常不是子代理的全部内部过程，而是：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1490,8 +1511,8 @@
 </div>
 </div><p>子代理自己的详细记录可以单独保存在 <code>subagents</code> 目录下。</p>
 <hr>
-<h1 id="11-mcp-的完整生命周期">11. MCP 的完整生命周期
-</h1><p>MCP，即 Model Context Protocol，可以让外部程序向 Claude Code 提供工具、资源或命令。</p>
+<h2 id="mcp-的完整生命周期">MCP 的完整生命周期
+</h2><p>MCP，即 Model Context Protocol，可以让外部程序向 Claude Code 提供工具、资源或命令。</p>
 <p>一次 MCP 连接大致经历：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1523,8 +1544,8 @@
 </span></span><span class="line"><span class="cl">    <span class="n">K</span> <span class="o">--&gt;</span> <span class="n">L</span><span class="p">[</span><span class="err">转换成</span> <span class="n">tool_result</span><span class="p">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="111-支持哪些连接方式">11.1 支持哪些连接方式？
-</h2><p>该源码快照中可以看到多种传输实现，包括：</p>
+</div><h3 id="支持哪些连接方式">支持哪些连接方式？
+</h3><p>该源码快照中可以看到多种传输实现，包括：</p>
 <ul>
 <li><code>stdio</code>：启动本地子进程，通过标准输入输出通信；</li>
 <li>SSE：通过 Server-Sent Events 通信；</li>
@@ -1532,8 +1553,8 @@
 <li>某些 IDE、WebSocket、代理或进程内传输路径。</li>
 </ul>
 <p>对普通用户而言，最常见的是 stdio 和 HTTP 类连接。</p>
-<h2 id="112-工具怎样被发现">11.2 工具怎样被发现？
-</h2><p>连接成功后，客户端会先检查服务器声明的 capabilities。</p>
+<h3 id="工具怎样被发现">工具怎样被发现？
+</h3><p>连接成功后，客户端会先检查服务器声明的 capabilities。</p>
 <p>如果服务器支持 tools，Claude Code 会发出类似：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1551,8 +1572,8 @@
 <li>skills 类资源；</li>
 <li>进度通知。</li>
 </ul>
-<h2 id="113-mcp-工具怎样执行">11.3 MCP 工具怎样执行？
-</h2><p>当模型调用：</p>
+<h3 id="mcp-工具怎样执行">MCP 工具怎样执行？
+</h3><p>当模型调用：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1584,8 +1605,8 @@
 <li>元数据。</li>
 </ul>
 <p>服务器返回结果后，Claude Code 再把文本、图片或错误转换成 Anthropic API 能接受的内容块。</p>
-<h2 id="114-断线后怎么办">11.4 断线后怎么办？
-</h2><p>MCP 客户端需要处理：</p>
+<h3 id="断线后怎么办">断线后怎么办？
+</h3><p>MCP 客户端需要处理：</p>
 <ul>
 <li>子进程退出；</li>
 <li>SSE 重连耗尽；</li>
@@ -1597,8 +1618,8 @@
 <p>源码中会在连接失效时清理连接和工具缓存，使后续调用能够重新连接并重新获取工具，而不是永久使用旧列表。</p>
 <p>对于 stdio 服务器，清理时还可能显式向子进程发送终止信号，以避免服务器进程残留。</p>
 <hr>
-<h1 id="12-hooks-是-claude-code-的检查站">12. Hooks 是 Claude Code 的“检查站”
-</h1><p>Hooks 允许用户、插件或组织策略在关键事件发生时执行额外逻辑。</p>
+<h2 id="hooks-是-claude-code-的检查站">Hooks 是 Claude Code 的“检查站”
+</h2><p>Hooks 允许用户、插件或组织策略在关键事件发生时执行额外逻辑。</p>
 <p>它们可以用来：</p>
 <ul>
 <li>记录日志；</li>
@@ -1631,8 +1652,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>具体可用事件会随版本和运行模式变化。</p>
-<h2 id="121-pretooluse">12.1 PreToolUse
-</h2><p>在工具真正执行前运行。</p>
+<h3 id="pretooluse">PreToolUse
+</h3><p>在工具真正执行前运行。</p>
 <p>它可以：</p>
 <ul>
 <li>查看工具名和输入；</li>
@@ -1642,8 +1663,8 @@
 <li>输出附加信息。</li>
 </ul>
 <p>例如，一个 Hook 可以禁止任何删除数据库的命令。</p>
-<h2 id="122-permissionrequest">12.2 PermissionRequest
-</h2><p>当普通规则无法自动判断、原本需要用户确认时，可以先交给权限 Hook。</p>
+<h3 id="permissionrequest">PermissionRequest
+</h3><p>当普通规则无法自动判断、原本需要用户确认时，可以先交给权限 Hook。</p>
 <p>例如企业环境可以规定：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1658,8 +1679,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于不能显示 UI 的后台 Agent，如果 Hook 也没有作出允许决定，客户端通常应采用拒绝策略，而不是无限等待。</p>
-<h2 id="123-posttooluse">12.3 PostToolUse
-</h2><p>在工具完成后运行，可用于：</p>
+<h3 id="posttooluse">PostToolUse
+</h3><p>在工具完成后运行，可用于：</p>
 <ul>
 <li>检查执行结果；</li>
 <li>追加说明；</li>
@@ -1667,8 +1688,8 @@
 <li>记录审计信息；</li>
 <li>将错误升级为阻止性结果。</li>
 </ul>
-<h2 id="124-hook-本身也有运行状态">12.4 Hook 本身也有运行状态
-</h2><p>还原源码中为 Hook 定义了独立事件流，包括：</p>
+<h3 id="hook-本身也有运行状态">Hook 本身也有运行状态
+</h3><p>还原源码中为 Hook 定义了独立事件流，包括：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1691,8 +1712,8 @@
 </ul>
 <p>这使终端界面或 SDK 能够展示 Hook 的实时进度，而不必把所有 Hook 日志混入主模型消息流。</p>
 <hr>
-<h1 id="13-会话保存不是简单的一条聊天数组">13. 会话保存不是简单的一条聊天数组
-</h1><p>Claude Code 的主会话通常保存为项目目录下的 JSONL 文件，例如：</p>
+<h2 id="会话保存不是简单的一条聊天数组">会话保存不是简单的一条聊天数组
+</h2><p>Claude Code 的主会话通常保存为项目目录下的 JSONL 文件，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1711,8 +1732,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>每一行是一个独立 JSON 记录，适合不断追加，而不必每次重写整个会话文件。</p>
-<h2 id="131-为什么消息需要-uuid-和-parentuuid">13.1 为什么消息需要 UUID 和 parentUuid？
-</h2><p>如果会话永远只有一条直线，数组就够了。</p>
+<h3 id="为什么消息需要-uuid-和-parentuuid">为什么消息需要 UUID 和 parentUuid？
+</h3><p>如果会话永远只有一条直线，数组就够了。</p>
 <p>但 Claude Code 可能出现：</p>
 <ul>
 <li>从某条历史消息继续；</li>
@@ -1754,8 +1775,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>恢复某个分支时，程序从叶节点沿着 <code>parentUuid</code> 向前追溯，再反转得到完整消息链。</p>
-<h2 id="132-compact-边界怎样记录">13.2 Compact 边界怎样记录？
-</h2><p>压缩后，原始历史和摘要之间需要建立逻辑关系。</p>
+<h3 id="compact-边界怎样记录">Compact 边界怎样记录？
+</h3><p>压缩后，原始历史和摘要之间需要建立逻辑关系。</p>
 <p>源码中可以看到 compact boundary、logical parent 等概念，用于表示：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1768,8 +1789,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这比简单删除旧消息更容易支持恢复和审计。</p>
-<h2 id="133-resume-恢复的到底是什么">13.3 <code>/resume</code> 恢复的到底是什么？
-</h2><p>恢复过程大致是：</p>
+<h3 id="resume-恢复的到底是什么"><code>/resume</code> 恢复的到底是什么？
+</h3><p>恢复过程大致是：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1790,8 +1811,8 @@
 </div>
 </div><p>它恢复的是本地记录和可重建状态，不是唤醒某个一直存在于服务器中的“原模型大脑”。</p>
 <p>模型之所以表现得像记得以前，是因为客户端再次把相关历史或摘要发送给了它。</p>
-<h2 id="134-哪些状态不能百分之百恢复">13.4 哪些状态不能百分之百恢复？
-</h2><p>以下运行时状态未必能够原样恢复：</p>
+<h3 id="哪些状态不能百分之百恢复">哪些状态不能百分之百恢复？
+</h3><p>以下运行时状态未必能够原样恢复：</p>
 <ul>
 <li>已经结束的 Shell 进程；</li>
 <li>丢失的临时文件；</li>
@@ -1803,8 +1824,8 @@
 </ul>
 <p>所以 <code>/resume</code> 是“根据日志继续工作”，不是虚拟机快照恢复。</p>
 <hr>
-<h1 id="14-错误发生时为什么还要补充-tool_result">14. 错误发生时，为什么还要补充 tool_result？
-</h1><p>Anthropic 消息协议要求工具请求和工具结果保持合理配对。</p>
+<h2 id="错误发生时为什么还要补充-tool_result">错误发生时，为什么还要补充 tool_result？
+</h2><p>Anthropic 消息协议要求工具请求和工具结果保持合理配对。</p>
 <p>假设模型一轮请求了三个工具：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1842,8 +1863,8 @@
 <blockquote>
 <p>这次工具调用没有成功，不要把它误认为仍在等待或已经完成。</p>
 </blockquote>
-<h2 id="141-api-错误怎样处理">14.1 API 错误怎样处理？
-</h2><p>API 层需要面对：</p>
+<h3 id="api-错误怎样处理">API 错误怎样处理？
+</h3><p>API 层需要面对：</p>
 <ul>
 <li>连接失败；</li>
 <li>流式响应中断；</li>
@@ -1874,8 +1895,8 @@
 </span></span><span class="line"><span class="cl">MCP 会话过期           清缓存后重新连接
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="142-为什么错误也必须返回给模型">14.2 为什么错误也必须返回给模型？
-</h2><p>工具失败本身也是环境反馈。</p>
+</div><h3 id="为什么错误也必须返回给模型">为什么错误也必须返回给模型？
+</h3><p>工具失败本身也是环境反馈。</p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1899,8 +1920,8 @@
 <p>能观察失败，并在下一轮根据失败原因重新决策。</p>
 </blockquote>
 <hr>
-<h1 id="15-把所有模块串成一次完整执行">15. 把所有模块串成一次完整执行
-</h1><p>假设用户输入：</p>
+<h2 id="把所有模块串成一次完整执行">把所有模块串成一次完整执行
+</h2><p>假设用户输入：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1910,8 +1931,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>更完整的执行过程如下。</p>
-<h2 id="阶段一准备上下文">阶段一：准备上下文
-</h2><div class="highlight"><div class="chroma">
+<h3 id="阶段一准备上下文">阶段一：准备上下文
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1929,8 +1950,8 @@
 </span></span><span class="line"><span class="cl">6. 检查是否需要先压缩上下文
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="阶段二第一次请求模型">阶段二：第一次请求模型
-</h2><p>发送内容包含：</p>
+</div><h3 id="阶段二第一次请求模型">阶段二：第一次请求模型
+</h3><p>发送内容包含：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1958,8 +1979,8 @@
 </span></span><span class="line"><span class="cl">tool_use：Bash(&#34;npm test -- login&#34;)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="阶段三执行-bash">阶段三：执行 Bash
-</h2><div class="highlight"><div class="chroma">
+</div><h3 id="阶段三执行-bash">阶段三：执行 Bash
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1984,8 +2005,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>测试结果指出 <code>src/auth/login.ts</code> 某处失败。</p>
-<h2 id="阶段四读取与定位">阶段四：读取与定位
-</h2><p>Claude 请求多个只读工具：</p>
+<h3 id="阶段四读取与定位">阶段四：读取与定位
+</h3><p>Claude 请求多个只读工具：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1999,8 +2020,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>调度器判断这些工具可以并发执行，于是同时运行，再按工具调用 ID 返回结果。</p>
-<h2 id="阶段五编辑">阶段五：编辑
-</h2><p>Claude 请求 Edit。</p>
+<h3 id="阶段五编辑">阶段五：编辑
+</h3><p>Claude 请求 Edit。</p>
 <p>Claude Code 会检查：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2019,11 +2040,11 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>检查通过后执行替换，并更新文件状态和语言服务器信息。</p>
-<h2 id="阶段六验证">阶段六：验证
-</h2><p>Claude 再次运行测试。</p>
+<h3 id="阶段六验证">阶段六：验证
+</h3><p>Claude 再次运行测试。</p>
 <p>如果测试通过，模型输出最终说明；如果失败，则进入下一轮分析。</p>
-<h2 id="阶段七保存">阶段七：保存
-</h2><div class="highlight"><div class="chroma">
+<h3 id="阶段七保存">阶段七：保存
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2135,8 +2156,8 @@
 </div>
 </div><p>这段代码不是仓库原文，而是对多个源码模块关系的教学化概括。</p>
 <hr>
-<h1 id="16-到这里claude-code-的工作原理讲完整了吗">16. 到这里，Claude Code 的工作原理讲完整了吗？
-</h1><p>经过上一篇和本文，已经覆盖了 Claude Code 的核心实现链路：</p>
+<h2 id="到这里claude-code-的工作原理讲完整了吗">到这里，Claude Code 的工作原理讲完整了吗？
+</h2><p>经过上一篇和本文，已经覆盖了 Claude Code 的核心实现链路：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -2212,8 +2233,8 @@
 <p>Claude 负责根据当前信息选择下一步；Claude Code 负责组织信息、验证请求、执行工具、保护本地环境、保存状态并把现实结果反馈给 Claude。所谓“自主编程”，正是这个闭环连续运行后产生的效果。</p>
 </blockquote>
 <hr>
-<h1 id="17-建议的源码阅读路线">17. 建议的源码阅读路线
-</h1><p>阅读还原源码时，可以按照任务链路，而不是目录顺序阅读：</p>
+<h2 id="建议的源码阅读路线">建议的源码阅读路线
+</h2><p>阅读还原源码时，可以按照任务链路，而不是目录顺序阅读：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -2282,8 +2303,8 @@
 </ol>
 <p>用这种方式，比试图一次理解数千个文件更有效。</p>
 <hr>
-<h1 id="参考源码">参考源码
-</h1><p>以下链接均指向 <code>evzz74/claude-code-sourcemap</code> 仓库的还原源码快照：</p>
+<h2 id="参考源码">参考源码
+</h2><p>以下链接均指向 <code>evzz74/claude-code-sourcemap</code> 仓库的还原源码快照：</p>
 <ol>
 <li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap"  target="_blank" rel="noopener"
     >仓库主页</a></li>
@@ -2359,7 +2380,7 @@
 
 
         <span>
-            最后更新于 Jul 28, 2026 06:30 UTC
+            最后更新于 Jul 28, 2026 06:47 UTC
         </span>
     </section></footer>
 
