@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Claude Code 是怎样工作的（二） 上一篇解释了 Claude Code 最重要的主循环：\n1 2 3 4 5 6 7 用户输入 → Claude Code 组织上下文 → 请求 Claude 模型 → 模型返回文字或 tool_use → 本地执行工具 → 将 tool_result 返回模型 → 继续循环 这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。\n">
+<title>Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理</title>
+
+<link rel='canonical' href='https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理">
+<meta property='og:description' content="Claude Code 是怎样工作的（二） 上一篇解释了 Claude Code 最重要的主循环：\n1 2 3 4 5 6 7 用户输入 → Claude Code 组织上下文 → 请求 Claude 模型 → 模型返回文字或 tool_use → 本地执行工具 → 将 tool_result 返回模型 → 继续循环 这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。\n">
+<meta property='og:url' content='https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/'>
+<meta property='og:site_name' content='Shaw&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Claude Code' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='MCP' /><meta property='article:published_time' content='2026-07-28T14:24:59&#43;08:00'/><meta property='article:modified_time' content='2026-07-28T06:30:59&#43;00:00'/>
+<meta name="twitter:title" content="Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理">
+<meta name="twitter:description" content="Claude Code 是怎样工作的（二） 上一篇解释了 Claude Code 最重要的主循环：\n1 2 3 4 5 6 7 用户输入 → Claude Code 组织上下文 → 请求 Claude 模型 → 模型返回文字或 tool_use → 本地执行工具 → 将 tool_result 返回模型 → 继续循环 这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Shaw&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/evzz74'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#21-claudemd-的角色">2.1 <code>CLAUDE.md</code> 的角色</a></li>
+    <li><a href="#22-git-信息为什么要等信任项目后再读取">2.2 Git 信息为什么要等“信任项目”后再读取？</a></li>
+    <li><a href="#23-为什么不把整个项目都塞进提示词">2.3 为什么不把整个项目都塞进提示词？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#31-普通文字块">3.1 普通文字块</a></li>
+    <li><a href="#32-思考块">3.2 思考块</a></li>
+    <li><a href="#33-工具请求-tool_use">3.3 工具请求 <code>tool_use</code></a></li>
+    <li><a href="#34-工具结果-tool_result">3.4 工具结果 <code>tool_result</code></a></li>
+    <li><a href="#35-为什么-tool_use-比-stop_reason-更适合判断是否继续">3.5 为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#41-每个字段解决什么问题">4.1 每个字段解决什么问题？</a></li>
+    <li><a href="#42-为什么需要两层验证">4.2 为什么需要两层验证？</a></li>
+    <li><a href="#43-为什么工具结果还要限制大小">4.3 为什么工具结果还要限制大小？</a></li>
+    <li><a href="#44-延迟工具和-tool-search">4.4 延迟工具和 Tool Search</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#61-权限规则来自哪里">6.1 权限规则来自哪里？</a></li>
+    <li><a href="#62-mcp-工具怎样写权限规则">6.2 MCP 工具怎样写权限规则？</a></li>
+    <li><a href="#63-dontask-为什么不等于全部自动允许">6.3 <code>dontAsk</code> 为什么不等于“全部自动允许”？</a></li>
+    <li><a href="#64-bypasspermissions-仍不应该被理解成绝对沙箱逃逸">6.4 <code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#71-shell-怎样选择">7.1 Shell 怎样选择？</a></li>
+    <li><a href="#72-工作目录怎样保持">7.2 工作目录怎样保持？</a></li>
+    <li><a href="#73-输出怎样返回">7.3 输出怎样返回？</a></li>
+    <li><a href="#74-长命令和后台任务">7.4 长命令和后台任务</a></li>
+    <li><a href="#75-ctrlc-做了什么">7.5 <code>Ctrl+C</code> 做了什么？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#81-old_string-为什么必须唯一">8.1 <code>old_string</code> 为什么必须唯一？</a></li>
+    <li><a href="#82-edit-和-write-的区别">8.2 Edit 和 Write 的区别</a></li>
+    <li><a href="#83-修改后还有哪些后续动作">8.3 修改后还有哪些后续动作？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#91-工具结果裁剪">9.1 工具结果裁剪</a></li>
+    <li><a href="#92-microcompact-是什么">9.2 Microcompact 是什么？</a></li>
+    <li><a href="#93-auto-compact-什么时候触发">9.3 Auto compact 什么时候触发？</a></li>
+    <li><a href="#94-压缩后为什么会忘记">9.4 压缩后为什么会“忘记”？</a></li>
+    <li><a href="#95-为什么要设置压缩失败熔断">9.5 为什么要设置压缩失败熔断？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#101-子代理可以拥有不同配置">10.1 子代理可以拥有不同配置</a></li>
+    <li><a href="#102-子代理获得多少主会话上下文">10.2 子代理获得多少主会话上下文？</a></li>
+    <li><a href="#103-前台代理与后台代理的权限差异">10.3 前台代理与后台代理的权限差异</a></li>
+    <li><a href="#104-子代理的结果怎样回到主代理">10.4 子代理的结果怎样回到主代理？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#111-支持哪些连接方式">11.1 支持哪些连接方式？</a></li>
+    <li><a href="#112-工具怎样被发现">11.2 工具怎样被发现？</a></li>
+    <li><a href="#113-mcp-工具怎样执行">11.3 MCP 工具怎样执行？</a></li>
+    <li><a href="#114-断线后怎么办">11.4 断线后怎么办？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#121-pretooluse">12.1 PreToolUse</a></li>
+    <li><a href="#122-permissionrequest">12.2 PermissionRequest</a></li>
+    <li><a href="#123-posttooluse">12.3 PostToolUse</a></li>
+    <li><a href="#124-hook-本身也有运行状态">12.4 Hook 本身也有运行状态</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#131-为什么消息需要-uuid-和-parentuuid">13.1 为什么消息需要 UUID 和 parentUuid？</a></li>
+    <li><a href="#132-compact-边界怎样记录">13.2 Compact 边界怎样记录？</a></li>
+    <li><a href="#133-resume-恢复的到底是什么">13.3 <code>/resume</code> 恢复的到底是什么？</a></li>
+    <li><a href="#134-哪些状态不能百分之百恢复">13.4 哪些状态不能百分之百恢复？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#141-api-错误怎样处理">14.1 API 错误怎样处理？</a></li>
+    <li><a href="#142-为什么错误也必须返回给模型">14.2 为什么错误也必须返回给模型？</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#阶段一准备上下文">阶段一：准备上下文</a></li>
+    <li><a href="#阶段二第一次请求模型">阶段二：第一次请求模型</a></li>
+    <li><a href="#阶段三执行-bash">阶段三：执行 Bash</a></li>
+    <li><a href="#阶段四读取与定位">阶段四：读取与定位</a></li>
+    <li><a href="#阶段五编辑">阶段五：编辑</a></li>
+    <li><a href="#阶段六验证">阶段六：验证</a></li>
+    <li><a href="#阶段七保存">阶段七：保存</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <progress id="content_progress" value="0"></progress>
+
+    <style>
+        #content_progress {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: none;
+            background-color: transparent;
+            color: #0095ea;
+        }
+
+        #content_progress::-webkit-progress-bar {
+            background-color: transparent;
+        }
+
+        #content_progress::-webkit-progress-value {
+            background-color: #0095ea;
+        }
+
+        #content_progress::-moz-progress-bar {
+            background-color: #0095ea;
+        }
+    </style>
+
+    <script>
+        (function () {
+            function initContentProgress() {
+                var progressBar = document.querySelector('#content_progress');
+                if (!progressBar) {
+                    return;
+                }
+
+                function updateProgress() {
+                    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    progressBar.max = Math.max(maxScroll, 0);
+                    progressBar.value = window.scrollY;
+                }
+
+                updateProgress();
+                document.removeEventListener('scroll', updateProgress);
+                document.addEventListener('scroll', updateProgress, { passive: true });
+                window.removeEventListener('resize', updateProgress);
+                window.addEventListener('resize', updateProgress);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initContentProgress);
+            } else {
+                initContentProgress();
+            }
+
+            document.addEventListener('pjax:complete', initContentProgress);
+        })();
+    </script>
+
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/" >
+                学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/">Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 28, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 23 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="claude-code-是怎样工作的二">Claude Code 是怎样工作的（二）
+</h1><p>上一篇解释了 Claude Code 最重要的主循环：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户输入
+</span></span><span class="line"><span class="cl">→ Claude Code 组织上下文
+</span></span><span class="line"><span class="cl">→ 请求 Claude 模型
+</span></span><span class="line"><span class="cl">→ 模型返回文字或 tool_use
+</span></span><span class="line"><span class="cl">→ 本地执行工具
+</span></span><span class="line"><span class="cl">→ 将 tool_result 返回模型
+</span></span><span class="line"><span class="cl">→ 继续循环
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这已经足以回答“Claude Code 为什么能读取文件、运行命令和修改代码”。</p>
+<p>但是，如果继续追问下面这些问题，上一篇还不够：</p>
+<ul>
+<li><code>CLAUDE.md</code> 到底怎样进入模型上下文？</li>
+<li>API 中的 <code>tool_use</code> 和 <code>tool_result</code> 怎样配对？</li>
+<li>为什么读取文件通常不询问，修改文件却可能询问？</li>
+<li>Bash 命令是不是一直运行在同一个终端进程里？</li>
+<li>Claude Code 怎样防止在旧版本文件上错误修改？</li>
+<li><code>/compact</code> 和自动压缩究竟做了什么？</li>
+<li>子代理是不是完整复制了主代理？</li>
+<li>MCP 服务器如何连接、发现工具并执行？</li>
+<li><code>/resume</code> 恢复的是模型记忆，还是本地日志？</li>
+<li>网络中断或工具执行失败时，消息链怎样保持有效？</li>
+</ul>
+<p>本文继续基于 <code>evzz74/claude-code-sourcemap</code> 仓库中恢复的 <strong>Claude Code 2.1.88</strong> 源码，对这些实现细节进行说明。</p>
+<blockquote>
+<p>注意：该仓库不是 Anthropic 官方开发仓库，而是从公开 npm 包和 source map 中还原的代码快照。它非常适合研究程序结构，但不能保证目录名、变量名和内部开发仓库完全一致。部分功能还受实验开关、账户类型、运行模式和平台影响。</p>
+</blockquote>
+<hr>
+<h1 id="1-先建立一个更完整的架构图">1. 先建立一个更完整的架构图
+</h1><p>Claude Code 不是一个单独的“聊天程序”，而是由多层系统共同组成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">flowchart</span> <span class="n">TB</span>
+</span></span><span class="line"><span class="cl">    <span class="n">U</span><span class="p">[</span><span class="err">用户与终端界面</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">P</span><span class="p">[</span><span class="err">输入与提示词组装层</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">P</span> <span class="o">--&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">Anthropic</span> <span class="n">API</span> <span class="err">客户端</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="o">--&gt;</span> <span class="n">M</span><span class="p">[</span><span class="n">Claude</span> <span class="err">模型</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">M</span> <span class="o">--&gt;|</span><span class="n">text</span> <span class="o">/</span> <span class="n">thinking</span><span class="o">|</span> <span class="n">U</span>
+</span></span><span class="line"><span class="cl">    <span class="n">M</span> <span class="o">--&gt;|</span><span class="n">tool_use</span><span class="o">|</span> <span class="n">D</span><span class="p">[</span><span class="err">工具调度层</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">D</span> <span class="o">--&gt;</span> <span class="n">V</span><span class="p">[</span><span class="err">参数验证</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">V</span> <span class="o">--&gt;</span> <span class="n">H</span><span class="p">[</span><span class="n">Hooks</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">--&gt;</span> <span class="n">R</span><span class="p">[</span><span class="err">权限引擎</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">R</span> <span class="o">--&gt;</span> <span class="n">T</span><span class="p">[</span><span class="err">本地工具或</span> <span class="n">MCP</span> <span class="err">工具</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">T</span> <span class="o">--&gt;</span> <span class="n">O</span><span class="p">[</span><span class="err">工具结果标准化</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">O</span> <span class="o">--&gt;|</span><span class="n">tool_result</span><span class="o">|</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">P</span> <span class="o">&lt;--&gt;</span> <span class="n">C</span><span class="p">[</span><span class="err">上下文与压缩系统</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">P</span> <span class="o">&lt;--&gt;</span> <span class="n">S</span><span class="p">[</span><span class="err">会话与</span> <span class="n">JSONL</span> <span class="err">存储</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">D</span> <span class="o">&lt;--&gt;</span> <span class="n">G</span><span class="p">[</span><span class="err">子代理调度系统</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以把它分成四个核心层次：</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>层次</th>
+					<th>主要职责</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>决策层</td>
+					<td>Claude 模型判断下一步应该做什么</td>
+			</tr>
+			<tr>
+					<td>执行层</td>
+					<td>Read、Edit、Bash、MCP 等工具执行实际操作</td>
+			</tr>
+			<tr>
+					<td>控制层</td>
+					<td>参数验证、权限规则、Hooks、并发调度和中断</td>
+			</tr>
+			<tr>
+					<td>状态层</td>
+					<td>对话消息、项目上下文、文件状态、压缩摘要和会话记录</td>
+			</tr>
+	</tbody>
+</table></div>
+<p>上一篇主要讲了决策层和执行层之间的循环；本文重点补全控制层和状态层。</p>
+<hr>
+<h1 id="2-系统提示词不是一段固定文字">2. 系统提示词不是一段固定文字
+</h1><p>很多人会把“系统提示词”理解成一段写死在程序里的长文本。实际运行时，它更像是由多个来源拼接而成的工作包。</p>
+<p>Claude Code 启动和执行任务时，可能需要组织以下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Claude Code 内置行为说明
+</span></span><span class="line"><span class="cl">+ 当前操作系统和终端环境
+</span></span><span class="line"><span class="cl">+ 当前工作目录
+</span></span><span class="line"><span class="cl">+ Git 仓库状态
+</span></span><span class="line"><span class="cl">+ 用户级和项目级 CLAUDE.md
+</span></span><span class="line"><span class="cl">+ 当前可用工具的说明
+</span></span><span class="line"><span class="cl">+ Skills、插件和 Agent 定义
+</span></span><span class="line"><span class="cl">+ 权限模式与运行模式
+</span></span><span class="line"><span class="cl">+ 本轮用户输入
+</span></span><span class="line"><span class="cl">+ 之前的对话与工具结果
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些内容并不一定全部放在同一个 API 字段里，但最终都会影响模型这一轮能够看到的信息。</p>
+<h2 id="21-claudemd-的角色">2.1 <code>CLAUDE.md</code> 的角色
+</h2><p><code>CLAUDE.md</code> 可以理解为提供给 Claude 的项目说明书。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># Project rules
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">-</span> 本项目使用 TypeScript。
+</span></span><span class="line"><span class="cl"><span class="k">-</span> 不允许使用 any。
+</span></span><span class="line"><span class="cl"><span class="k">-</span> 修改后必须执行 npm test。
+</span></span><span class="line"><span class="cl"><span class="k">-</span> 不得修改 generated 目录。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude Code 会搜索适用的记忆或说明文件，并将整理后的内容加入用户上下文。模型随后才能在执行任务时参考这些规则。</p>
+<p>需要注意两点：</p>
+<p>第一，<code>CLAUDE.md</code> 只是上下文，不是强制执行代码。模型通常会遵守，但真正可靠的限制仍应由权限规则、Hooks、测试或 CI 实现。</p>
+<p>第二，子代理不一定获得与主代理完全相同的 <code>CLAUDE.md</code>。在还原源码中，某些只读的 Explore 或 Plan 代理可以省略部分项目说明，以节省上下文 token；这属于具体版本中的优化策略。</p>
+<h2 id="22-git-信息为什么要等信任项目后再读取">2.2 Git 信息为什么要等“信任项目”后再读取？
+</h2><p>系统上下文可能包含：</p>
+<ul>
+<li>当前分支；</li>
+<li>主分支；</li>
+<li>最近提交；</li>
+<li>工作区修改状态；</li>
+<li>Git 用户信息。</li>
+</ul>
+<p>但源码中专门提醒：运行某些 Git 命令可能触发 Git 配置、过滤器或 Hook，因此在交互模式下，程序会考虑项目是否已经被用户信任，再执行相关的上下文收集。</p>
+<p>这说明即使看起来只是“读取仓库状态”，Claude Code 也把它视为可能接触本地执行环境的行为，而不是纯文本操作。</p>
+<h2 id="23-为什么不把整个项目都塞进提示词">2.3 为什么不把整个项目都塞进提示词？
+</h2><p>因为上下文窗口有限，而且大型项目可能包含数万个文件。</p>
+<p>Claude Code 更常采用“先给地图，再按需读取”的方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">提供工作目录和项目规则
+</span></span><span class="line"><span class="cl">→ Claude 判断需要搜索什么
+</span></span><span class="line"><span class="cl">→ Glob/Grep 找到候选文件
+</span></span><span class="line"><span class="cl">→ Read 读取必要内容
+</span></span><span class="line"><span class="cl">→ 再决定下一步
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以 Claude Code 对项目的认识是逐步建立的。没有读取过的文件，模型并不会自动知道其中的精确内容。</p>
+<hr>
+<h1 id="3-api-消息不是只有提问和回答">3. API 消息不是只有“提问”和“回答”
+</h1><p>普通聊天看起来只有两种消息：用户消息和助手消息。</p>
+<p>Claude Code 的对话中还包含结构化内容块。下面使用简化格式说明。</p>
+<h2 id="31-普通文字块">3.1 普通文字块
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;我先读取 package.json。&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这部分会显示给用户。</p>
+<h2 id="32-思考块">3.2 思考块
+</h2><p>某些模型和配置可能返回 <code>thinking</code> 或经过处理的思考内容块。Claude Code 需要正确接收、保存或转换这些块，但它们不等同于工具执行结果。</p>
+<p>从程序角度看，最重要的是区分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">模型在输出解释
+</span></span><span class="line"><span class="cl">模型在进行思考
+</span></span><span class="line"><span class="cl">模型在请求工具
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="33-工具请求-tool_use">3.3 工具请求 <code>tool_use</code>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;tool_use&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;toolu_01ABC&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Read&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;file_path&#34;</span><span class="p">:</span> <span class="s2">&#34;/project/package.json&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的 <code>id</code> 非常重要。</p>
+<p>它表示：这是一次特定的工具调用。即使同一轮中连续调用三个 Read，每一个调用也有自己的 ID。</p>
+<h2 id="34-工具结果-tool_result">3.4 工具结果 <code>tool_result</code>
+</h2><p>Claude Code 执行后，会构造类似下面的结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;tool_result&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool_use_id&#34;</span><span class="p">:</span> <span class="s2">&#34;toolu_01ABC&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;{\n  \&#34;name\&#34;: \&#34;demo\&#34;\n}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>tool_use_id</code> 必须指向前面的 <code>tool_use.id</code>。</p>
+<p>可以把它理解成快递单号：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">tool_use.id       = 发出的任务单号
+</span></span><span class="line"><span class="cl">tool_result.id    = 返回结果对应的任务单号
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果配错，模型就无法判断某个输出究竟属于哪个工具调用。</p>
+<h2 id="35-为什么-tool_use-比-stop_reason-更适合判断是否继续">3.5 为什么 <code>tool_use</code> 比 <code>stop_reason</code> 更适合判断是否继续？
+</h2><p>在还原源码的查询循环中，程序会直接检查助手消息里是否存在 <code>tool_use</code> 内容块，并把它作为是否继续工具循环的重要信号。</p>
+<p>原因很简单：流式接口、网关兼容和不同结束状态可能让 <code>stop_reason</code> 的表现不够统一，但消息中存在明确的工具请求，就意味着客户端必须先处理它。</p>
+<p>因此，可靠的判断逻辑更接近：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">toolCalls</span> <span class="o">=</span> <span class="nx">assistantMessage</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">block</span> <span class="o">=&gt;</span> <span class="nx">block</span><span class="p">.</span><span class="kr">type</span> <span class="o">===</span> <span class="s2">&#34;tool_use&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">toolCalls</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 本轮不需要继续执行工具
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h1 id="4-工具不是一个函数而是一套统一接口">4. 工具不是一个函数，而是一套统一接口
+</h1><p>Claude Code 中的工具需要遵循统一抽象。不同工具的内部实现不同，但对调度器而言，它们拥有相似的外形。</p>
+<p>下面是高度简化后的概念接口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Tool</span><span class="p">&lt;</span><span class="nt">Input</span><span class="p">,</span> <span class="na">Result</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span>: <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span>: <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">inputSchema</span>: <span class="kt">Schema</span><span class="p">&lt;</span><span class="nt">Input</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">isReadOnly</span><span class="p">()</span><span class="o">:</span> <span class="kr">boolean</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">isConcurrencySafe</span><span class="p">()</span><span class="o">:</span> <span class="kr">boolean</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">isEnabled</span><span class="p">()</span><span class="o">:</span> <span class="kr">boolean</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">validateInput</span><span class="o">?</span><span class="p">(</span><span class="nx">input</span>: <span class="kt">Input</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">checkPermissions</span><span class="o">?</span><span class="p">(</span><span class="nx">input</span>: <span class="kt">Input</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">PermissionResult</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">call</span><span class="p">(</span><span class="nx">input</span>: <span class="kt">Input</span><span class="p">,</span> <span class="nx">context</span>: <span class="kt">ToolUseContext</span><span class="p">)</span><span class="o">:</span> <span class="nx">AsyncGenerator</span><span class="p">&lt;</span><span class="nt">Result</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">mapToolResultToToolResultBlockParam</span><span class="p">(</span><span class="nx">result</span>: <span class="kt">Result</span><span class="p">)</span><span class="o">:</span> <span class="nx">ToolResultBlock</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="41-每个字段解决什么问题">4.1 每个字段解决什么问题？
+</h2><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>description</code></td>
+					<td>告诉 Claude 这个工具能做什么</td>
+			</tr>
+			<tr>
+					<td><code>inputSchema</code></td>
+					<td>规定模型必须提供哪些参数</td>
+			</tr>
+			<tr>
+					<td><code>validateInput</code></td>
+					<td>做更具体的业务验证</td>
+			</tr>
+			<tr>
+					<td><code>isReadOnly</code></td>
+					<td>表示工具是否只读取，不修改环境</td>
+			</tr>
+			<tr>
+					<td><code>isConcurrencySafe</code></td>
+					<td>判断能否与其他工具并发运行</td>
+			</tr>
+			<tr>
+					<td><code>checkPermissions</code></td>
+					<td>进行工具专属权限判断</td>
+			</tr>
+			<tr>
+					<td><code>call</code></td>
+					<td>真正执行操作</td>
+			</tr>
+			<tr>
+					<td>结果映射函数</td>
+					<td>把内部结果转换为 API 可接受的 <code>tool_result</code></td>
+			</tr>
+	</tbody>
+</table></div>
+<h2 id="42-为什么需要两层验证">4.2 为什么需要两层验证？
+</h2><p>Schema 可以判断：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">file_path 是否存在
+</span></span><span class="line"><span class="cl">command 是否是字符串
+</span></span><span class="line"><span class="cl">timeout 是否是数字
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但它无法解决所有业务问题，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文件是否刚刚被外部修改
+</span></span><span class="line"><span class="cl">命令是否访问项目外路径
+</span></span><span class="line"><span class="cl">old_string 是否在文件中唯一出现
+</span></span><span class="line"><span class="cl">目标工具当前是否启用
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以典型流程是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">JSON Schema 验证
+</span></span><span class="line"><span class="cl">→ 工具自己的 validateInput
+</span></span><span class="line"><span class="cl">→ Hooks
+</span></span><span class="line"><span class="cl">→ 权限判断
+</span></span><span class="line"><span class="cl">→ call() 执行
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="43-为什么工具结果还要限制大小">4.3 为什么工具结果还要限制大小？
+</h2><p>命令可能输出几百 MB 日志，读取文件也可能得到超长内容。如果原样全部返回模型，会迅速占满上下文窗口。</p>
+<p>工具系统可以：</p>
+<ul>
+<li>截断过长结果；</li>
+<li>保存完整结果到本地临时文件；</li>
+<li>只给模型预览和文件位置；</li>
+<li>对特定工具使用不同上限。</li>
+</ul>
+<p>这样既保留完整数据，又避免一次工具调用占满整个会话。</p>
+<h2 id="44-延迟工具和-tool-search">4.4 延迟工具和 Tool Search
+</h2><p>当内置工具、插件和 MCP 工具很多时，把全部 schema 每轮都发送给模型也会浪费大量 token。</p>
+<p>因此，某些工具可以采用延迟加载：先只暴露工具搜索能力，模型确认需要某类能力后，再把匹配的工具加入可用集合。</p>
+<p>这类似于：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">不是把整座仓库搬到办公桌上
+</span></span><span class="line"><span class="cl">而是先查目录，再取需要的档案
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h1 id="5-一次工具调用实际经历了什么">5. 一次工具调用实际经历了什么？
+</h1><p>工具执行并不是直接调用 <code>tool.call()</code>。</p>
+<p>更完整的执行链大致如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">flowchart</span> <span class="n">TD</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="p">[</span><span class="err">收到</span> <span class="n">tool_use</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">B</span><span class="p">[</span><span class="err">按名称查找工具</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">--&gt;</span> <span class="n">C</span><span class="p">{</span><span class="err">工具存在且启用吗</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="o">--&gt;|</span><span class="err">否</span><span class="o">|</span> <span class="n">X</span><span class="p">[</span><span class="err">构造错误</span> <span class="n">tool_result</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="o">--&gt;|</span><span class="err">是</span><span class="o">|</span> <span class="n">D</span><span class="p">[</span><span class="n">Schema</span> <span class="err">与输入验证</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">D</span> <span class="o">--&gt;</span> <span class="n">E</span><span class="p">[</span><span class="err">运行</span> <span class="n">PreToolUse</span> <span class="n">Hooks</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E</span> <span class="o">--&gt;</span> <span class="n">F</span><span class="p">{</span><span class="n">Hook</span> <span class="err">是否阻止或修改输入</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span> <span class="o">--&gt;|</span><span class="err">阻止</span><span class="o">|</span> <span class="n">X</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span> <span class="o">--&gt;|</span><span class="err">继续</span><span class="o">|</span> <span class="n">G</span><span class="p">[</span><span class="err">权限规则与工具权限检查</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">G</span> <span class="o">--&gt;</span> <span class="n">H</span><span class="p">{</span><span class="err">允许执行吗</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">--&gt;|</span><span class="err">拒绝</span><span class="o">|</span> <span class="n">X</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">--&gt;|</span><span class="err">询问</span><span class="o">|</span> <span class="n">I</span><span class="p">[</span><span class="err">显示确认界面</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">I</span> <span class="o">--&gt;</span> <span class="n">H</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">--&gt;|</span><span class="err">允许</span><span class="o">|</span> <span class="n">J</span><span class="p">[</span><span class="err">调用</span> <span class="k">tool</span><span class="o">.</span><span class="n">call</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">J</span> <span class="o">--&gt;</span> <span class="n">K</span><span class="p">[</span><span class="err">收集进度和最终结果</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">K</span> <span class="o">--&gt;</span> <span class="n">L</span><span class="p">[</span><span class="err">运行</span> <span class="n">PostToolUse</span> <span class="n">Hooks</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span> <span class="o">--&gt;</span> <span class="n">M</span><span class="p">[</span><span class="err">标准化为</span> <span class="n">tool_result</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">M</span> <span class="o">--&gt;</span> <span class="n">N</span><span class="p">[</span><span class="err">返回模型</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">X</span> <span class="o">--&gt;</span> <span class="n">N</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这条链路的意义是：</p>
+<blockquote>
+<p>Claude 只能提出请求；本地客户端保留验证、修改、拒绝和中止请求的权力。</p>
+</blockquote>
+<hr>
+<h1 id="6-权限系统怎样决定-allowask-和-deny">6. 权限系统怎样决定 Allow、Ask 和 Deny？
+</h1><p>Claude Code 的权限并不只是一个“是否自动允许”的开关，而是多种模式和多来源规则共同作用的结果。</p>
+<p>在该源码快照中可以看到的主要权限模式包括：</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>大致含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>default</code></td>
+					<td>按默认规则判断，必要时询问用户</td>
+			</tr>
+			<tr>
+					<td><code>acceptEdits</code></td>
+					<td>更积极地允许文件编辑，但不等于所有操作都无条件允许</td>
+			</tr>
+			<tr>
+					<td><code>plan</code></td>
+					<td>以分析和规划为主，通常限制修改类操作</td>
+			</tr>
+			<tr>
+					<td><code>dontAsk</code></td>
+					<td>不弹出询问；原本需要询问的操作可能直接拒绝</td>
+			</tr>
+			<tr>
+					<td><code>bypassPermissions</code></td>
+					<td>跳过大部分普通权限确认，风险很高</td>
+			</tr>
+			<tr>
+					<td><code>auto</code></td>
+					<td>某些构建或功能开关下使用自动分类判断</td>
+			</tr>
+	</tbody>
+</table></div>
+<p>具体版本和账户环境可能对模式有所限制。</p>
+<h2 id="61-权限规则来自哪里">6.1 权限规则来自哪里？
+</h2><p>规则可能来自多个层次：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">管理员或策略设置
+</span></span><span class="line"><span class="cl">+ 用户 settings
+</span></span><span class="line"><span class="cl">+ 项目 settings
+</span></span><span class="line"><span class="cl">+ 命令行参数
+</span></span><span class="line"><span class="cl">+ 当前会话临时规则
+</span></span><span class="line"><span class="cl">+ Agent 自己的 allowedTools
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不同来源可能分别提供：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Allow 规则
+</span></span><span class="line"><span class="cl">Ask 规则
+</span></span><span class="line"><span class="cl">Deny 规则
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际判断时，程序不仅看工具名，还可能看工具参数。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Bash(npm test)                 允许
+</span></span><span class="line"><span class="cl">Bash(git status)               允许
+</span></span><span class="line"><span class="cl">Bash(rm -rf /somewhere)        拒绝或询问
+</span></span><span class="line"><span class="cl">Read(/project/src/a.ts)        允许
+</span></span><span class="line"><span class="cl">Read(/outside/secret.txt)      询问或拒绝
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="62-mcp-工具怎样写权限规则">6.2 MCP 工具怎样写权限规则？
+</h2><p>MCP 工具通常使用带服务器名的完整名称，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">mcp__github__search_issues
+</span></span><span class="line"><span class="cl">mcp__database__run_query
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样权限系统可以只允许某个服务器的特定工具，也可以按服务器范围设置规则，避免不同 MCP 服务器出现同名工具时混淆。</p>
+<h2 id="63-dontask-为什么不等于全部自动允许">6.3 <code>dontAsk</code> 为什么不等于“全部自动允许”？
+</h2><p><code>dontAsk</code> 的意思更接近：</p>
+<blockquote>
+<p>不要中断当前流程向用户弹窗。</p>
+</blockquote>
+<p>当操作无法自动判定为允许时，安全做法通常是拒绝，而不是擅自放行。这对于后台子代理尤其重要，因为后台任务未必能够显示交互确认界面。</p>
+<h2 id="64-bypasspermissions-仍不应该被理解成绝对沙箱逃逸">6.4 <code>bypassPermissions</code> 仍不应该被理解成绝对沙箱逃逸
+</h2><p>该模式会显著减少权限阻挡，但实际操作仍受以下因素约束：</p>
+<ul>
+<li>操作系统账户权限；</li>
+<li>文件系统权限；</li>
+<li>容器或沙箱；</li>
+<li>工具自身验证；</li>
+<li>企业策略；</li>
+<li>Hooks；</li>
+<li>命令实际是否存在；</li>
+<li>网络和服务端权限。</li>
+</ul>
+<p>因此它不是“获得管理员权限”，但会移除 Claude Code 自身的一大层保护，使用时风险很高。</p>
+<hr>
+<h1 id="7-bash-工具并不是一个永远不关闭的终端">7. Bash 工具并不是一个永远不关闭的终端
+</h1><p>很多用户认为 Claude Code 启动后，会一直控制同一个 Shell 进程。</p>
+<p>从还原源码看，更准确的理解是：</p>
+<blockquote>
+<p>每次命令调用通常会启动新的 Shell 子进程，但 Claude Code 会保存并传递必要的工作目录和环境状态，让多次调用表现得像在连续使用同一个终端。</p>
+</blockquote>
+<h2 id="71-shell-怎样选择">7.1 Shell 怎样选择？
+</h2><p>程序会考虑：</p>
+<ul>
+<li><code>CLAUDE_CODE_SHELL</code> 等覆盖变量；</li>
+<li>当前环境的 <code>SHELL</code>；</li>
+<li>系统中可用的 Bash 或 Zsh；</li>
+<li>平台差异；</li>
+<li>必要的命令包装器。</li>
+</ul>
+<p>因此，Claude Code 中 Bash 工具的名称不代表所有平台都直接调用同一个 <code>/bin/bash</code> 路径。</p>
+<h2 id="72-工作目录怎样保持">7.2 工作目录怎样保持？
+</h2><p>假设第一条命令是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> packages/server
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下一条命令又是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm <span class="nb">test</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>即使两个命令位于不同的 Shell 进程，Claude Code 也可以通过包装脚本或临时状态文件获得前一条命令结束时的目录，并更新会话中的当前工作目录。</p>
+<p>因此用户看到的是连续终端体验，但底层不一定是同一个长期存活的 Shell。</p>
+<h2 id="73-输出怎样返回">7.3 输出怎样返回？
+</h2><p>Bash 工具需要同时处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">stdout 标准输出
+</span></span><span class="line"><span class="cl">stderr 错误输出
+</span></span><span class="line"><span class="cl">退出码
+</span></span><span class="line"><span class="cl">持续运行中的进度
+</span></span><span class="line"><span class="cl">超时
+</span></span><span class="line"><span class="cl">用户中断
+</span></span><span class="line"><span class="cl">后台任务状态
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>前台命令可以边运行边产生进度消息。最终结果再被整理成模型能够阅读的文本。</p>
+<h2 id="74-长命令和后台任务">7.4 长命令和后台任务
+</h2><p>Bash 输入中可以带有超时或后台执行意图。对于长时间任务，程序可能：</p>
+<ul>
+<li>继续以前台方式等待；</li>
+<li>超时后报告；</li>
+<li>在允许的情况下转入后台；</li>
+<li>保存输出位置和任务 ID；</li>
+<li>让后续工具查询任务状态。</li>
+</ul>
+<p>这也是为什么某些服务器、构建或测试命令不会永远卡住整个对话。</p>
+<h2 id="75-ctrlc-做了什么">7.5 <code>Ctrl+C</code> 做了什么？
+</h2><p>当用户中断时，Claude Code 不仅要停止界面显示，还要把取消信号传递给：</p>
+<ul>
+<li>当前 API 流；</li>
+<li>工具调用；</li>
+<li>Shell 子进程；</li>
+<li>相关后台任务；</li>
+<li>子代理。</li>
+</ul>
+<p>源码中大量使用 <code>AbortController</code> 和 signal，就是为了让不同模块能够响应同一次取消操作。</p>
+<hr>
+<h1 id="8-edit-工具为什么经常要求先读取文件">8. Edit 工具为什么经常要求“先读取文件”？
+</h1><p>这是 Claude Code 防止误修改的重要机制。</p>
+<p>假设 Claude 之前读取到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="mi">30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>随后用户或其他程序把文件改成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="mi">60</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果 Claude 仍根据旧内容执行替换，它可能覆盖用户刚做的修改。</p>
+<p>因此 Edit 工具会利用读取文件时保存的状态，检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">当前文件内容
+</span></span><span class="line"><span class="cl">是否仍等于最近一次完整读取时的内容
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果文件已经变化，工具会拒绝直接编辑，并提示模型重新读取。</p>
+<p>这可以称为一种简单的“乐观并发控制”。</p>
+<h2 id="81-old_string-为什么必须唯一">8.1 <code>old_string</code> 为什么必须唯一？
+</h2><p>典型编辑请求包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;file_path&#34;</span><span class="p">:</span> <span class="s2">&#34;src/config.ts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;old_string&#34;</span><span class="p">:</span> <span class="s2">&#34;const timeout = 30&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;new_string&#34;</span><span class="p">:</span> <span class="s2">&#34;const timeout = 60&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果 <code>old_string</code> 在文件中出现三次，而 <code>replace_all</code> 没有开启，Claude Code 无法判断模型究竟想改哪一处。</p>
+<p>安全策略是拒绝并要求提供更多上下文，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">createClient() {</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样匹配范围更具体。</p>
+<h2 id="82-edit-和-write-的区别">8.2 Edit 和 Write 的区别
+</h2><p>可以简单理解为：</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>更适合的场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Edit</td>
+					<td>在已有文件中进行可定位的局部替换</td>
+			</tr>
+			<tr>
+					<td>Write</td>
+					<td>创建新文件或整体覆盖文件</td>
+			</tr>
+	</tbody>
+</table></div>
+<p>Edit 对旧内容有明确匹配要求，通常更容易审查和防止意外覆盖；Write 的影响范围更大，权限系统也可能更加谨慎。</p>
+<h2 id="83-修改后还有哪些后续动作">8.3 修改后还有哪些后续动作？
+</h2><p>编辑完成后，程序还可能：</p>
+<ul>
+<li>更新文件历史记录；</li>
+<li>通知语言服务器文件已经变化；</li>
+<li>重新获取诊断信息；</li>
+<li>清理旧诊断缓存；</li>
+<li>将差异展示给用户；</li>
+<li>将修改结果返回模型。</li>
+</ul>
+<p>所以一次 Edit 不只是调用 <code>writeFile()</code>。</p>
+<hr>
+<h1 id="9-上下文管理不是只有一次-compact">9. 上下文管理不是只有一次 <code>/compact</code>
+</h1><p>长会话中，Claude Code 面临两个不同问题：</p>
+<ol>
+<li>历史消息太长，模型请求即将超出上下文窗口；</li>
+<li>单个工具结果太大，占用了大量 token。</li>
+</ol>
+<p>源码中的处理更像多级过滤系统，而不是突然把全部内容压成一段摘要。</p>
+<p>大致顺序可以理解为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">工具结果截断或外存
+</span></span><span class="line"><span class="cl">→ snip 局部裁剪
+</span></span><span class="line"><span class="cl">→ microcompact 微压缩
+</span></span><span class="line"><span class="cl">→ context collapse 上下文折叠
+</span></span><span class="line"><span class="cl">→ auto compact 完整摘要压缩
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不同功能可能受模型、功能开关和运行环境影响。</p>
+<h2 id="91-工具结果裁剪">9.1 工具结果裁剪
+</h2><p>最先处理的通常是容易膨胀的内容，例如：</p>
+<ul>
+<li>超长 Bash 日志；</li>
+<li>大文件读取结果；</li>
+<li>Grep 搜索结果；</li>
+<li>WebFetch 返回内容；</li>
+<li>图片和文档结果。</li>
+</ul>
+<p>完整内容可以保存到磁盘，只在上下文里保留摘要或预览。</p>
+<h2 id="92-microcompact-是什么">9.2 Microcompact 是什么？
+</h2><p>Microcompact 可以理解为“小手术”。</p>
+<p>它不会立刻重写整段对话，而是优先缩减旧的、体积很大的工具结果，例如早期的 Read、Grep、Glob、Shell、Edit 或 Write 输出。</p>
+<p>目标是：</p>
+<blockquote>
+<p>尽量保留对话结构，只删除继续工作已经不再需要的细节。</p>
+</blockquote>
+<h2 id="93-auto-compact-什么时候触发">9.3 Auto compact 什么时候触发？
+</h2><p>源码会根据模型上下文窗口、需要为压缩摘要保留的输出空间，以及安全缓冲区估算阈值。</p>
+<p>该版本中的计算思路大致是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">有效上下文容量
+</span></span><span class="line"><span class="cl">= 模型上下文窗口
+</span></span><span class="line"><span class="cl">- 为压缩摘要预留的输出空间
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当估算 token 接近自动压缩阈值时，Claude Code 会生成压缩摘要，并用压缩后的消息继续查询。</p>
+<p>具体 token 数值属于版本实现细节，不应当视为所有模型和未来版本的固定规则。</p>
+<h2 id="94-压缩后为什么会忘记">9.4 压缩后为什么会“忘记”？
+</h2><p>压缩不是无损压缩。</p>
+<p>原始历史可能包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">完整命令输出
+</span></span><span class="line"><span class="cl">多次尝试过程
+</span></span><span class="line"><span class="cl">文件的旧版本
+</span></span><span class="line"><span class="cl">用户随口提到的小要求
+</span></span><span class="line"><span class="cl">很早以前的错误细节
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>摘要只能保留模型或压缩器判断的重要信息。一些细节可能被概括、合并或遗漏。</p>
+<p>所以长任务中仍建议把关键约束写进：</p>
+<ul>
+<li><code>CLAUDE.md</code>；</li>
+<li>明确的任务说明；</li>
+<li>项目文档；</li>
+<li>可重复执行的测试；</li>
+<li>待办列表或计划文件。</li>
+</ul>
+<p>不要只依赖几十轮以前的一句聊天内容。</p>
+<h2 id="95-为什么要设置压缩失败熔断">9.5 为什么要设置压缩失败熔断？
+</h2><p>如果自动压缩连续失败，程序不能无限重复同一过程，否则可能陷入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">上下文过长
+</span></span><span class="line"><span class="cl">→ 尝试压缩
+</span></span><span class="line"><span class="cl">→ 压缩失败
+</span></span><span class="line"><span class="cl">→ 再次压缩
+</span></span><span class="line"><span class="cl">→ 再次失败
+</span></span><span class="line"><span class="cl">→ 无限循环
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>还原源码中存在连续失败后的保护机制，用于停止反复尝试并转向错误处理。</p>
+<hr>
+<h1 id="10-子代理到底是什么">10. 子代理到底是什么？
+</h1><p>子代理不是主 Claude 的“另一个人格”，也不是一个长期独立存在的程序员。</p>
+<p>它更接近：</p>
+<blockquote>
+<p>Claude Code 为一个子任务创建的独立查询循环，拥有自己的 Agent ID、消息、工具集合、权限上下文、模型选择和会话记录。</p>
+</blockquote>
+<h2 id="101-子代理可以拥有不同配置">10.1 子代理可以拥有不同配置
+</h2><p>Agent 定义可以影响：</p>
+<ul>
+<li>使用哪个模型；</li>
+<li>能使用哪些工具；</li>
+<li>是否只读；</li>
+<li>最大执行轮数；</li>
+<li>系统提示词；</li>
+<li>是否异步运行；</li>
+<li>是否可以询问权限；</li>
+<li>是否有专属 MCP 服务器；</li>
+<li>是否使用独立工作树。</li>
+</ul>
+<p>例如 Explore 代理适合搜索和阅读，而不是直接修改项目。</p>
+<h2 id="102-子代理获得多少主会话上下文">10.2 子代理获得多少主会话上下文？
+</h2><p>这取决于创建方式。</p>
+<p>普通子代理往往只得到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">子任务描述
+</span></span><span class="line"><span class="cl">+ 子代理系统提示词
+</span></span><span class="line"><span class="cl">+ 必要的项目上下文
+</span></span><span class="line"><span class="cl">+ 被允许的工具
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>某些实验性的 fork 路径则可以继承主代理更完整的消息前缀，并复制文件读取状态，从而减少重复搜索并提高提示词缓存命中率。</p>
+<p>因此，不能笼统地说“每个子代理都完整复制主会话”。源码中存在多种路径和功能开关。</p>
+<h2 id="103-前台代理与后台代理的权限差异">10.3 前台代理与后台代理的权限差异
+</h2><p>前台代理可以在终端显示权限确认。</p>
+<p>后台代理如果没有可用的交互界面，遇到需要询问的操作就不能一直等待用户。因此它可能：</p>
+<ul>
+<li>自动拒绝需要弹窗的操作；</li>
+<li>通过 permission hook 自动判定；</li>
+<li>将权限请求冒泡到主界面；</li>
+<li>只使用预先允许的工具。</li>
+</ul>
+<p>源码中会设置类似“避免权限提示”的状态，以防后台代理卡死。</p>
+<h2 id="104-子代理的结果怎样回到主代理">10.4 子代理的结果怎样回到主代理？
+</h2><p>子代理内部仍然运行同样的 <code>query()</code> 循环。它完成后，会把结果整理成主代理能够读取的消息或工具结果。</p>
+<p>主代理看到的通常不是子代理的全部内部过程，而是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">任务完成状态
+</span></span><span class="line"><span class="cl">关键发现
+</span></span><span class="line"><span class="cl">最终输出
+</span></span><span class="line"><span class="cl">必要的错误信息
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>子代理自己的详细记录可以单独保存在 <code>subagents</code> 目录下。</p>
+<hr>
+<h1 id="11-mcp-的完整生命周期">11. MCP 的完整生命周期
+</h1><p>MCP，即 Model Context Protocol，可以让外部程序向 Claude Code 提供工具、资源或命令。</p>
+<p>一次 MCP 连接大致经历：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">flowchart</span> <span class="n">LR</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="p">[</span><span class="err">读取</span> <span class="n">MCP</span> <span class="err">配置</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">B</span><span class="p">[</span><span class="err">选择传输方式</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">--&gt;</span> <span class="n">C</span><span class="p">[</span><span class="err">启动进程或连接</span> <span class="n">URL</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="o">--&gt;</span> <span class="n">D</span><span class="p">[</span><span class="err">初始化握手</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">D</span> <span class="o">--&gt;</span> <span class="n">E</span><span class="p">[</span><span class="err">读取服务器能力</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E</span> <span class="o">--&gt;</span> <span class="n">F</span><span class="p">[</span><span class="n">tools</span><span class="o">/</span><span class="n">list</span> <span class="err">等能力发现</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span> <span class="o">--&gt;</span> <span class="n">G</span><span class="p">[</span><span class="err">转换成</span> <span class="n">Claude</span> <span class="n">Code</span> <span class="err">工具</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">G</span> <span class="o">--&gt;</span> <span class="n">H</span><span class="p">[</span><span class="err">加入权限系统</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">--&gt;</span> <span class="n">I</span><span class="p">[</span><span class="err">模型请求</span> <span class="n">MCP</span> <span class="err">工具</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">I</span> <span class="o">--&gt;</span> <span class="n">J</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">callTool</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">J</span> <span class="o">--&gt;</span> <span class="n">K</span><span class="p">[</span><span class="err">返回内容或错误</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">K</span> <span class="o">--&gt;</span> <span class="n">L</span><span class="p">[</span><span class="err">转换成</span> <span class="n">tool_result</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="111-支持哪些连接方式">11.1 支持哪些连接方式？
+</h2><p>该源码快照中可以看到多种传输实现，包括：</p>
+<ul>
+<li><code>stdio</code>：启动本地子进程，通过标准输入输出通信；</li>
+<li>SSE：通过 Server-Sent Events 通信；</li>
+<li>Streamable HTTP；</li>
+<li>某些 IDE、WebSocket、代理或进程内传输路径。</li>
+</ul>
+<p>对普通用户而言，最常见的是 stdio 和 HTTP 类连接。</p>
+<h2 id="112-工具怎样被发现">11.2 工具怎样被发现？
+</h2><p>连接成功后，客户端会先检查服务器声明的 capabilities。</p>
+<p>如果服务器支持 tools，Claude Code 会发出类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">tools/list
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后把服务器返回的工具名称、描述和输入 schema 清理、标准化，再转换成自己的 Tool 对象。</p>
+<p>同样地，服务器还可能提供：</p>
+<ul>
+<li>resources；</li>
+<li>prompts 或 commands；</li>
+<li>skills 类资源；</li>
+<li>进度通知。</li>
+</ul>
+<h2 id="113-mcp-工具怎样执行">11.3 MCP 工具怎样执行？
+</h2><p>当模型调用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">mcp__github__search_issues
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude Code 会找到对应服务器和工具，然后执行类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="nx">client</span><span class="p">.</span><span class="nx">callTool</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;search_issues&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">arguments</span>: <span class="kt">args</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用还可以附带：</p>
+<ul>
+<li>取消信号；</li>
+<li>超时；</li>
+<li>进度回调；</li>
+<li>元数据。</li>
+</ul>
+<p>服务器返回结果后，Claude Code 再把文本、图片或错误转换成 Anthropic API 能接受的内容块。</p>
+<h2 id="114-断线后怎么办">11.4 断线后怎么办？
+</h2><p>MCP 客户端需要处理：</p>
+<ul>
+<li>子进程退出；</li>
+<li>SSE 重连耗尽；</li>
+<li>HTTP 会话失效；</li>
+<li>调用超时；</li>
+<li>待处理请求挂起；</li>
+<li>工具列表缓存过期。</li>
+</ul>
+<p>源码中会在连接失效时清理连接和工具缓存，使后续调用能够重新连接并重新获取工具，而不是永久使用旧列表。</p>
+<p>对于 stdio 服务器，清理时还可能显式向子进程发送终止信号，以避免服务器进程残留。</p>
+<hr>
+<h1 id="12-hooks-是-claude-code-的检查站">12. Hooks 是 Claude Code 的“检查站”
+</h1><p>Hooks 允许用户、插件或组织策略在关键事件发生时执行额外逻辑。</p>
+<p>它们可以用来：</p>
+<ul>
+<li>记录日志；</li>
+<li>检查危险命令；</li>
+<li>修改工具输入；</li>
+<li>自动批准或拒绝权限；</li>
+<li>在修改后运行格式化；</li>
+<li>在会话开始时注入信息；</li>
+<li>在任务结束时发送通知。</li>
+</ul>
+<p>常见生命周期可以概括为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SessionStart
+</span></span><span class="line"><span class="cl">→ UserPromptSubmit
+</span></span><span class="line"><span class="cl">→ PreToolUse
+</span></span><span class="line"><span class="cl">→ PermissionRequest
+</span></span><span class="line"><span class="cl">→ PostToolUse
+</span></span><span class="line"><span class="cl">→ Stop / SubagentStop
+</span></span><span class="line"><span class="cl">→ SessionEnd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>具体可用事件会随版本和运行模式变化。</p>
+<h2 id="121-pretooluse">12.1 PreToolUse
+</h2><p>在工具真正执行前运行。</p>
+<p>它可以：</p>
+<ul>
+<li>查看工具名和输入；</li>
+<li>修改输入参数；</li>
+<li>阻止操作；</li>
+<li>提供权限判断；</li>
+<li>输出附加信息。</li>
+</ul>
+<p>例如，一个 Hook 可以禁止任何删除数据库的命令。</p>
+<h2 id="122-permissionrequest">12.2 PermissionRequest
+</h2><p>当普通规则无法自动判断、原本需要用户确认时，可以先交给权限 Hook。</p>
+<p>例如企业环境可以规定：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">测试命令自动允许
+</span></span><span class="line"><span class="cl">生产部署命令始终拒绝
+</span></span><span class="line"><span class="cl">其他未知命令再询问用户
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于不能显示 UI 的后台 Agent，如果 Hook 也没有作出允许决定，客户端通常应采用拒绝策略，而不是无限等待。</p>
+<h2 id="123-posttooluse">12.3 PostToolUse
+</h2><p>在工具完成后运行，可用于：</p>
+<ul>
+<li>检查执行结果；</li>
+<li>追加说明；</li>
+<li>运行格式化或检查；</li>
+<li>记录审计信息；</li>
+<li>将错误升级为阻止性结果。</li>
+</ul>
+<h2 id="124-hook-本身也有运行状态">12.4 Hook 本身也有运行状态
+</h2><p>还原源码中为 Hook 定义了独立事件流，包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">started
+</span></span><span class="line"><span class="cl">progress
+</span></span><span class="line"><span class="cl">response
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>响应中还会记录：</p>
+<ul>
+<li>stdout；</li>
+<li>stderr；</li>
+<li>输出内容；</li>
+<li>退出码；</li>
+<li>success、error 或 cancelled 状态。</li>
+</ul>
+<p>这使终端界面或 SDK 能够展示 Hook 的实时进度，而不必把所有 Hook 日志混入主模型消息流。</p>
+<hr>
+<h1 id="13-会话保存不是简单的一条聊天数组">13. 会话保存不是简单的一条聊天数组
+</h1><p>Claude Code 的主会话通常保存为项目目录下的 JSONL 文件，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>子代理则可以保存为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&lt;session-id&gt;/subagents/agent-&lt;agent-id&gt;.jsonl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每一行是一个独立 JSON 记录，适合不断追加，而不必每次重写整个会话文件。</p>
+<h2 id="131-为什么消息需要-uuid-和-parentuuid">13.1 为什么消息需要 UUID 和 parentUuid？
+</h2><p>如果会话永远只有一条直线，数组就够了。</p>
+<p>但 Claude Code 可能出现：</p>
+<ul>
+<li>从某条历史消息继续；</li>
+<li>重试某个分支；</li>
+<li>压缩后建立新边界；</li>
+<li>子代理 sidechain；</li>
+<li>多个会话叶节点；</li>
+<li>恢复不同分支。</li>
+</ul>
+<p>因此消息可以通过：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">uuid
+</span></span><span class="line"><span class="cl">parentUuid
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>组成一棵对话树。</p>
+<p>示意如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">A 用户问题
+</span></span><span class="line"><span class="cl">└── B Claude 回答
+</span></span><span class="line"><span class="cl">    ├── C 第一次继续
+</span></span><span class="line"><span class="cl">    │   └── D 工具结果
+</span></span><span class="line"><span class="cl">    └── E 从 B 重新尝试
+</span></span><span class="line"><span class="cl">        └── F 另一组工具结果
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>恢复某个分支时，程序从叶节点沿着 <code>parentUuid</code> 向前追溯，再反转得到完整消息链。</p>
+<h2 id="132-compact-边界怎样记录">13.2 Compact 边界怎样记录？
+</h2><p>压缩后，原始历史和摘要之间需要建立逻辑关系。</p>
+<p>源码中可以看到 compact boundary、logical parent 等概念，用于表示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">这里之前存在更长的历史
+</span></span><span class="line"><span class="cl">但后续请求从压缩摘要继续
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这比简单删除旧消息更容易支持恢复和审计。</p>
+<h2 id="133-resume-恢复的到底是什么">13.3 <code>/resume</code> 恢复的到底是什么？
+</h2><p>恢复过程大致是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">读取 JSONL
+</span></span><span class="line"><span class="cl">→ 校验并索引消息
+</span></span><span class="line"><span class="cl">→ 根据 parentUuid 重建分支
+</span></span><span class="line"><span class="cl">→ 选择需要恢复的叶节点
+</span></span><span class="line"><span class="cl">→ 恢复压缩摘要、文件历史等状态
+</span></span><span class="line"><span class="cl">→ 重新构造发送给模型的上下文
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它恢复的是本地记录和可重建状态，不是唤醒某个一直存在于服务器中的“原模型大脑”。</p>
+<p>模型之所以表现得像记得以前，是因为客户端再次把相关历史或摘要发送给了它。</p>
+<h2 id="134-哪些状态不能百分之百恢复">13.4 哪些状态不能百分之百恢复？
+</h2><p>以下运行时状态未必能够原样恢复：</p>
+<ul>
+<li>已经结束的 Shell 进程；</li>
+<li>丢失的临时文件；</li>
+<li>已失效的网络连接；</li>
+<li>过期的 OAuth 会话；</li>
+<li>内存中的闭包和计时器；</li>
+<li>未写入日志的瞬时 UI 状态；</li>
+<li>恢复前已经变化的外部文件和服务。</li>
+</ul>
+<p>所以 <code>/resume</code> 是“根据日志继续工作”，不是虚拟机快照恢复。</p>
+<hr>
+<h1 id="14-错误发生时为什么还要补充-tool_result">14. 错误发生时，为什么还要补充 tool_result？
+</h1><p>Anthropic 消息协议要求工具请求和工具结果保持合理配对。</p>
+<p>假设模型一轮请求了三个工具：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">T1 Read A
+</span></span><span class="line"><span class="cl">T2 Read B
+</span></span><span class="line"><span class="cl">T3 Bash test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行到一半时网络断开或用户中止，如果后续消息只返回 T1 的结果，T2 和 T3 没有任何对应状态，消息链可能变得不完整。</p>
+<p>因此查询循环在异常路径中可能需要为未完成的调用生成错误或缺失结果，类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;tool_result&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool_use_id&#34;</span><span class="p">:</span> <span class="s2">&#34;T2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;is_error&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;Tool execution was interrupted&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样模型至少知道：</p>
+<blockquote>
+<p>这次工具调用没有成功，不要把它误认为仍在等待或已经完成。</p>
+</blockquote>
+<h2 id="141-api-错误怎样处理">14.1 API 错误怎样处理？
+</h2><p>API 层需要面对：</p>
+<ul>
+<li>连接失败；</li>
+<li>流式响应中断；</li>
+<li>限流；</li>
+<li>服务端错误；</li>
+<li>网关不支持流式端点；</li>
+<li>请求过大；</li>
+<li>模型不可用；</li>
+<li>输出长度达到上限。</li>
+</ul>
+<p>还原源码中可以看到重试和回退逻辑。例如某些网关在流式端点返回特定错误时，客户端可以尝试切换到非流式请求。</p>
+<p>但并不是所有错误都应该无限重试。程序需要区分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">临时网络错误          可以重试
+</span></span><span class="line"><span class="cl">权限拒绝              重试通常无意义
+</span></span><span class="line"><span class="cl">参数格式错误          应反馈给模型修正
+</span></span><span class="line"><span class="cl">上下文过长            应先压缩
+</span></span><span class="line"><span class="cl">用户主动取消          应停止
+</span></span><span class="line"><span class="cl">MCP 会话过期           清缓存后重新连接
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="142-为什么错误也必须返回给模型">14.2 为什么错误也必须返回给模型？
+</h2><p>工具失败本身也是环境反馈。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文件不存在
+</span></span><span class="line"><span class="cl">命令退出码为 1
+</span></span><span class="line"><span class="cl">旧字符串匹配到三处
+</span></span><span class="line"><span class="cl">权限被用户拒绝
+</span></span><span class="line"><span class="cl">MCP 服务断线
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude 只有看到这些结果，才能改变计划。</p>
+<p>所以 AI Agent 的价值并不是“永不失败”，而是：</p>
+<blockquote>
+<p>能观察失败，并在下一轮根据失败原因重新决策。</p>
+</blockquote>
+<hr>
+<h1 id="15-把所有模块串成一次完整执行">15. 把所有模块串成一次完整执行
+</h1><p>假设用户输入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">修复登录接口测试失败的问题，不要修改数据库结构。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更完整的执行过程如下。</p>
+<h2 id="阶段一准备上下文">阶段一：准备上下文
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1. 读取用户设置和权限模式
+</span></span><span class="line"><span class="cl">2. 获取适用的 CLAUDE.md
+</span></span><span class="line"><span class="cl">3. 获取可信项目的 Git 上下文
+</span></span><span class="line"><span class="cl">4. 加载内置工具、Skills、插件和 MCP 工具
+</span></span><span class="line"><span class="cl">5. 读取当前会话历史
+</span></span><span class="line"><span class="cl">6. 检查是否需要先压缩上下文
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="阶段二第一次请求模型">阶段二：第一次请求模型
+</h2><p>发送内容包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">系统提示词
+</span></span><span class="line"><span class="cl">项目约束
+</span></span><span class="line"><span class="cl">“不修改数据库结构”的用户要求
+</span></span><span class="line"><span class="cl">历史消息
+</span></span><span class="line"><span class="cl">工具 schema
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude 返回：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">text：我先运行相关测试。
+</span></span><span class="line"><span class="cl">tool_use：Bash(&#34;npm test -- login&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="阶段三执行-bash">阶段三：执行 Bash
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1. 验证 command 参数
+</span></span><span class="line"><span class="cl">2. 执行 PreToolUse Hook
+</span></span><span class="line"><span class="cl">3. 运行权限规则
+</span></span><span class="line"><span class="cl">4. 选择 Shell
+</span></span><span class="line"><span class="cl">5. 启动子进程
+</span></span><span class="line"><span class="cl">6. 流式收集 stdout/stderr
+</span></span><span class="line"><span class="cl">7. 获得退出码
+</span></span><span class="line"><span class="cl">8. 运行 PostToolUse Hook
+</span></span><span class="line"><span class="cl">9. 构造 tool_result
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>测试结果指出 <code>src/auth/login.ts</code> 某处失败。</p>
+<h2 id="阶段四读取与定位">阶段四：读取与定位
+</h2><p>Claude 请求多个只读工具：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Read src/auth/login.ts
+</span></span><span class="line"><span class="cl">Read tests/login.test.ts
+</span></span><span class="line"><span class="cl">Grep loginUser
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调度器判断这些工具可以并发执行，于是同时运行，再按工具调用 ID 返回结果。</p>
+<h2 id="阶段五编辑">阶段五：编辑
+</h2><p>Claude 请求 Edit。</p>
+<p>Claude Code 会检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文件是否已经读取
+</span></span><span class="line"><span class="cl">读取后是否被其他程序修改
+</span></span><span class="line"><span class="cl">old_string 是否存在
+</span></span><span class="line"><span class="cl">是否唯一匹配
+</span></span><span class="line"><span class="cl">是否违反权限或 Hook 规则
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检查通过后执行替换，并更新文件状态和语言服务器信息。</p>
+<h2 id="阶段六验证">阶段六：验证
+</h2><p>Claude 再次运行测试。</p>
+<p>如果测试通过，模型输出最终说明；如果失败，则进入下一轮分析。</p>
+<h2 id="阶段七保存">阶段七：保存
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户消息
+</span></span><span class="line"><span class="cl">助手消息
+</span></span><span class="line"><span class="cl">tool_use
+</span></span><span class="line"><span class="cl">tool_result
+</span></span><span class="line"><span class="cl">文件历史
+</span></span><span class="line"><span class="cl">压缩边界
+</span></span><span class="line"><span class="cl">子代理记录
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>被追加到会话存储中，供后续 <code>/resume</code> 使用。</p>
+<p>完整伪代码可以写成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nx">abortSignal</span><span class="p">.</span><span class="nx">aborted</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">assembleContext</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">systemPrompt</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">claudeMd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">gitContext</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">messages</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tools</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">permissions</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">compactedContext</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">compactIfNeeded</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">assistantMessage</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamClaude</span><span class="p">(</span><span class="nx">compactedContext</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">saveAssistantMessage</span><span class="p">(</span><span class="nx">assistantMessage</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">displayVisibleBlocks</span><span class="p">(</span><span class="nx">assistantMessage</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">toolUses</span> <span class="o">=</span> <span class="nx">getToolUseBlocks</span><span class="p">(</span><span class="nx">assistantMessage</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">toolUses</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">toolScheduler</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="nx">toolUses</span><span class="p">,</span> <span class="kr">async</span> <span class="nx">toolUse</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">tool</span> <span class="o">=</span> <span class="nx">findTool</span><span class="p">(</span><span class="nx">toolUse</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">input</span> <span class="o">=</span> <span class="nx">validate</span><span class="p">(</span><span class="nx">tool</span><span class="p">.</span><span class="nx">inputSchema</span><span class="p">,</span> <span class="nx">toolUse</span><span class="p">.</span><span class="nx">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">hookedInput</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">runPreToolUseHooks</span><span class="p">(</span><span class="nx">tool</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">permission</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">resolvePermission</span><span class="p">(</span><span class="nx">tool</span><span class="p">,</span> <span class="nx">hookedInput</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">permission</span><span class="p">.</span><span class="nx">allowed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">createDeniedToolResult</span><span class="p">(</span><span class="nx">toolUse</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">permission</span><span class="p">.</span><span class="nx">reason</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">rawResult</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">tool</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">hookedInput</span><span class="p">,</span> <span class="nx">toolContext</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">finalResult</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">runPostToolUseHooks</span><span class="p">(</span><span class="nx">tool</span><span class="p">,</span> <span class="nx">rawResult</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">mapToToolResult</span><span class="p">(</span><span class="nx">toolUse</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">finalResult</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">createErrorToolResult</span><span class="p">(</span><span class="nx">toolUse</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">saveToolResults</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">messages</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">createUserMessage</span><span class="p">(</span><span class="nx">results</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这段代码不是仓库原文，而是对多个源码模块关系的教学化概括。</p>
+<hr>
+<h1 id="16-到这里claude-code-的工作原理讲完整了吗">16. 到这里，Claude Code 的工作原理讲完整了吗？
+</h1><p>经过上一篇和本文，已经覆盖了 Claude Code 的核心实现链路：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">启动与上下文加载
+</span></span><span class="line"><span class="cl">→ 系统提示词和 CLAUDE.md
+</span></span><span class="line"><span class="cl">→ Anthropic 消息与流式响应
+</span></span><span class="line"><span class="cl">→ Agent Loop
+</span></span><span class="line"><span class="cl">→ 工具接口与调度
+</span></span><span class="line"><span class="cl">→ 参数验证与权限
+</span></span><span class="line"><span class="cl">→ Bash 和 Edit 的关键机制
+</span></span><span class="line"><span class="cl">→ Hooks
+</span></span><span class="line"><span class="cl">→ 上下文裁剪与压缩
+</span></span><span class="line"><span class="cl">→ 子代理
+</span></span><span class="line"><span class="cl">→ MCP
+</span></span><span class="line"><span class="cl">→ JSONL 会话与恢复
+</span></span><span class="line"><span class="cl">→ 错误补全、重试和中断
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从“理解 Claude Code 为什么能工作”的角度，这两篇文章已经形成一个比较完整的框架。</p>
+<p>但这仍然不等于逐行讲完全部源码。仓库还包括大量更细的实现，例如：</p>
+<ul>
+<li>React/Ink 终端界面；</li>
+<li>账户登录和 OAuth；</li>
+<li>模型路由和套餐限制；</li>
+<li>遥测、性能追踪和实验开关；</li>
+<li>IDE 集成；</li>
+<li>插件市场；</li>
+<li>远程 Agent；</li>
+<li>Worktree 隔离；</li>
+<li>文件历史和 checkpoint；</li>
+<li>LSP 诊断；</li>
+<li>图片、PDF 和 Notebook 工具；</li>
+<li>企业策略与托管设置；</li>
+<li>各平台兼容处理。</li>
+</ul>
+<p>这些模块会影响功能体验，但不改变 Claude Code 最核心的工作公式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Claude Code
+</span></span><span class="line"><span class="cl">= 模型决策
+</span></span><span class="line"><span class="cl">+ 本地工具执行
+</span></span><span class="line"><span class="cl">+ 权限与生命周期控制
+</span></span><span class="line"><span class="cl">+ 环境结果反馈
+</span></span><span class="line"><span class="cl">+ 上下文和会话状态
+</span></span><span class="line"><span class="cl">+ 循环调度
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终可以把 Claude Code 理解成一套“受控的模型—工具闭环系统”：</p>
+<blockquote>
+<p>Claude 负责根据当前信息选择下一步；Claude Code 负责组织信息、验证请求、执行工具、保护本地环境、保存状态并把现实结果反馈给 Claude。所谓“自主编程”，正是这个闭环连续运行后产生的效果。</p>
+</blockquote>
+<hr>
+<h1 id="17-建议的源码阅读路线">17. 建议的源码阅读路线
+</h1><p>阅读还原源码时，可以按照任务链路，而不是目录顺序阅读：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">main.tsx
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">context.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">query.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/api/claude.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Tool.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/tools/toolExecution.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/tools/toolOrchestration.ts
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">tools/BashTool 与 tools/FileEditTool
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/permissions
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">utils/hooks
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/compact
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">tools/AgentTool
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services/mcp
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">utils/sessionStorage.ts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>阅读每个文件时，只问三个问题：</p>
+<ol>
+<li>它接收什么输入？</li>
+<li>它改变了什么状态或执行了什么操作？</li>
+<li>它把什么结果交给下一个模块？</li>
+</ol>
+<p>用这种方式，比试图一次理解数千个文件更有效。</p>
+<hr>
+<h1 id="参考源码">参考源码
+</h1><p>以下链接均指向 <code>evzz74/claude-code-sourcemap</code> 仓库的还原源码快照：</p>
+<ol>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap"  target="_blank" rel="noopener"
+    >仓库主页</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/main.tsx"  target="_blank" rel="noopener"
+    >程序入口：main.tsx</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/context.ts"  target="_blank" rel="noopener"
+    >项目与用户上下文：context.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/query.ts"  target="_blank" rel="noopener"
+    >主查询与 Agent Loop：query.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/api/claude.ts"  target="_blank" rel="noopener"
+    >Claude API 客户端：services/api/claude.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/Tool.ts"  target="_blank" rel="noopener"
+    >工具公共抽象：Tool.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/tools/toolExecution.ts"  target="_blank" rel="noopener"
+    >单次工具执行链：services/tools/toolExecution.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/tools/toolOrchestration.ts"  target="_blank" rel="noopener"
+    >工具并发调度：services/tools/toolOrchestration.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/utils/Shell.ts"  target="_blank" rel="noopener"
+    >Shell 实现：utils/Shell.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/tree/main/restored-src/src/tools/BashTool"  target="_blank" rel="noopener"
+    >Bash 工具目录</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/tree/main/restored-src/src/tools/FileEditTool"  target="_blank" rel="noopener"
+    >文件编辑工具目录</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/compact/autoCompact.ts"  target="_blank" rel="noopener"
+    >自动上下文压缩：services/compact/autoCompact.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/compact/microCompact.ts"  target="_blank" rel="noopener"
+    >微型上下文压缩：services/compact/microCompact.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/tools/AgentTool/runAgent.ts"  target="_blank" rel="noopener"
+    >子代理执行：tools/AgentTool/runAgent.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/services/mcp/client.ts"  target="_blank" rel="noopener"
+    >MCP 客户端：services/mcp/client.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/utils/hooks/hookEvents.ts"  target="_blank" rel="noopener"
+    >Hook 事件：utils/hooks/hookEvents.ts</a></li>
+<li><a class="link" href="https://github.com/evzz74/claude-code-sourcemap/blob/main/restored-src/src/utils/sessionStorage.ts"  target="_blank" rel="noopener"
+    >会话存储：utils/sessionStorage.ts</a></li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/claude-code/">Claude Code</a>
+        
+            <a href="/tags/ai-agent/">AI Agent</a>
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jul 28, 2026 06:30 UTC
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%80%E5%9F%BA%E4%BA%8E%E8%BF%98%E5%8E%9F%E6%BA%90%E7%A0%81%E7%9A%84%E9%9B%B6%E5%9F%BA%E7%A1%80%E8%A7%A3%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Claude Code 是怎样工作的（一）：基于还原源码的零基础解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E8%AF%BB%E6%96%87%E7%8C%AEprompt/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">读文献prompt</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FISH语言学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/hugo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hugo常用命令</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PFC学习记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="evzz74/evzz74.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 Shawpenn
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://shawpenn.qzz.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://shawpenn.qzz.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main",
+            ".sidebar",
+            ".main-article",
+            ".js-Pjax"
+        ],
+        cacheBust: false
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                var newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                var bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+
+                updateMetaTags(newDom);
+            }
+
+            pjax._handleResponse(responseText, request, href, options);
+        }
+    }
+
+    function updateMetaTags(newDom) {
+        var metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+
+        metaSelectors.forEach(function(selector) {
+            var newMeta = newDom.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+            var currentMeta = document.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        var comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        var script = document.createElement('script');
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+  
+ <style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://shawpenn.qzz.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://shawpenn.qzz.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://shawpenn.qzz.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
