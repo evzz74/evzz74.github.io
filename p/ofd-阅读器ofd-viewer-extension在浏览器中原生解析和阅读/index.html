@@ -1,0 +1,3634 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="最近我在查看OFD文件时遇到一个问题，明明pdf 文件可通过浏览器直接查看，ofd 却不行，在GitHub上面也浏览过很多相关的开源仓库，我觉得比起下载专门阅览软件，使用浏览器扩展的方式来临时查看/直接查看 ofd文件还是一件很有必要的事情， 因此就想做一个叫做 ofd-viewer-extension 的开源项目。\n">
+<title>OFD 阅读器ofd-viewer-extension：在浏览器中原生解析和阅读</title>
+
+<link rel='canonical' href='https://shawpenn.qzz.io/p/ofd-%E9%98%85%E8%AF%BB%E5%99%A8ofd-viewer-extension%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%8E%9F%E7%94%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E9%98%85%E8%AF%BB/'>
+
+<link rel="stylesheet" href="/scss/style.min.9b883890c9d371690cb2f3aee9c265f4a8f65425d4e83b5c4868ac58e3b5edc0.css"><meta property='og:title' content="OFD 阅读器ofd-viewer-extension：在浏览器中原生解析和阅读">
+<meta property='og:description' content="最近我在查看OFD文件时遇到一个问题，明明pdf 文件可通过浏览器直接查看，ofd 却不行，在GitHub上面也浏览过很多相关的开源仓库，我觉得比起下载专门阅览软件，使用浏览器扩展的方式来临时查看/直接查看 ofd文件还是一件很有必要的事情， 因此就想做一个叫做 ofd-viewer-extension 的开源项目。\n">
+<meta property='og:url' content='https://shawpenn.qzz.io/p/ofd-%E9%98%85%E8%AF%BB%E5%99%A8ofd-viewer-extension%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%8E%9F%E7%94%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E9%98%85%E8%AF%BB/'>
+<meta property='og:site_name' content='Shaw&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='OFD' /><meta property='article:tag' content='Chrome Extension' /><meta property='article:tag' content='TypeScript' /><meta property='article:published_time' content='2026-08-12T14:39:17&#43;08:00'/><meta property='article:modified_time' content='2026-08-12T06:53:35&#43;00:00'/>
+<meta name="twitter:title" content="OFD 阅读器ofd-viewer-extension：在浏览器中原生解析和阅读">
+<meta name="twitter:description" content="最近我在查看OFD文件时遇到一个问题，明明pdf 文件可通过浏览器直接查看，ofd 却不行，在GitHub上面也浏览过很多相关的开源仓库，我觉得比起下载专门阅览软件，使用浏览器扩展的方式来临时查看/直接查看 ofd文件还是一件很有必要的事情， 因此就想做一个叫做 ofd-viewer-extension 的开源项目。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_55839368a65aa9bc.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Shaw&#39;s Blog</a></h1>
+            <h2 class="site-description">Attendre et espérer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/evzz74'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1-为什么想做一个浏览器-ofd-阅读器">1. 为什么想做一个浏览器 OFD 阅读器？</a></li>
+    <li><a href="#2-为什么没有选择-ofd-转-pdf">2. 为什么没有选择 OFD 转 PDF？</a></li>
+    <li><a href="#3-项目现在是什么">3. 项目现在是什么？</a></li>
+    <li><a href="#4-为什么选择浏览器扩展">4. 为什么选择浏览器扩展？</a></li>
+    <li><a href="#5-整体架构">5. 整体架构</a></li>
+    <li><a href="#6-ofd-本质上是一个-zip-容器">6. OFD 本质上是一个 ZIP 容器</a></li>
+    <li><a href="#7-解析入口从-ofdxml-开始">7. 解析入口：从 OFD.xml 开始</a></li>
+    <li><a href="#8-为什么中间还要设计一层-document-model">8. 为什么中间还要设计一层 Document Model？</a></li>
+    <li><a href="#9-display-list-是整个架构里最重要的一层">9. Display List 是整个架构里最重要的一层</a></li>
+    <li><a href="#10-为什么-display-list-很重要">10. 为什么 Display List 很重要？</a></li>
+    <li><a href="#11-为什么选择-svg">11. 为什么选择 SVG？</a></li>
+    <li><a href="#12-页面尺寸和坐标系统">12. 页面尺寸和坐标系统</a></li>
+    <li><a href="#13-模板页">13. 模板页</a></li>
+    <li><a href="#14-为什么使用-web-worker">14. 为什么使用 Web Worker？</a></li>
+    <li><a href="#15-做-ofd-viewer-时我低估了字体问题">15. 做 OFD Viewer 时，我低估了字体问题</a></li>
+    <li><a href="#16-所以我写了一个字体修复器">16. 所以我写了一个字体修复器</a></li>
+    <li><a href="#17-ofd-字体不能只依赖系统字体">17. OFD 字体不能只依赖系统字体</a></li>
+    <li><a href="#18-文件解析不能忽略安全问题">18. 文件解析不能忽略安全问题</a></li>
+    <li><a href="#19-zip-路径穿越">19. ZIP 路径穿越</a></li>
+    <li><a href="#20-zip-bomb">20. ZIP Bomb</a></li>
+    <li><a href="#21-xml-安全">21. XML 安全</a></li>
+    <li><a href="#22-svg-也不能直接-innerhtml">22. SVG 也不能直接 innerHTML</a></li>
+    <li><a href="#23-网络-ofd-如何交给-viewer">23. 网络 OFD 如何交给 Viewer？</a></li>
+    <li><a href="#24-为什么没有自己实现-pdf-导出">24. 为什么没有自己实现 PDF 导出？</a></li>
+    <li><a href="#25-目前已经支持哪些内容">25. 目前已经支持哪些内容？</a></li>
+    <li><a href="#26-目前还没有完成哪些东西">26. 目前还没有完成哪些东西？</a></li>
+    <li><a href="#27-对于暂不支持的-ofd-对象我不希望整个页面直接失败">27. 对于暂不支持的 OFD 对象，我不希望整个页面直接失败</a></li>
+    <li><a href="#28-项目目录">28. 项目目录</a></li>
+    <li><a href="#29-如何运行">29. 如何运行？</a></li>
+    <li><a href="#30-开发与测试">30. 开发与测试</a></li>
+    <li><a href="#31-为什么我觉得这个项目值得继续做">31. 为什么我觉得这个项目值得继续做？</a></li>
+    <li><a href="#32-下一步准备做什么">32. 下一步准备做什么？</a>
+      <ol>
+        <li><a href="#提高兼容性">提高兼容性</a></li>
+        <li><a href="#提升-viewer-能力">提升 Viewer 能力</a></li>
+      </ol>
+    </li>
+    <li><a href="#33-更长期的一些想法">33. 更长期的一些想法</a></li>
+    <li><a href="#34-总结">34. 总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <progress id="content_progress" value="0"></progress>
+
+    <style>
+        #content_progress {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: none;
+            background-color: transparent;
+            color: #0095ea;
+        }
+
+        #content_progress::-webkit-progress-bar {
+            background-color: transparent;
+        }
+
+        #content_progress::-webkit-progress-value {
+            background-color: #0095ea;
+        }
+
+        #content_progress::-moz-progress-bar {
+            background-color: #0095ea;
+        }
+    </style>
+
+    <script>
+        (function () {
+            function initContentProgress() {
+                var progressBar = document.querySelector('#content_progress');
+                if (!progressBar) {
+                    return;
+                }
+
+                function updateProgress() {
+                    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    progressBar.max = Math.max(maxScroll, 0);
+                    progressBar.value = window.scrollY;
+                }
+
+                updateProgress();
+                document.removeEventListener('scroll', updateProgress);
+                document.addEventListener('scroll', updateProgress, { passive: true });
+                window.removeEventListener('resize', updateProgress);
+                window.addEventListener('resize', updateProgress);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initContentProgress);
+            } else {
+                initContentProgress();
+            }
+
+            document.addEventListener('pjax:complete', initContentProgress);
+        })();
+    </script>
+
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" >
+                开源项目
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/ofd-%E9%98%85%E8%AF%BB%E5%99%A8ofd-viewer-extension%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%8E%9F%E7%94%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E9%98%85%E8%AF%BB/">OFD 阅读器ofd-viewer-extension：在浏览器中原生解析和阅读</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 12, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 15 分钟
+                </time>
+            </div>
+        
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>最近我在查看OFD文件时遇到一个问题，明明pdf
+文件可通过浏览器直接查看，ofd
+却不行，在GitHub上面也浏览过很多相关的开源仓库，我觉得比起下载专门阅览软件，使用浏览器扩展的方式来临时查看/直接查看
+ofd文件还是一件很有必要的事情，
+因此就想做一个叫做 <strong>ofd-viewer-extension</strong> 的开源项目。</p>
+<p>项目地址：</p>
+<p><code>https://github.com/evzz74/ofd-viewer-extension</code></p>
+<p>它的目标很直接：</p>
+<blockquote>
+<p><strong>让 Chrome 和 Microsoft Edge 可以直接打开和阅读 OFD 文件。</strong></p>
+</blockquote>
+<p>如果只是实现“能看到 OFD 内容”，其实有一条更简单的路线：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">转换为 PDF
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">浏览器 PDF Viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但这个项目最终没有采用这种方式。</p>
+<p>我更希望尝试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">直接解析
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">建立页面模型
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">生成显示列表
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">SVG 渲染
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">浏览器显示
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也就是说，<code>ofd-viewer-extension</code> 并不是一个 OFD → PDF 转换器，而是在浏览器中实现了一条相对完整的 <strong>OFD 原生解析与渲染链路</strong>。</p>
+<p>这篇文章主要记录一下我为什么做这个项目，以及目前的整体架构和其中几个比较有意思的技术问题。</p>
+<hr>
+<h2 id="1-为什么想做一个浏览器-ofd-阅读器">1. 为什么想做一个浏览器 OFD 阅读器？
+</h2><p>OFD 的全称是：</p>
+<blockquote>
+<p>Open Fixed-layout Document</p>
+</blockquote>
+<p>即开放版式文档。</p>
+<p>它在电子公文、电子发票、电子证照、档案等场景中已经比较常见。</p>
+<p>但和 PDF 相比，OFD 在普通用户环境中的支持仍然存在一个比较明显的问题：</p>
+<p><strong>浏览器不能直接打开。</strong></p>
+<p>例如 PDF 文件可以直接：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://example.com/file.pdf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后 Chrome、Edge 自己完成阅读。</p>
+<p>但：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://example.com/file.ofd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通常只能下载。</p>
+<p>之后还需要用户：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">下载
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">找到 OFD 阅读器
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">安装
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">打开文件
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从使用体验上来说比较割裂。</p>
+<p>我最开始因此产生了一个想法：</p>
+<blockquote>
+<p>能不能让 OFD 像 PDF 一样，点击之后直接在浏览器里打开？</p>
+</blockquote>
+<p>这就是 <code>ofd-viewer-extension</code> 最初的出发点。</p>
+<hr>
+<h2 id="2-为什么没有选择-ofd-转-pdf">2. 为什么没有选择 OFD 转 PDF？
+</h2><p>最初其实考虑过最简单的方案：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">PDF Converter
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">PDF
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">浏览器打开
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种方案有几个明显优点：</p>
+<ul>
+<li>实现简单；</li>
+<li>PDF Viewer 非常成熟；</li>
+<li>打印、缩放、搜索等能力基本都是现成的；</li>
+<li>不需要自己实现复杂的文档渲染。</li>
+</ul>
+<p>如果目标只是：</p>
+<blockquote>
+<p>“让用户看到 OFD。”</p>
+</blockquote>
+<p>那么 OFD → PDF 确实是一条非常现实的工程路线。</p>
+<p>但它也有一个问题：</p>
+<p><strong>转换以后，我面对的已经不是 OFD 了。</strong></p>
+<p>例如未来如果希望继续做：</p>
+<ul>
+<li>OFD 文本搜索；</li>
+<li>字体分析；</li>
+<li>页面对象分析；</li>
+<li>电子签章；</li>
+<li>批注；</li>
+<li>文档结构读取；</li>
+<li>OFD 内容提取；</li>
+<li>页面重新渲染；</li>
+<li>甚至简单编辑；</li>
+</ul>
+<p>那么中间多一次 PDF 转换反而会丢失很多 OFD 本身的信息。</p>
+<p>所以最后我决定尝试一条更困难、但也更有意思的路线：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">直接解析 OFD
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="3-项目现在是什么">3. 项目现在是什么？
+</h2><p><code>ofd-viewer-extension</code> 目前是一个基于：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Chrome Extension Manifest V3
+</span></span><span class="line"><span class="cl">+
+</span></span><span class="line"><span class="cl">TypeScript
+</span></span><span class="line"><span class="cl">+
+</span></span><span class="line"><span class="cl">SVG
+</span></span><span class="line"><span class="cl">+
+</span></span><span class="line"><span class="cl">Web Worker
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实现的浏览器 OFD Viewer。</p>
+<p>主要目标浏览器是：</p>
+<ul>
+<li>Google Chrome</li>
+<li>Microsoft Edge</li>
+</ul>
+<p>目前已经可以完成一套基本阅读流程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">打开 OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">解析文档
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">解析页面
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">加载字体 / 图片
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">渲染 SVG
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">翻页 / 缩放 / 旋转 / 打印
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>既可以打开本地 OFD，也可以处理一部分网络 <code>.ofd</code> 地址。</p>
+<hr>
+<h2 id="4-为什么选择浏览器扩展">4. 为什么选择浏览器扩展？
+</h2><p>其实最开始也可以直接做一个普通网页：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">viewer.html
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用户选择本地 OFD 后进行解析。</p>
+<p>这种方式当然可以工作。</p>
+<p>但如果希望实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">点击 .ofd URL
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">直接进入阅读器
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>普通网页就比较难做到。</p>
+<p>浏览器扩展则可以监听页面导航：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://example.com/document.ofd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果发现顶层页面正在访问 OFD，就将它交给扩展自己的 Viewer。</p>
+<p>这样使用体验更接近：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PDF
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而不是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">上传文件的网站
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以我最终选择了浏览器扩展作为项目形态。</p>
+<hr>
+<h2 id="5-整体架构">5. 整体架构
+</h2><p>目前整个项目大致可以抽象成五层：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Package
+</span></span><span class="line"><span class="cl">     ↓
+</span></span><span class="line"><span class="cl">Parser
+</span></span><span class="line"><span class="cl">     ↓
+</span></span><span class="line"><span class="cl">Document Model
+</span></span><span class="line"><span class="cl">     ↓
+</span></span><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">     ↓
+</span></span><span class="line"><span class="cl">Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>具体一点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│       OFD / ZIP         │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│   Package Reader        │
+</span></span><span class="line"><span class="cl">│                        │
+</span></span><span class="line"><span class="cl">│ ZIP                     │
+</span></span><span class="line"><span class="cl">│ XML                     │
+</span></span><span class="line"><span class="cl">│ Font / Image Resources  │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│      OFD Parser         │
+</span></span><span class="line"><span class="cl">│                        │
+</span></span><span class="line"><span class="cl">│ OFD.xml                 │
+</span></span><span class="line"><span class="cl">│ Document.xml            │
+</span></span><span class="line"><span class="cl">│ Page                    │
+</span></span><span class="line"><span class="cl">│ Resource                │
+</span></span><span class="line"><span class="cl">│ Template                │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│    Document Model       │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│      Display List       │
+</span></span><span class="line"><span class="cl">│                        │
+</span></span><span class="line"><span class="cl">│ Text                    │
+</span></span><span class="line"><span class="cl">│ Path                    │
+</span></span><span class="line"><span class="cl">│ Image                   │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">│      SVG Renderer       │
+</span></span><span class="line"><span class="cl">└───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">            ▼
+</span></span><span class="line"><span class="cl">       Browser Viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我比较希望保持的一点就是：</p>
+<blockquote>
+<p><strong>解析和渲染尽量解耦。</strong></p>
+</blockquote>
+<hr>
+<h2 id="6-ofd-本质上是一个-zip-容器">6. OFD 本质上是一个 ZIP 容器
+</h2><p>刚开始接触 OFD 时，很容易把它理解成一种“类似 PDF 的二进制文件”。</p>
+<p>但实际打开之后，会发现 OFD 更像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ZIP
+</span></span><span class="line"><span class="cl"> ├── OFD.xml
+</span></span><span class="line"><span class="cl"> ├── Doc_0/
+</span></span><span class="line"><span class="cl"> │    ├── Document.xml
+</span></span><span class="line"><span class="cl"> │    ├── Pages/
+</span></span><span class="line"><span class="cl"> │    └── Res/
+</span></span><span class="line"><span class="cl"> └── ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此第一步不是渲染，而是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">打开 ZIP
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>项目目前使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">@zip.js/zip.js
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>读取 OFD 包。</p>
+<p>内部抽象了一层 Package Reader，可以按路径读取：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">XML
+</span></span><span class="line"><span class="cl">字体
+</span></span><span class="line"><span class="cl">图片
+</span></span><span class="line"><span class="cl">其他二进制资源
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如逻辑上可以理解成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="nx">readText</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">readBlob</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样上层 Parser 并不需要关心 ZIP 的具体实现。</p>
+<hr>
+<h2 id="7-解析入口从-ofdxml-开始">7. 解析入口：从 OFD.xml 开始
+</h2><p>OFD 的入口通常是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD.xml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过它可以找到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Document.xml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后再继续找到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">页面
+</span></span><span class="line"><span class="cl">公共资源
+</span></span><span class="line"><span class="cl">文档资源
+</span></span><span class="line"><span class="cl">模板页
+</span></span><span class="line"><span class="cl">字体
+</span></span><span class="line"><span class="cl">图片
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此解析过程大概是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD.xml
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">DocRoot
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">Document.xml
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">Pages / Resources / Templates
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>项目中我把这些职责拆成不同模块，而不是全部放到一个 parser 文件中。</p>
+<p>例如会分别处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Manifest
+</span></span><span class="line"><span class="cl">Document
+</span></span><span class="line"><span class="cl">Page
+</span></span><span class="line"><span class="cl">Resources
+</span></span><span class="line"><span class="cl">Path Data
+</span></span><span class="line"><span class="cl">XML
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样后面增加 OFD 特性的时候不会迅速变成一个几千行的大文件。</p>
+<hr>
+<h2 id="8-为什么中间还要设计一层-document-model">8. 为什么中间还要设计一层 Document Model？
+</h2><p>理论上解析完：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;ofd:TextObject&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以后，可以直接：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="nb">document</span><span class="p">.</span><span class="nx">createElementNS</span><span class="p">(...)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生成 SVG。</p>
+<p>但我没有选择：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD XML
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">SVG
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种直接结构。</p>
+<p>而是增加了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD XML
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Parser
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Document Model
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因很简单：</p>
+<p><strong>不希望 Renderer 知道 OFD XML 长什么样。</strong></p>
+<p>例如 Renderer 不应该关心：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ofd:TextObject
+</span></span><span class="line"><span class="cl">ofd:PathObject
+</span></span><span class="line"><span class="cl">ofd:ImageObject
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些东西。</p>
+<p>它只应该知道：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">这里有一个文本对象
+</span></span><span class="line"><span class="cl">这里有一个路径
+</span></span><span class="line"><span class="cl">这里有一张图片
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样以后 Parser 和 Renderer 才能独立演化。</p>
+<hr>
+<h2 id="9-display-list-是整个架构里最重要的一层">9. Display List 是整个架构里最重要的一层
+</h2><p>目前我认为这个项目里最值得保留的设计之一，就是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Display List
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>页面解析完成以后，不会直接生成 SVG，而是先转换成类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DisplayText
+</span></span><span class="line"><span class="cl">DisplayPath
+</span></span><span class="line"><span class="cl">DisplayImage
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样的绘图描述。</p>
+<p>整个流程于是变成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD XML
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">OFD Model
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">TextObject
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">DisplayText
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>里面会保存：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">字体
+</span></span><span class="line"><span class="cl">字号
+</span></span><span class="line"><span class="cl">文本
+</span></span><span class="line"><span class="cl">位置
+</span></span><span class="line"><span class="cl">填充色
+</span></span><span class="line"><span class="cl">描边
+</span></span><span class="line"><span class="cl">字符位移
+</span></span><span class="line"><span class="cl">变换矩阵
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>路径则转换成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DisplayPath
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Path Data
+</span></span><span class="line"><span class="cl">Fill
+</span></span><span class="line"><span class="cl">Stroke
+</span></span><span class="line"><span class="cl">LineWidth
+</span></span><span class="line"><span class="cl">FillRule
+</span></span><span class="line"><span class="cl">LineJoin
+</span></span><span class="line"><span class="cl">LineCap
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>图片转换成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DisplayImage
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再关联对应的资源。</p>
+<hr>
+<h2 id="10-为什么-display-list-很重要">10. 为什么 Display List 很重要？
+</h2><p>因为它解决了一个非常关键的问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Parser
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不再和：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SVG
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>绑定。</p>
+<p>现在是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Parser
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">SVG Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>未来理论上完全可以增加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">Canvas Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">WebGPU Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>甚至以后如果真的尝试做原生桌面版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">Native Graphics Backend
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Parser 本身都不一定需要推翻。</p>
+<p>这其实也是我比较喜欢的一种设计：</p>
+<blockquote>
+<p>文件格式解析层负责理解文档，Renderer 只负责画。</p>
+</blockquote>
+<hr>
+<h2 id="11-为什么选择-svg">11. 为什么选择 SVG？
+</h2><p>在浏览器环境下，比较自然的选择主要是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Canvas
+</span></span><span class="line"><span class="cl">SVG
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我最后选择 SVG，主要是考虑 OFD 本身就是固定版式、矢量内容很多的文档。</p>
+<p>OFD 页面中常见内容就是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文字
+</span></span><span class="line"><span class="cl">路径
+</span></span><span class="line"><span class="cl">图片
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>刚好可以对应：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&lt;text&gt;
+</span></span><span class="line"><span class="cl">&lt;path&gt;
+</span></span><span class="line"><span class="cl">&lt;image&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以很多内容之间的映射比较自然。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD PathObject
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">SVG &lt;path&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>文本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD TextObject
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">SVG &lt;text&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>图片：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD ImageObject
+</span></span><span class="line"><span class="cl">      ↓
+</span></span><span class="line"><span class="cl">SVG &lt;image&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而且 SVG 自带：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">viewBox
+</span></span><span class="line"><span class="cl">transform
+</span></span><span class="line"><span class="cl">vector scaling
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对文档缩放和旋转都比较友好。</p>
+<hr>
+<h2 id="12-页面尺寸和坐标系统">12. 页面尺寸和坐标系统
+</h2><p>版式文档最麻烦的问题之一，是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">坐标
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>OFD 的页面、对象、路径都有自己的坐标体系。</p>
+<p>同时对象还可能存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Boundary
+</span></span><span class="line"><span class="cl">CTM
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之类的信息。</p>
+<p>最终需要把：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Coordinate System
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>正确映射到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SVG Coordinate System
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为了让后面各种：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">平移
+</span></span><span class="line"><span class="cl">旋转
+</span></span><span class="line"><span class="cl">缩放
+</span></span><span class="line"><span class="cl">矩阵组合
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更容易处理，我把矩阵运算单独拆成了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">render/matrix.ts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而不是在 Renderer 中到处手写坐标计算。</p>
+<p>这类代码初期看起来似乎多了一层抽象，但随着复杂页面增加会越来越有价值。</p>
+<hr>
+<h2 id="13-模板页">13. 模板页
+</h2><p>OFD 还有一个比较容易被忽略的概念：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Template Page
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个普通页面可能引用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">背景模板
+</span></span><span class="line"><span class="cl">前景模板
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以页面不能简单理解成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Page.xml = 页面全部内容
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际更可能是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Background Template
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">Current Page
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">Foreground Template
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此构建 Display List 时，需要把模板内容一起合并。</p>
+<p>同时还必须防止：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Template A
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Template B
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Template A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样的循环引用。</p>
+<p>所以目前解析器里也加入了模板访问记录，避免因为异常 OFD 造成无限递归。</p>
+<hr>
+<h2 id="14-为什么使用-web-worker">14. 为什么使用 Web Worker？
+</h2><p>第一次尝试把整个 OFD 解析过程放在主线程时，就能预见一个问题：</p>
+<p>稍微复杂一点的文件就可能涉及：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ZIP 解压
+</span></span><span class="line"><span class="cl">XML DOM 解析
+</span></span><span class="line"><span class="cl">页面遍历
+</span></span><span class="line"><span class="cl">路径转换
+</span></span><span class="line"><span class="cl">资源读取
+</span></span><span class="line"><span class="cl">字体处理
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果全部压在 UI 线程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Viewer
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">卡顿
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">浏览器“页面无响应”
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以现在比较重的 OFD 解析流程放到了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Web Worker
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>里面。</p>
+<p>大致结构是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Main Thread
+</span></span><span class="line"><span class="cl">    │
+</span></span><span class="line"><span class="cl">    │ postMessage
+</span></span><span class="line"><span class="cl">    ▼
+</span></span><span class="line"><span class="cl">OFD Worker
+</span></span><span class="line"><span class="cl">    │
+</span></span><span class="line"><span class="cl">    ├── open
+</span></span><span class="line"><span class="cl">    ├── page
+</span></span><span class="line"><span class="cl">    ├── asset
+</span></span><span class="line"><span class="cl">    └── close
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>打开文档：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">open
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">解析文档元数据
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>请求页面：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">page
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Build Display List
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>获取字体和图片：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">asset
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">读取 ZIP Resource
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后再把结果返回主线程进行 SVG 绘制。</p>
+<p>这样可以避免解析大文件时把整个 Viewer UI 卡死。</p>
+<hr>
+<h2 id="15-做-ofd-viewer-时我低估了字体问题">15. 做 OFD Viewer 时，我低估了字体问题
+</h2><p>最开始做 OFD 的时候，我以为比较困难的部分会是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">XML
+</span></span><span class="line"><span class="cl">Path
+</span></span><span class="line"><span class="cl">坐标
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但真正开始拿实际文件测试后，会发现另一个问题非常明显：</p>
+<blockquote>
+<p><strong>字体。</strong></p>
+</blockquote>
+<p>有些 OFD 内部会嵌入字体。</p>
+<p>理论上浏览器可以通过：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FontFace
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>加载。</p>
+<p>但现实没有那么简单。</p>
+<p>一些 OFD 内嵌字体可能存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SFNT Table 顺序问题
+</span></span><span class="line"><span class="cl">缺少 OS/2
+</span></span><span class="line"><span class="cl">cmap 异常
+</span></span><span class="line"><span class="cl">checksum 错误
+</span></span><span class="line"><span class="cl">glyph 映射问题
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它们可能可以被生成 OFD 的软件正常使用，却无法通过 Chromium 的字体校验。</p>
+<p>结果就是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FontFace 加载失败
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">浏览器 fallback
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">字体变化
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">字宽变化
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">整个页面排版偏移
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于普通网页来说，fallback 字体也许只是“不太好看”。</p>
+<p>但对于 OFD 这种版式文档来说：</p>
+<p><strong>字体变化直接等于版式变化。</strong></p>
+<hr>
+<h2 id="16-所以我写了一个字体修复器">16. 所以我写了一个字体修复器
+</h2><p>项目中目前有：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">viewer/font-normalizer.ts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它会尝试解析 SFNT 字体结构，并针对一些浏览器不接受的情况进行修复。</p>
+<p>目前涉及到的内容包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SFNT Table
+</span></span><span class="line"><span class="cl">cmap
+</span></span><span class="line"><span class="cl">OS/2
+</span></span><span class="line"><span class="cl">head
+</span></span><span class="line"><span class="cl">checksum
+</span></span><span class="line"><span class="cl">checkSumAdjustment
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如重新处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">cmap format 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>过滤异常 glyph 映射。</p>
+<p>如果字体缺少：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OS/2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>则尝试生成最小可用结构。</p>
+<p>之后重新组织 SFNT Table，并重新计算：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">table checksum
+</span></span><span class="line"><span class="cl">head.checkSumAdjustment
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后生成新的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Blob
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>交给浏览器的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FontFace API
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>加载。</p>
+<p>这部分代码也是目前项目里我觉得比较有意思的一块。</p>
+<p>因为它已经不只是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">解析 OFD
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而开始接触：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OpenType / TrueType 二进制结构
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>了。</p>
+<hr>
+<h2 id="17-ofd-字体不能只依赖系统字体">17. OFD 字体不能只依赖系统字体
+</h2><p>还有一个细节。</p>
+<p>假设 OFD 中声明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">宋体
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用户电脑刚好也有宋体。</p>
+<p>最简单的方式当然是直接：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">font-family</span><span class="o">:</span> <span class="nt">SimSun</span><span class="o">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但问题是：</p>
+<p>OFD 内嵌的字体不一定等于系统里的字体。</p>
+<p>它甚至可能只是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Subset Font
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>只包含这份文档使用到的部分字符。</p>
+<p>因此项目中我会给加载成功的内嵌字体建立一个文档级别的别名。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Embedded 12
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Font ID
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">OFD Embedded 12
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Renderer 使用这个别名。</p>
+<p>这样可以优先使用 OFD 文件自己提供的字体，而不是系统里恰好同名的字体。</p>
+<hr>
+<h2 id="18-文件解析不能忽略安全问题">18. 文件解析不能忽略安全问题
+</h2><p>这个项目是浏览器扩展。</p>
+<p>也就是说未来它处理的文件可能来自：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">本地
+</span></span><span class="line"><span class="cl">邮件附件
+</span></span><span class="line"><span class="cl">网页
+</span></span><span class="line"><span class="cl">陌生网站
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此我不能假设：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">所有 OFD 都是正常文件
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而应该默认：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD = 不可信输入
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这对整个实现影响其实很大。</p>
+<hr>
+<h2 id="19-zip-路径穿越">19. ZIP 路径穿越
+</h2><p>OFD 本质上是 ZIP。</p>
+<p>那么自然就存在类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">../../../../xxx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种 ZIP Slip / Path Traversal 风险。</p>
+<p>所以在资源访问前，我会先规范化 ZIP Entry Path。</p>
+<p>例如拒绝：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">..
+</span></span><span class="line"><span class="cl">绝对路径
+</span></span><span class="line"><span class="cl">Windows Drive Letter
+</span></span><span class="line"><span class="cl">NUL
+</span></span><span class="line"><span class="cl">异常路径
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样 Parser 就不能通过 OFD 中构造的路径随意访问其他位置。</p>
+<hr>
+<h2 id="20-zip-bomb">20. ZIP Bomb
+</h2><p>另一个典型问题就是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ZIP Bomb
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">几十 KB
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">解压
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">几个 GB
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果什么限制都没有，浏览器很容易直接被拖死。</p>
+<p>所以 Package Reader 会限制：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Entry 数量
+</span></span><span class="line"><span class="cl">单文件展开大小
+</span></span><span class="line"><span class="cl">总展开大小
+</span></span><span class="line"><span class="cl">压缩比
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而不是看到 ZIP 就全部解压。</p>
+<hr>
+<h2 id="21-xml-安全">21. XML 安全
+</h2><p>XML 同样不能直接信任。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE ...&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">&lt;!ENTITY ...&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可能涉及：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">XXE
+</span></span><span class="line"><span class="cl">Entity Expansion
+</span></span><span class="line"><span class="cl">Billion Laughs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一类攻击。</p>
+<p>因此目前 XML Parser 在实际构建 DOM 之前，会拒绝：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DOCTYPE
+</span></span><span class="line"><span class="cl">ENTITY
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并限制 DOM 深度。</p>
+<p>虽然这是一个 Viewer，而不是服务器，但我仍然希望：</p>
+<blockquote>
+<p>文档永远只是数据，而不是可以影响执行环境的代码。</p>
+</blockquote>
+<hr>
+<h2 id="22-svg-也不能直接-innerhtml">22. SVG 也不能直接 innerHTML
+</h2><p>解析完成以后，SVG 本身同样属于浏览器 DOM。</p>
+<p>所以我没有采用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="nx">svg</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="p">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>直接把文档内容拼进 SVG。</p>
+<p>而是通过：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="nb">document</span><span class="p">.</span><span class="nx">createElementNS</span><span class="p">(...)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">text
+</span></span><span class="line"><span class="cl">path
+</span></span><span class="line"><span class="cl">image
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后再：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">setAttribute
+</span></span><span class="line"><span class="cl">textContent
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>写入内容。</p>
+<p>这样数据和 HTML/SVG 代码之间的边界会更明确。</p>
+<hr>
+<h2 id="23-网络-ofd-如何交给-viewer">23. 网络 OFD 如何交给 Viewer？
+</h2><p>浏览器扩展还有一个比较重要的功能：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">直接打开网络 OFD
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>后台脚本会观察顶层导航。</p>
+<p>如果 URL 是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://
+</span></span><span class="line"><span class="cl">https://
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而且路径符合：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">*.ofd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>则可以把当前导航交给扩展 Viewer。</p>
+<p>这里我没有简单使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">viewer.html?url=https://example.com/a.ofd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而是通过一个临时 Job 保存原始 URL。</p>
+<p>大概类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD URL
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Background
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Job ID
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">chrome.storage.session
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样 Viewer URL 中只需要保存一个：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Job ID
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后再向后台获取真正的资源地址。</p>
+<hr>
+<h2 id="24-为什么没有自己实现-pdf-导出">24. 为什么没有自己实现 PDF 导出？
+</h2><p>现在 Viewer 支持：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">打印
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用户也可以：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">另存为 PDF
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但项目本身并没有实现 PDF Writer。</p>
+<p>因为浏览器已经有一套成熟的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Print Pipeline
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以目前直接：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">SVG
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Browser Print
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Save as PDF
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是我认为现阶段比较合理的取舍。</p>
+<p>如果项目核心目标是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD Viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>那么现在没有必要为了一个 PDF 导出功能，自己额外维护：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PDF Object
+</span></span><span class="line"><span class="cl">XRef
+</span></span><span class="line"><span class="cl">Font Embedding
+</span></span><span class="line"><span class="cl">Image Encoding
+</span></span><span class="line"><span class="cl">Page Tree
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样一整套 PDF Writer。</p>
+<hr>
+<h2 id="25-目前已经支持哪些内容">25. 目前已经支持哪些内容？
+</h2><p>项目当前主要覆盖常见静态 OFD 阅读场景，包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文本
+</span></span><span class="line"><span class="cl">矢量路径
+</span></span><span class="line"><span class="cl">图片
+</span></span><span class="line"><span class="cl">模板页
+</span></span><span class="line"><span class="cl">字体资源
+</span></span><span class="line"><span class="cl">基本页面结构
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Viewer 侧目前也已经具备一些基础阅读功能：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">上一页 / 下一页
+</span></span><span class="line"><span class="cl">页码跳转
+</span></span><span class="line"><span class="cl">缩放
+</span></span><span class="line"><span class="cl">适合宽度
+</span></span><span class="line"><span class="cl">适合页面
+</span></span><span class="line"><span class="cl">实际大小
+</span></span><span class="line"><span class="cl">旋转
+</span></span><span class="line"><span class="cl">打印
+</span></span><span class="line"><span class="cl">下载原始 OFD
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此外也已经开始处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">加密 OFD
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以在需要时让用户输入密码后继续解析。</p>
+<hr>
+<h2 id="26-目前还没有完成哪些东西">26. 目前还没有完成哪些东西？
+</h2><p>这个项目现在还远远不能说：</p>
+<blockquote>
+<p>“完整支持 OFD 标准。”</p>
+</blockquote>
+<p>目前我更倾向于把它定义为：</p>
+<blockquote>
+<p><strong>一个已经形成完整解析/渲染骨架的 OFD Viewer。</strong></p>
+</blockquote>
+<p>适合作为临时查看OFD文件的阅览工具，或者导出PDF的工具来使用。
+仍然有很多内容需要继续做，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">数字签名验证
+</span></span><span class="line"><span class="cl">电子签章验证
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">批注
+</span></span><span class="line"><span class="cl">表单
+</span></span><span class="line"><span class="cl">Action
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">音视频
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">更复杂的颜色空间
+</span></span><span class="line"><span class="cl">ICC
+</span></span><span class="line"><span class="cl">专色
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">高级透明与图形效果
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">更多图片编码
+</span></span><span class="line"><span class="cl">JBIG2
+</span></span><span class="line"><span class="cl">TIFF
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CGTransform
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">文本选择
+</span></span><span class="line"><span class="cl">全文搜索
+</span></span><span class="line"><span class="cl">页面缩略图
+</span></span><span class="line"><span class="cl">文档目录
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些后面都会逐步成为比较大的模块。</p>
+<hr>
+<h2 id="27-对于暂不支持的-ofd-对象我不希望整个页面直接失败">27. 对于暂不支持的 OFD 对象，我不希望整个页面直接失败
+</h2><p>现实里的文件格式往往没有那么干净。</p>
+<p>一个 OFD 可能：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">95% 是普通文本、路径、图片
+</span></span><span class="line"><span class="cl">5% 是当前还没实现的特性
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果因为那 5%：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">整个页面报错
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用户体验其实非常差。</p>
+<p>所以现在项目里也在逐步加入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Diagnostic
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>思路是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">能画的继续画
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">暂时不能画的跳过
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">记录兼容性问题
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终用户至少可以先阅读主要内容。</p>
+<p>这也是我以后比较希望继续完善的一种容错机制。</p>
+<hr>
+<h2 id="28-项目目录">28. 项目目录
+</h2><p>目前核心代码主要分布在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">src/
+</span></span><span class="line"><span class="cl"> ├── background.ts
+</span></span><span class="line"><span class="cl"> │
+</span></span><span class="line"><span class="cl"> ├── ofd/
+</span></span><span class="line"><span class="cl"> │   ├── package/
+</span></span><span class="line"><span class="cl"> │   ├── parse/
+</span></span><span class="line"><span class="cl"> │   ├── model/
+</span></span><span class="line"><span class="cl"> │   └── display-list/
+</span></span><span class="line"><span class="cl"> │
+</span></span><span class="line"><span class="cl"> ├── render/
+</span></span><span class="line"><span class="cl"> │   ├── matrix.ts
+</span></span><span class="line"><span class="cl"> │   └── svg-renderer.ts
+</span></span><span class="line"><span class="cl"> │
+</span></span><span class="line"><span class="cl"> ├── viewer/
+</span></span><span class="line"><span class="cl"> │   ├── font-normalizer.ts
+</span></span><span class="line"><span class="cl"> │   ├── viewer-app.ts
+</span></span><span class="line"><span class="cl"> │   ├── worker-client.ts
+</span></span><span class="line"><span class="cl"> │   └── ...
+</span></span><span class="line"><span class="cl"> │
+</span></span><span class="line"><span class="cl"> ├── worker/
+</span></span><span class="line"><span class="cl"> │   ├── ofd.worker.ts
+</span></span><span class="line"><span class="cl"> │   └── protocol.ts
+</span></span><span class="line"><span class="cl"> │
+</span></span><span class="line"><span class="cl"> └── security/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果想阅读源码，我比较建议按照：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">package
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">parse
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">model
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">display-list
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">svg-renderer
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个顺序来看。</p>
+<hr>
+<h2 id="29-如何运行">29. 如何运行？
+</h2><p>首先克隆项目：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/evzz74/ofd-viewer-extension.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>进入目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> ofd-viewer-extension
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后构建：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run build
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完成以后会生成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dist/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Chrome 打开：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">chrome://extensions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Edge 打开：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">edge://extensions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>开启：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">开发者模式
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>选择：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">加载已解压的扩展程序
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后加载：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dist
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>即可开始使用。</p>
+<hr>
+<h2 id="30-开发与测试">30. 开发与测试
+</h2><p>开发过程中目前主要使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>进行本地调试。</p>
+<p>此外可以执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run typecheck
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>进行 TypeScript 类型检查。</p>
+<p>执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm <span class="nb">test</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行单元测试。</p>
+<p>生产构建：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run build
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>目前测试重点更多放在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Parser
+</span></span><span class="line"><span class="cl">ZIP
+</span></span><span class="line"><span class="cl">XML
+</span></span><span class="line"><span class="cl">Path
+</span></span><span class="line"><span class="cl">安全边界
+</span></span><span class="line"><span class="cl">异常输入
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为相比 Viewer UI，我认为文件解析器首先应该保证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">不会因为异常文件轻易崩掉
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="31-为什么我觉得这个项目值得继续做">31. 为什么我觉得这个项目值得继续做？
+</h2><p>如果只从用户量来说：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">浏览器 OFD 阅读器
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可能并不是一个特别大的项目。</p>
+<p>但从技术角度，它刚好把很多我感兴趣的问题串在了一起：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文件格式
+</span></span><span class="line"><span class="cl">ZIP
+</span></span><span class="line"><span class="cl">XML
+</span></span><span class="line"><span class="cl">版式文档
+</span></span><span class="line"><span class="cl">图形学
+</span></span><span class="line"><span class="cl">字体
+</span></span><span class="line"><span class="cl">SVG
+</span></span><span class="line"><span class="cl">浏览器
+</span></span><span class="line"><span class="cl">Web Worker
+</span></span><span class="line"><span class="cl">安全解析
+</span></span><span class="line"><span class="cl">Chrome Extension
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个看起来很简单的：</p>
+<blockquote>
+<p>“把 OFD 显示出来”</p>
+</blockquote>
+<p>往下拆之后，其实会不断遇到新的层次：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">如何找到页面？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">如何理解 TextObject？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">如何处理 CTM？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">字体为什么加载失败？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">为什么 glyph 错位？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">模板如何组合？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">恶意 ZIP 怎么办？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">异常 XML 怎么办？
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">大文档怎么不阻塞 UI？
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我觉得这也是做这种底层项目比较有意思的地方。</p>
+<hr>
+<h2 id="32-下一步准备做什么">32. 下一步准备做什么？
+</h2><p>后面我希望从两个方向继续完善这个项目。</p>
+<p>第一个方向是：</p>
+<h3 id="提高兼容性">提高兼容性
+</h3><p>继续补充 OFD 标准中的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GraphicUnit
+</span></span><span class="line"><span class="cl">ColorSpace
+</span></span><span class="line"><span class="cl">Clip
+</span></span><span class="line"><span class="cl">CompositeObject
+</span></span><span class="line"><span class="cl">CGTransform
+</span></span><span class="line"><span class="cl">更多字体情况
+</span></span><span class="line"><span class="cl">更多图片格式
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终目标是让更多真实 OFD：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">直接打开
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">尽可能正确显示
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>第二个方向是：</p>
+<h3 id="提升-viewer-能力">提升 Viewer 能力
+</h3><p>例如增加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">缩略图
+</span></span><span class="line"><span class="cl">目录
+</span></span><span class="line"><span class="cl">文本选择
+</span></span><span class="line"><span class="cl">全文搜索
+</span></span><span class="line"><span class="cl">复制
+</span></span><span class="line"><span class="cl">打印优化
+</span></span><span class="line"><span class="cl">页面连续滚动
+</span></span><span class="line"><span class="cl">阅读模式
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当底层 Parser 足够稳定以后，这些上层能力就会更容易实现。</p>
+<hr>
+<h2 id="33-更长期的一些想法">33. 更长期的一些想法
+</h2><p>目前 Renderer 是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SVG
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但因为中间已经存在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Display List
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以我也比较想尝试其他 Renderer。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Canvas
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者更极端一点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">WebGPU
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它们未必一定比 SVG 更好，但可以比较不同渲染后端在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">大页面
+</span></span><span class="line"><span class="cl">大量 Path
+</span></span><span class="line"><span class="cl">大量文本
+</span></span><span class="line"><span class="cl">复杂图形
+</span></span><span class="line"><span class="cl">连续滚动
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>情况下的性能表现。</p>
+<p>另外一个比较有意思的方向是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Native OFD Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果以后把当前 TypeScript Parser 中比较成熟的设计重新用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">C++
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实现，那么类似：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Package
+</span></span><span class="line"><span class="cl">Parser
+</span></span><span class="line"><span class="cl">Model
+</span></span><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl">Renderer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这套架构其实仍然可以继续复用。</p>
+<hr>
+<h2 id="34-总结">34. 总结
+</h2><p><code>ofd-viewer-extension</code> 最开始只是源于一个很简单的问题：</p>
+<blockquote>
+<p>为什么浏览器可以直接打开 PDF，却不能直接打开 OFD？</p>
+</blockquote>
+<p>但真正开始实现之后，我发现它实际上逐渐变成了一个：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">浏览器版式文档引擎
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>的小型实验。</p>
+<p>目前整体架构已经形成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">ZIP Package Reader
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">XML Parser
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Document Model
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Display List
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">SVG Renderer
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Browser Viewer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时围绕这条主线又逐渐加入了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Web Worker
+</span></span><span class="line"><span class="cl">字体修复
+</span></span><span class="line"><span class="cl">ZIP 安全
+</span></span><span class="line"><span class="cl">XML 安全
+</span></span><span class="line"><span class="cl">加密文档
+</span></span><span class="line"><span class="cl">模板页
+</span></span><span class="line"><span class="cl">兼容性诊断
+</span></span><span class="line"><span class="cl">浏览器打印
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个项目距离完整 OFD Reader 还有很长的路。</p>
+<p>但至少现在，我已经把最重要的一条链路跑通了：</p>
+<blockquote>
+<p><strong>从一个原始 OFD 文件开始，在不转换 PDF、不依赖后端服务的情况下，由浏览器自己解析并完成页面渲染。</strong></p>
+</blockquote>
+<p>后面我会继续完善 OFD 标准支持、字体兼容性和 Viewer 功能。</p>
+<p>如果你同样对：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">OFD
+</span></span><span class="line"><span class="cl">文件格式
+</span></span><span class="line"><span class="cl">浏览器文档渲染
+</span></span><span class="line"><span class="cl">字体
+</span></span><span class="line"><span class="cl">SVG
+</span></span><span class="line"><span class="cl">Chrome Extension
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些方向感兴趣，也欢迎一起研究这个项目。</p>
+<p>GitHub：</p>
+<p><code>https://github.com/evzz74/ofd-viewer-extension</code></p>
+<p>如果项目对你有帮助，也欢迎提交 Issue、PR 或 Star。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/ofd/">OFD</a>
+        
+            <a href="/tags/chrome-extension/">Chrome Extension</a>
+        
+            <a href="/tags/typescript/">TypeScript</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Aug 12, 2026 06:53 UTC
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="evzz74/evzz74.github.io"
+    data-repo-id="R_kgDOOA64jQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOOA64jc4Cncjq"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 Shawpenn
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.965be9124230c68607964bde448666f6d929604be3d93d4d52911d4fccfaa481.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<div id="particles-js"></div>
+
+<script src=https://shawpenn.qzz.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://shawpenn.qzz.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container",
+            "title",
+            ".color-text-primary gsc-main",
+            ".sidebar",
+            ".main-article",
+            ".js-Pjax"
+        ],
+        cacheBust: false
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                var newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                var bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass);
+
+                updateMetaTags(newDom);
+            }
+
+            pjax._handleResponse(responseText, request, href, options);
+        }
+    }
+
+    function updateMetaTags(newDom) {
+        var metaSelectors = ['description', 'keywords', 'og:title', 'og:description', 'og:url', 'twitter:title', 'twitter:description'];
+
+        metaSelectors.forEach(function(selector) {
+            var newMeta = newDom.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+            var currentMeta = document.querySelector('meta[name="' + selector + '"], meta[property="' + selector + '"]');
+
+            if (newMeta && currentMeta) {
+                currentMeta.setAttribute('content', newMeta.getAttribute('content'));
+            }
+        });
+    }
+</script><div class="js-Pjax">
+<script>
+    (function () {
+        var comment = document.querySelector(".comment");
+        if (!comment) {
+            return
+        }
+        var script = document.createElement('script');
+        script.setAttribute('src', 'https://giscus.app/client.js');
+        script.setAttribute('data-repo', 'evzz74\/evzz74.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDOOA64jQ');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOOA64jc4Cncjq');
+        script.setAttribute('data-mapping', 'title');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', 'light');
+        script.setAttribute('data-lang', 'en');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.querySelector('.site-footer').before(script)
+    })(document);
+</script>
+<div>
+  
+ <style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+<script>
+    function showHideView() {
+        
+        let viewCounts = document.querySelectorAll("#viewCount");
+        if (viewCounts) {
+            
+            let article =  document.querySelector(".article-page");
+            if (!article) {
+                viewCounts.forEach(ele => {
+                    ele.style.display = 'none';
+                });
+            }
+        }
+    }
+    
+    showHideView();
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+<style>
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://shawpenn.qzz.io/icons/backTop.svg);
+    }
+</style>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+<style>
+    .highlight {
+         
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      
+      
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        
+        window.dispatchEvent(new Event('resize'))
+      })
+      
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = "https://shawpenn.qzz.io/icons/codeMore.png"
+      
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+<script>
+  const cdnPath = "https://cdn.jsdelivr.net/gh/AnJoy0723/live2d-static@master";
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath:  cdnPath + "/Resources/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "express","photo", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+
+
+    
+    <script src=https://shawpenn.qzz.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        topbar.hide();
+         
+        window.Stack.init();
+    })
+</script>
+    </body>
+</html>
