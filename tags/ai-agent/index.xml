@@ -7,7 +7,60 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Wed, 12 Aug 2026 06:53:35 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/ai-agent/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 13 Aug 2026 05:08:52 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/ai-agent/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AI学习：从入门到入土</title>
+        <link>https://shawpenn.qzz.io/p/ai%E5%AD%A6%E4%B9%A0%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F/</link>
+        <pubDate>Thu, 13 Aug 2026 12:44:00 +0800</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/p/ai%E5%AD%A6%E4%B9%A0%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F/</guid>
+        <description>&lt;img src="https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU41YW4xTTFJVlQyLXZqUHZ0Mm9tUzRkU0ZnYnUwQUF1UVNheHVQQUFId1Y0c3BjYUtEX0tZNEFRQURBZ0FEZHdBRFBRUSIsImUiOiJwbmciLCJuIjoiQ2hhdEdQVCBJbWFnZSAyMDI25bm0OOaciDEz5pelIDEyXzQ4XzU1LnBuZyIsIm0iOiJpbWFnZS9wbmciLCJzIjoyMzM0ODI2LCJ0IjoxNzg2NTk2NTY1NDQyLCJtaWQiOjEyMX0.lyvPgrJ7UY3UiCFG3cnsb45ldZnc5F_nsTPiqFd2PrU.png" alt="Featured image of post AI学习：从入门到入土" /&gt;&lt;p&gt;整理适合初学者学习入门AI的网站&lt;/p&gt;
+&lt;h2 id=&#34;人工智能学习网&#34;&gt;人工智能学习网
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.captainbed.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.captainbed.cn/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;一位深耕人工智能领域22年的大佬创建的人工智能学习网站，全篇用语幽默风趣，读起来津津有味，把枯燥的理论用生动形象的语言描绘出来。内容涵盖：人工智能基础、深度学习、强化学习、Agent智能体、RAG、多模态AI等等领域。
+&lt;img src=&#34;https://k-vault-dvo.pages.dev/file/tgs_eyJ2IjoxLCJmIjoiQWdBQ0FnVUFBeUVHQUFUZUVRN1RBQU4zYW4xTGh0S1FPWlNFRmUzaW5jU21QWC1kMzhFQUF0OFNheHVQQUFId1YwNEd2Sy13UmJ4dEFRQURBZ0FEZHdBRFBRUSIsImUiOiJwbmciLCJuIjoicGFzdGVfMTc4NjU5NjIyNzM4Ni5wbmciLCJtIjoiaW1hZ2UvcG5nIiwicyI6NDQ4MTU5LCJ0IjoxNzg2NTk2MjMwOTEzLCJtaWQiOjExOX0.QmDnG66MFpkJ55U9DAhmR0SZgprtljiCGjMXqpdPoak.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;paste_1786596227386.png&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;microsoftai-for-beginners&#34;&gt;microsoft/AI-For-Beginners
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/microsoft/AI-For-Beginners&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/microsoft/AI-For-Beginners&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由微软维护的一套面向 AI 初学者的开源课程。它更像一本“可以运行代码的 AI 入门教材”，而不是一个用于部署 AI 应用的软件框架。官方将其定位为 12 周、24 节核心课程，包含理论讲解、测验、Jupyter Notebook 和实验，并提供简体中文等 50 多种语言版本。&lt;/p&gt;
+&lt;p&gt;课程覆盖的是比较完整的“传统 AI → 深度学习 → 现代 AI”知识路线：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI 基础&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;神经网络与深度学习&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;计算机视觉&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;目标检测&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;语义分割 / U-Net&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;自然语言处理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;另外还有 CLIP、VQGAN 等多模态内容作为扩展。&lt;/p&gt;
+&lt;p&gt;这个仓库并不是专门讲生成式 AI / ChatGPT / AI Agent 的课程，比很多只讲“ChatGPT 怎么用”的 AI 入门教程更偏向于AI / 深度学习原理与代码实现&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/microsoft/AI-For-Beginners/raw/main/lessons/sketchnotes/ai-overview.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AI For Beginners - Sketchnote by @girlie_mac&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        <item>
         <title>Claude Code 是怎样工作的（三）：Claude Code 全部产品功能地图</title>
         <link>https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%89claude-code-%E5%85%A8%E9%83%A8%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD%E5%9C%B0%E5%9B%BE/</link>
         <pubDate>Tue, 28 Jul 2026 20:09:13 +0800</pubDate>
