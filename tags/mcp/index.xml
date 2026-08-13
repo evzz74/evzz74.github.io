@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Shawpenn</copyright>
-        <lastBuildDate>Thu, 13 Aug 2026 05:08:52 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/mcp/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 13 Aug 2026 13:00:20 +0000</lastBuildDate><atom:link href="https://shawpenn.qzz.io/tags/mcp/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理</title>
         <link>https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/</link>
         <pubDate>Tue, 28 Jul 2026 14:24:59 +0800</pubDate>
