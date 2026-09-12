@@ -14776,14 +14776,201 @@ Your commit message:具体的更改信息&lt;/p&gt;
         <description></description>
         </item>
         <item>
+        <title>笔记</title>
+        <link>https://shawpenn.qzz.io/notes/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/notes/</guid>
+        <description>&lt;p&gt;博客文章按主题分类整理。技术主题继续用标签区分，旧文章的正文和地址保持不变。&lt;/p&gt;
+&lt;p&gt;研究方向围绕&lt;strong&gt;动态采集条件下的道路视觉感知&lt;/strong&gt;展开，重点回答：模型在怎样的拍摄条件下容易失效，这种变化来自数据、成像，还是模型本身？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;动态车载视觉&lt;/strong&gt;：车辆运动、视角和光照变化如何改变道路图像中的有效信息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;道路病害检测&lt;/strong&gt;：公开数据集上训练的检测模型能否迁移到实际车载采集图像。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;视觉退化分析&lt;/strong&gt;：运动模糊、低照度和压缩分别影响哪些病害类别、哪些尺度的目标。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;研究问题与拟验证思路的详细说明见&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/research/&#34; &gt;研究方向&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;ai工具&#34;&gt;AI工具
+&lt;/h2&gt;&lt;p&gt;AI 模型学习、AI Agent 源码解析、AI 工具与辅助脚本的使用记录。&lt;/p&gt;
+
+
+
+
+
+    &lt;ul&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/ai%E5%AD%A6%E4%B9%A0%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F/&#34;&gt;AI学习：从入门到入土&lt;/a&gt; — &lt;time datetime=&#34;2026-08-13&#34;&gt;2026.08.13&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%89claude-code-%E5%85%A8%E9%83%A8%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD%E5%9C%B0%E5%9B%BE/&#34;&gt;Claude Code 是怎样工作的（三）：Claude Code 全部产品功能地图&lt;/a&gt; — &lt;time datetime=&#34;2026-07-28&#34;&gt;2026.07.28&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%BA%8C%E4%BB%8E%E6%BA%90%E7%A0%81%E7%9C%8B%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9D%83%E9%99%90%E5%B7%A5%E5%85%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E5%AD%90%E4%BB%A3%E7%90%86/&#34;&gt;Claude Code 是怎样工作的（二）：从源码看提示词、权限、工具、上下文与子代理&lt;/a&gt; — &lt;time datetime=&#34;2026-07-28&#34;&gt;2026.07.28&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/claude-code-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%80%E5%9F%BA%E4%BA%8E%E8%BF%98%E5%8E%9F%E6%BA%90%E7%A0%81%E7%9A%84%E9%9B%B6%E5%9F%BA%E7%A1%80%E8%A7%A3%E6%9E%90/&#34;&gt;Claude Code 是怎样工作的（一）：基于还原源码的零基础解析&lt;/a&gt; — &lt;time datetime=&#34;2026-07-28&#34;&gt;2026.07.28&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/cliproxyapi-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/&#34;&gt;CLIProxyAPI 部署教程与使用说明&lt;/a&gt; — &lt;time datetime=&#34;2026-05-12&#34;&gt;2026.05.12&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/claude-code-%E5%AE%89%E8%A3%85/&#34;&gt;Claude Code 安装&lt;/a&gt; — &lt;time datetime=&#34;2026-04-24&#34;&gt;2026.04.24&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E7%A7%91%E7%A0%94%E7%A5%9E%E5%99%A8litsense/&#34;&gt;科研神器——LitSense&lt;/a&gt; — &lt;time datetime=&#34;2026-04-11&#34;&gt;2026.04.11&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%AD%A6%E4%B9%A0%E9%80%9A%E8%87%AA%E5%8A%A8%E8%B5%8B%E5%88%86%E6%89%B9%E9%98%85%E8%84%9A%E6%9C%AC/&#34;&gt;学习通自动赋分批阅脚本&lt;/a&gt; — &lt;time datetime=&#34;2026-01-28&#34;&gt;2026.01.28&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E8%AF%BB%E6%96%87%E7%8C%AEprompt/&#34;&gt;读文献prompt&lt;/a&gt; — &lt;time datetime=&#34;2025-12-17&#34;&gt;2025.12.17&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/codex%E6%8E%A5%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9key/&#34;&gt;Codex接入第三方key&lt;/a&gt; — &lt;time datetime=&#34;2025-10-14&#34;&gt;2025.10.14&lt;/time&gt;&lt;/li&gt;
+        
+    &lt;/ul&gt;
+
+
+&lt;h2 id=&#34;博客建站&#34;&gt;博客建站
+&lt;/h2&gt;&lt;p&gt;Hugo 博客搭建、主题定制、站点的免费部署与博客管理工具开发。&lt;/p&gt;
+
+
+
+
+
+    &lt;ul&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E4%BD%BF%E7%94%A8-vercel--github-%E6%90%AD%E5%BB%BA-hugo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/&#34;&gt;使用 Vercel &amp;#43; GitHub 搭建 Hugo 个人博客&lt;/a&gt; — &lt;time datetime=&#34;2026-07-06&#34;&gt;2026.07.06&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/hugo-stack-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E9%A1%B6%E9%83%A8%E9%98%85%E8%AF%BB%E8%BF%9B%E5%BA%A6%E6%9D%A1/&#34;&gt;Hugo Stack 主题添加顶部阅读进度条&lt;/a&gt; — &lt;time datetime=&#34;2026-05-26&#34;&gt;2026.05.26&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/hugohugo--github-%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/&#34;&gt;【Hugo】Hugo &amp;#43; Github 免费部署自己的博客&lt;/a&gt; — &lt;time datetime=&#34;2026-03-30&#34;&gt;2026.03.30&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/&#34;&gt;Hugo-manager 开发随笔&lt;/a&gt; — &lt;time datetime=&#34;2026-03-25&#34;&gt;2026.03.25&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/hugo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&#34;&gt;Hugo常用命令&lt;/a&gt; — &lt;time datetime=&#34;2025-10-27&#34;&gt;2025.10.27&lt;/time&gt;&lt;/li&gt;
+        
+    &lt;/ul&gt;
+
+
+&lt;h2 id=&#34;开发实践&#34;&gt;开发实践
+&lt;/h2&gt;&lt;p&gt;编程语言学习、版本控制、开源项目解析与工程实现记录。&lt;/p&gt;
+
+
+
+
+
+    &lt;ul&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/ofd-%E9%98%85%E8%AF%BB%E5%99%A8ofd-viewer-extension%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%8E%9F%E7%94%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E9%98%85%E8%AF%BB/&#34;&gt;OFD 阅读器ofd-viewer-extension：在浏览器中原生解析和阅读&lt;/a&gt; — &lt;time datetime=&#34;2026-08-12&#34;&gt;2026.08.12&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E5%B0%86%E6%9C%AC%E5%9C%B0-git-%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF%E4%BB%8E-master-%E6%94%B9%E4%B8%BA-main/&#34;&gt;如何将本地 Git 默认分支从 master 改为 main&lt;/a&gt; — &lt;time datetime=&#34;2026-04-11&#34;&gt;2026.04.11&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/fish%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/&#34;&gt;FISH语言学习&lt;/a&gt; — &lt;time datetime=&#34;2025-10-29&#34;&gt;2025.10.29&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/pfc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/&#34;&gt;PFC学习记录&lt;/a&gt; — &lt;time datetime=&#34;2025-10-27&#34;&gt;2025.10.27&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/git-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&#34;&gt;Git 使用说明及常用命令&lt;/a&gt; — &lt;time datetime=&#34;2025-08-21&#34;&gt;2025.08.21&lt;/time&gt;&lt;/li&gt;
+        
+    &lt;/ul&gt;
+
+
+&lt;h2 id=&#34;软件系统&#34;&gt;软件系统
+&lt;/h2&gt;&lt;p&gt;操作系统设置、应用与系统故障修复、软件配置和开发环境问题处理。&lt;/p&gt;
+
+
+
+
+
+    &lt;ul&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/windows-%E5%AE%89%E8%A3%85-xbox-%E5%BA%94%E7%94%A8%E5%A4%B1%E8%B4%A5%E7%9A%84%E4%BF%AE%E5%A4%8D%E8%AE%B0%E5%BD%950x80248014gaming-services-%E4%B8%8E-xbox-%E4%BE%9D%E8%B5%96%E4%BF%AE%E5%A4%8D/&#34;&gt;Windows 安装 Xbox 应用失败的修复记录：0x80248014、Gaming Services 与 Xbox 依赖修复&lt;/a&gt; — &lt;time datetime=&#34;2026-05-18&#34;&gt;2026.05.18&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%88%A0%E9%99%A4uwtsetting/&#34;&gt;右键菜单删除uwtsetting&lt;/a&gt; — &lt;time datetime=&#34;2026-03-16&#34;&gt;2026.03.16&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/word%E4%B8%ADmathtype%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/&#34;&gt;Word中MathType公式显示不全问题解决方法&lt;/a&gt; — &lt;time datetime=&#34;2026-01-22&#34;&gt;2026.01.22&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/aseprite-%E7%AE%80%E6%98%93%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B/&#34;&gt;Aseprite 简易在线编译教程&lt;/a&gt; — &lt;time datetime=&#34;2025-12-17&#34;&gt;2025.12.17&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8xx%E8%84%9A%E6%9C%AC%E6%8A%A5%E9%94%99/&#34;&gt;如何解决vscode终端无法使用XX脚本报错&lt;/a&gt; — &lt;time datetime=&#34;2025-08-16&#34;&gt;2025.08.16&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/&#34;&gt;win10透明任务栏&lt;/a&gt; — &lt;time datetime=&#34;2025-04-11&#34;&gt;2025.04.11&lt;/time&gt;&lt;/li&gt;
+        
+    &lt;/ul&gt;
+
+
+&lt;h2 id=&#34;生活随笔&#34;&gt;生活随笔
+&lt;/h2&gt;&lt;p&gt;生活记录、兴趣收藏、软件推荐与个人随笔。&lt;/p&gt;
+
+
+
+
+
+    &lt;ul&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E4%BA%BA%E7%B1%BB%E7%9A%84%E8%B5%9E%E6%AD%8C%E6%98%AF%E5%8B%87%E6%B0%94%E7%9A%84%E8%B5%9E%E6%AD%8C/&#34;&gt;人类的赞歌是勇气的赞歌&lt;/a&gt; — &lt;time datetime=&#34;2026-04-13&#34;&gt;2026.04.13&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%A3%85%E6%9C%BA/&#34;&gt;记录一下第一次装机&lt;/a&gt; — &lt;time datetime=&#34;2026-04-09&#34;&gt;2026.04.09&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E9%9A%8F%E7%AC%94/&#34;&gt;随笔&lt;/a&gt; — &lt;time datetime=&#34;2026-03-24&#34;&gt;2026.03.24&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%80%BC%E5%BE%97%E6%94%B6%E8%97%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E7%BD%91%E7%AB%99/&#34;&gt;值得收藏的几个网站&lt;/a&gt; — &lt;time datetime=&#34;2025-12-17&#34;&gt;2025.12.17&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6/&#34;&gt;几款实用平替软件&lt;/a&gt; — &lt;time datetime=&#34;2025-12-17&#34;&gt;2025.12.17&lt;/time&gt;&lt;/li&gt;
+        
+            &lt;li&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/%E6%9C%88%E5%A7%AC-tsukihime/&#34;&gt;月姬 Tsukihime&lt;/a&gt; — &lt;time datetime=&#34;2025-04-13&#34;&gt;2025.04.13&lt;/time&gt;&lt;/li&gt;
+        
+    &lt;/ul&gt;
+
+
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/archives/&#34; &gt;按时间查看全部文章&lt;/a&gt; · &lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/search/&#34; &gt;搜索内容&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>关于</title>
         <link>https://shawpenn.qzz.io/%E5%85%B3%E4%BA%8E/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>https://shawpenn.qzz.io/%E5%85%B3%E4%BA%8E/</guid>
-        <description>&lt;ul&gt;
-&lt;li&gt;使用HUGO搭建的个人博客&lt;/li&gt;
+        <description>&lt;h2 id=&#34;hi-im-shaw&#34;&gt;Hi, I&amp;rsquo;m Shaw
+&lt;/h2&gt;&lt;p&gt;这里是我的技术博客。我目前把学习与研究的重心放在 &lt;strong&gt;Computer Vision&lt;/strong&gt;，尤其关注动态车载场景中的道路病害检测：当车辆运动、拍摄视角和光照发生变化时，视觉模型还能看清什么，又会漏掉什么？&lt;/p&gt;
+&lt;p&gt;我希望沿着图像处理、模型训练、目标检测到实际场景验证的路径，逐步积累能复现、能解释的计算机视觉实践。博客记录的是这段过程，不是已经完成的技能清单。&lt;/p&gt;
+&lt;h2 id=&#34;关注方向&#34;&gt;关注方向
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;动态车载视觉&lt;/strong&gt;：车辆运动、采集条件与道路图像质量之间的关系。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;道路病害检测&lt;/strong&gt;：裂缝、坑槽等目标的识别，以及模型在不同道路场景中的适用范围。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;视觉退化分析&lt;/strong&gt;：运动模糊、低照度、压缩和目标尺度变化对检测结果的影响。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/research/&#34; &gt;了解研究问题与验证思路&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;技术实践与学习&#34;&gt;技术实践与学习
+&lt;/h2&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;方向&lt;/th&gt;
+					&lt;th&gt;当前记录与关注点&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;计算机视觉&lt;/td&gt;
+					&lt;td&gt;整理 YOLOv5 实时目标检测项目资料；关注 OpenCV 图像处理与视觉定位&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;深度学习&lt;/td&gt;
+					&lt;td&gt;围绕 Python、NumPy、PyTorch、CNN 和 ResNet 梳理数据输入、训练与评估流程&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;工程实现&lt;/td&gt;
+					&lt;td&gt;OFD 浏览器阅读器的解析与渲染实践，以及 Git、Hugo 和开发工具使用记录&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;AI 工具&lt;/td&gt;
+					&lt;td&gt;AI Agent 工作机制、源码阅读与辅助开发；将工具使用和算法训练能力分别记录&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;图像分类实验与道路视觉研究仍需要补齐可公开的代码、数据说明和评估记录。我不会用计划中的项目代替已经完成的成果。&lt;/p&gt;
+&lt;h2 id=&#34;从哪里开始看&#34;&gt;从哪里开始看
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/projects/&#34; &gt;项目与实践&lt;/a&gt;：按状态查看 CV 项目和已有工程内容。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/notes/&#34; &gt;技术笔记&lt;/a&gt;：按方向浏览文章，也保留过去的生活随笔。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/evzz74&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;：查看公开仓库。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;关于这个博客&#34;&gt;关于这个博客
+&lt;/h2&gt;&lt;p&gt;保留问题背景、实现取舍和失败原因，比单独列出工具名称更有意义。后续实验会尽量交代数据划分、运行环境、指标口径和错误案例，区分观察、假设与结论。&lt;/p&gt;
+&lt;p&gt;过去的建站记录、工具笔记和随笔仍然保留，它们也是我的学习过程。常用资料放在&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/links/&#34; &gt;链接页&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Attendre et espérer — 等待与希望。&lt;/em&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -14802,6 +14989,154 @@ Your commit message:具体的更改信息&lt;/p&gt;
         
         <guid>https://shawpenn.qzz.io/search/</guid>
         <description></description>
+        </item>
+        <item>
+        <title>项目</title>
+        <link>https://shawpenn.qzz.io/projects/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/projects/</guid>
+        <description>&lt;p&gt;这里把&lt;strong&gt;正在推进的方向&lt;/strong&gt;与&lt;strong&gt;已有材料支持的实践&lt;/strong&gt;分开呈现。CV 项目尚在整理与积累阶段；工程项目提供另一条了解实现过程的入口，不替代算法实验成果。&lt;/p&gt;
+&lt;h2 id=&#34;computer-vision&#34;&gt;Computer Vision
+&lt;/h2&gt;
+
+
+    
+        &lt;section id=&#34;road-vision&#34;&gt;
+            &lt;h3&gt;动态车载视觉与道路病害检测&lt;/h3&gt;
+            &lt;p&gt;&lt;strong&gt;研究方向&lt;/strong&gt; · Dynamic Vehicle-Mounted Vision&lt;/p&gt;
+            &lt;p&gt;关注车辆运动、光照与拍摄视角带来的视觉退化，以及这些变化对道路裂缝、坑槽检测的影响。&lt;/p&gt;
+            &lt;p&gt;相关技术与方向：Road Vision · Object Detection · Visual Degradation&lt;/p&gt;
+            &lt;p&gt;当前先明确采集条件、数据域差异与错误分析的方法。尚未公开可复现的实验报告，不以拟开展的实验代替已有结果。&lt;/p&gt;
+            
+            
+            
+            
+            
+                
+            
+            &lt;p&gt;&lt;a href=&#34;https://shawpenn.qzz.io/research/&#34;&gt;研究问题与验证思路&lt;/a&gt;&lt;/p&gt;
+        &lt;/section&gt;
+    
+        &lt;section id=&#34;realtime-detection&#34;&gt;
+            &lt;h3&gt;YOLOv5 实时目标检测与视觉定位&lt;/h3&gt;
+            &lt;p&gt;&lt;strong&gt;资料整理中&lt;/strong&gt; · Real-time Object Detection&lt;/p&gt;
+            &lt;p&gt;整理以 YOLOv5、Python 和 OpenCV 为线索的实时检测实践，重点记录图像输入、检测输出与视觉定位。&lt;/p&gt;
+            &lt;p&gt;相关技术与方向：YOLOv5 · Python · OpenCV&lt;/p&gt;
+            &lt;p&gt;项目材料尚未公开。后续说明原始应用场景、本人工作、数据来源、运行环境和实现边界；目前不提供未核验的训练指标、实时帧率或仓库链接。&lt;/p&gt;
+            
+            
+            
+            
+            
+            
+        &lt;/section&gt;
+    
+        &lt;section id=&#34;image-classification&#34;&gt;
+            &lt;h3&gt;CNN 与 ResNet 图像分类&lt;/h3&gt;
+            &lt;p&gt;&lt;strong&gt;计划&lt;/strong&gt; · Image Classification&lt;/p&gt;
+            &lt;p&gt;计划从数据划分、基础 CNN 和 ResNet 对比入手，完整记录图像分类的训练、验证与错误样本。&lt;/p&gt;
+            &lt;p&gt;相关技术与方向：PyTorch · CNN · ResNet&lt;/p&gt;
+            &lt;p&gt;尚未形成公开项目。计划先建立可重复的训练基线，再比较数据增强与模型选择，不预设实验结论。&lt;/p&gt;
+            
+            
+            
+            
+            
+                
+            
+            
+        &lt;/section&gt;
+    
+
+
+
+&lt;h2 id=&#34;engineering&#34;&gt;Engineering
+&lt;/h2&gt;
+
+
+    
+        &lt;section id=&#34;ofd-reader&#34;&gt;
+            &lt;h3&gt;OFD 浏览器阅读器&lt;/h3&gt;
+            &lt;p&gt;&lt;strong&gt;已有公开仓库&lt;/strong&gt; · OFD Viewer Extension&lt;/p&gt;
+            &lt;p&gt;在浏览器中原生解析和阅读 OFD，记录从文档解析、页面模型到显示列表与 SVG 渲染的实现取舍。&lt;/p&gt;
+            &lt;p&gt;相关技术与方向：TypeScript · Chrome Extension · SVG&lt;/p&gt;
+            &lt;p&gt;这是已有的工程实践，不属于计算机视觉训练项目。实现范围与已知限制以仓库和原文为准。&lt;/p&gt;
+            
+            
+            
+                
+            
+            
+            
+            &lt;p&gt;&lt;a href=&#34;https://github.com/evzz74/ofd-viewer-extension&#34;&gt;GitHub&lt;/a&gt; · &lt;a href=&#34;https://shawpenn.qzz.io/p/ofd-%E9%98%85%E8%AF%BB%E5%99%A8ofd-viewer-extension%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%8E%9F%E7%94%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E9%98%85%E8%AF%BB/&#34;&gt;阅读开发记录&lt;/a&gt;&lt;/p&gt;
+        &lt;/section&gt;
+    
+        &lt;section id=&#34;hugo-manager&#34;&gt;
+            &lt;h3&gt;Hugo 管理工具开发随笔&lt;/h3&gt;
+            &lt;p&gt;&lt;strong&gt;已有开发记录&lt;/strong&gt; · AI-assisted Development Notes&lt;/p&gt;
+            &lt;p&gt;为改善命令行写博客的体验，尝试借助 AI 辅助开发实现图形界面的博客管理想法。&lt;/p&gt;
+            &lt;p&gt;相关技术与方向：Hugo · AI-assisted Development&lt;/p&gt;
+            &lt;p&gt;公开内容是开发动机与过程随笔，不代表完整产品交付，也不将 AI 辅助实现表述为独立完成的全部工作。&lt;/p&gt;
+            
+            
+            
+                
+            
+            
+            
+            &lt;p&gt;&lt;a href=&#34;https://shawpenn.qzz.io/p/hugo-manager-%E5%BC%80%E5%8F%91%E9%9A%8F%E7%AC%94/&#34;&gt;阅读开发记录&lt;/a&gt;&lt;/p&gt;
+        &lt;/section&gt;
+    
+
+
+
+&lt;h2 id=&#34;实验材料如何公开&#34;&gt;实验材料如何公开
+&lt;/h2&gt;&lt;p&gt;一份可复现的记录应当让读者知道：解决什么问题、用了什么数据、如何划分训练与测试集、哪些代码是自己的工作，以及结论在什么条件下成立。&lt;/p&gt;
+&lt;p&gt;检测项目会记录 Precision、Recall、mAP 的定义与评估设置；涉及速度时，同时说明硬件、输入尺寸、批量大小及计时范围。没有完成测量的指标不填数字。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/research/&#34; &gt;研究方向&lt;/a&gt; · &lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/notes/&#34; &gt;技术笔记&lt;/a&gt; · &lt;a class=&#34;link&#34; href=&#34;https://github.com/evzz74&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>研究</title>
+        <link>https://shawpenn.qzz.io/research/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://shawpenn.qzz.io/research/</guid>
+        <description>&lt;h2 id=&#34;research-focus&#34;&gt;Research Focus
+&lt;/h2&gt;&lt;p&gt;我的关注点是&lt;strong&gt;动态采集条件下的道路视觉感知&lt;/strong&gt;。相较于只在固定测试集上报告一个分数，我更想了解：模型在怎样的拍摄条件下容易失效，这种变化来自数据、成像，还是模型本身？&lt;/p&gt;
+&lt;p&gt;以下是研究问题与拟验证的方法，&lt;strong&gt;不是已经完成的实验结论&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;动态车载视觉&#34;&gt;动态车载视觉
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：车辆运动、视角和光照变化，会怎样改变道路图像中的有效信息？&lt;/p&gt;
+&lt;p&gt;拟从采集过程记录入手，区分相机与路面的相对运动、曝光条件、拍摄角度和目标尺度。真实车载图像与人工合成的退化图像需要分别讨论，不能直接视为等价。&lt;/p&gt;
+&lt;h2 id=&#34;道路病害检测&#34;&gt;道路病害检测
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：在公开数据集上训练的检测模型，能否迁移到实际车载采集图像？&lt;/p&gt;
+&lt;p&gt;RDD2022 是拟整理的道路病害数据集线索。后续需要先核对标注类别、数据划分和样本来源，再建立基线；若使用行车视频，按采集序列划分数据，避免相邻帧同时进入训练集与测试集。&lt;/p&gt;
+&lt;p&gt;在分析跨场景表现时，会分别检查拍摄视角、道路材质、目标大小和标注规则，而不是把所有变化都归因于“模型不够好”。&lt;/p&gt;
+&lt;h2 id=&#34;视觉退化分析&#34;&gt;视觉退化分析
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：运动模糊、低照度和压缩分别影响了哪些病害类别、哪些尺度的目标？&lt;/p&gt;
+&lt;p&gt;拟先做单因素对照，固定测试集和推理设置，比较原始图像与不同退化程度下的结果，再讨论多种因素叠加。分析内容包括每类召回率、误检与漏检样本，而不只看总体 mAP。&lt;/p&gt;
+&lt;h2 id=&#34;结果公开标准&#34;&gt;结果公开标准
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;数据&lt;/strong&gt;：说明来源、使用许可、标注规范和划分策略；区分公开数据与自采数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;环境&lt;/strong&gt;：记录模型版本、配置、随机种子、硬件和关键软件版本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;指标&lt;/strong&gt;：解释 mAP、Recall 等指标的口径；速度结果附输入尺寸、批量大小及计时范围。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分析&lt;/strong&gt;：展示失败案例，区分已观察现象、原因假设和验证结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;复现&lt;/strong&gt;：提供可公开的代码、配置与运行步骤；不能公开的部分说明边界。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前尚无可公开的完整实验报告或性能指标。整理完成后，将从&lt;a class=&#34;link&#34; href=&#34;https://shawpenn.qzz.io/projects/&#34; &gt;项目页&lt;/a&gt;链接至对应文章与代码。&lt;/p&gt;
+&lt;h2 id=&#34;相关研究笔记&#34;&gt;相关研究笔记
+&lt;/h2&gt;&lt;p&gt;这些是已有的 AI 学习、源码分析、建模和研究工具记录，不等同于车载视觉研究成果；具体论文的阅读笔记另归 Reading。&lt;/p&gt;
+
+
+
+
+
+    &lt;p&gt;研究 暂无公开文章，后续记录会在这里汇总。&lt;/p&gt;
+
+
+</description>
         </item>
         
     </channel>

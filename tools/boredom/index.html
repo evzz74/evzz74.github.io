@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111318" />
+  <title>人生无聊指数检测器</title>
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:rgba(255,255,255,.065);
+      --panel-2:rgba(255,255,255,.095);
+      --text:#f3f1ec;
+      --muted:#aaa8a2;
+      --line:rgba(255,255,255,.11);
+      --accent:#a7b8a1;
+      --accent-2:#a894b9;
+      --accent-3:#78b9b0;
+      --danger:#d89b91;
+      --shadow:0 24px 70px rgba(0,0,0,.35);
+      --radius:28px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(168,148,185,.16), transparent 30%),
+        radial-gradient(circle at 82% 22%, rgba(120,185,176,.12), transparent 28%),
+        radial-gradient(circle at 50% 92%, rgba(167,184,161,.13), transparent 30%),
+        var(--bg);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
+        "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    }
+
+    button,input,select{font:inherit}
+    button{color:inherit}
+    .wrap{
+      width:min(1080px,calc(100% - 28px));
+      margin:0 auto;
+      padding:56px 0 80px;
+    }
+
+    .hero{
+      padding:20px 4px 28px;
+      display:grid;
+      gap:14px;
+    }
+    .eyebrow{
+      font-size:13px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+    h1{
+      margin:0;
+      max-width:800px;
+      font-size:clamp(38px,7vw,76px);
+      line-height:.98;
+      letter-spacing:-.045em;
+    }
+    .subtitle{
+      margin:0;
+      max-width:720px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+      align-items:start;
+    }
+    .card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,var(--panel-2),var(--panel));
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .form-card{padding:24px}
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size:20px;
+      letter-spacing:-.02em;
+    }
+    .tiny{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{display:grid;gap:8px}
+    .field.full{grid-column:1/-1}
+    label{
+      color:#d7d4ce;
+      font-size:13px;
+    }
+    input,select{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      padding:13px 14px;
+      outline:none;
+      transition:.2s ease;
+    }
+    select option{background:#171a20}
+    input:focus,select:focus{
+      border-color:rgba(167,184,161,.7);
+      box-shadow:0 0 0 4px rgba(167,184,161,.08);
+    }
+
+    .range-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+    input[type="range"]{
+      appearance:none;
+      height:7px;
+      padding:0;
+      border:0;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      border-radius:999px;
+    }
+    input[type="range"]::-webkit-slider-thumb{
+      appearance:none;
+      width:20px;height:20px;border-radius:50%;
+      background:#f7f4ef;
+      border:4px solid #252831;
+      box-shadow:0 2px 8px rgba(0,0,0,.35);
+      cursor:pointer;
+    }
+    .range-value{
+      min-width:36px;
+      text-align:center;
+      color:var(--accent);
+      font-weight:700;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+    .chip input{display:none}
+    .chip span{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--muted);
+      background:rgba(255,255,255,.025);
+      cursor:pointer;
+      user-select:none;
+      transition:.18s ease;
+      font-size:13px;
+    }
+    .chip input:checked + span{
+      color:#101217;
+      background:var(--accent);
+      border-color:transparent;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:20px;
+    }
+    .btn{
+      border:0;
+      border-radius:16px;
+      padding:13px 17px;
+      cursor:pointer;
+      transition:.2s ease;
+      font-weight:700;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .primary{
+      flex:1;
+      background:linear-gradient(135deg,var(--accent),#c7b8d2);
+      color:#111318;
+    }
+    .ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+
+    .result-card{
+      position:sticky;
+      top:18px;
+      padding:24px;
+      min-height:520px;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .result-card::before{
+      content:"";
+      position:absolute;
+      width:260px;height:260px;border-radius:50%;
+      right:-90px;top:-90px;
+      background:radial-gradient(circle,rgba(168,148,185,.27),transparent 70%);
+      pointer-events:none;
+    }
+
+    .score-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+    }
+    .score-label{
+      color:var(--muted);
+      font-size:13px;
+    }
+    .score{
+      margin:4px 0 0;
+      font-size:72px;
+      line-height:.95;
+      font-weight:850;
+      letter-spacing:-.06em;
+    }
+    .score small{
+      font-size:24px;
+      color:var(--muted);
+      letter-spacing:-.02em;
+    }
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.16);
+      border-radius:999px;
+      padding:8px 11px;
+      font-size:12px;
+      color:#ddd9d2;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 18px currentColor;
+    }
+
+    .meter{
+      margin:18px 0 24px;
+      height:10px;
+      background:rgba(255,255,255,.06);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.04);
+    }
+    .meter > div{
+      height:100%;
+      width:0;
+      border-radius:inherit;
+      background:linear-gradient(90deg,var(--accent-3),var(--accent),var(--accent-2),var(--danger));
+      transition:width .55s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .prescription{
+      margin-top:4px;
+      border-top:1px solid var(--line);
+      padding-top:22px;
+    }
+    .rx{
+      font-family:Georgia,"Times New Roman",serif;
+      color:var(--accent);
+      font-size:15px;
+      margin-bottom:8px;
+    }
+    .task{
+      font-size:clamp(24px,4vw,36px);
+      line-height:1.28;
+      letter-spacing:-.03em;
+      margin:0 0 14px;
+    }
+    .task-note{
+      color:var(--muted);
+      line-height:1.7;
+      min-height:50px;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:18px;
+    }
+    .meta span{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      color:#cac7c0;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+    }
+
+    .result-actions{
+      display:flex;
+      gap:10px;
+      margin-top:auto;
+      padding-top:24px;
+    }
+
+    .history{
+      margin-top:18px;
+      padding:20px 22px;
+    }
+    .history-list{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+    .history-item{
+      border-top:1px solid var(--line);
+      padding-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .history-item:first-child{border-top:0;padding-top:0}
+    .footer{
+      color:#777a80;
+      text-align:center;
+      font-size:12px;
+      padding-top:28px;
+    }
+
+    .shake{animation:shake .35s ease}
+    @keyframes shake{
+      0%,100%{transform:translateX(0)}
+      25%{transform:translateX(-4px)}
+      75%{transform:translateX(4px)}
+    }
+
+    @media (max-width:800px){
+      .wrap{padding-top:34px}
+      .grid{grid-template-columns:1fr}
+      .result-card{position:relative;top:auto;min-height:500px}
+      .fields{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .score{font-size:62px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Boredom Diagnostic / v1.0</div>
+      <h1>人生无聊指数检测器</h1>
+      <p class="subtitle">
+        当你无聊到连“找点事做”都嫌麻烦时，把决定权暂时交给算法。
+        填一下当前状态，它会给你一个无聊指数，以及一剂不保证科学、但尽量有用的行动处方。
+      </p>
+    </section>
+
+    <section class="grid">
+      <div>
+        <article class="card form-card">
+          <div class="section-title">
+            <h2>当前状态</h2>
+            <span class="tiny" id="nowText">--</span>
+          </div>
+
+          <div class="fields">
+            <div class="field">
+              <label for="mood">现在的心情</label>
+              <select id="mood">
+                <option value="3">正常，但空虚</option>
+                <option value="5">烦躁，想找点刺激</option>
+                <option value="1">挺开心，只是没事干</option>
+                <option value="4">有点疲惫</option>
+                <option value="2">平静，想随便逛逛</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="activity">过去 1 小时你在干嘛</label>
+              <select id="activity">
+                <option value="6">刷短视频 / 信息流</option>
+                <option value="5">漫无目的上网</option>
+                <option value="2">刚做完正事</option>
+                <option value="4">打游戏但开始腻了</option>
+                <option value="3">躺着发呆</option>
+                <option value="1">刚出门回来</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="energy">剩余精力</label>
+              <div class="range-row">
+                <input id="energy" type="range" min="1" max="10" value="6" />
+                <span class="range-value" id="energyVal">6</span>
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="time">愿意投入多少时间</label>
+              <select id="time">
+                <option value="10">10 分钟：只想动一下</option>
+                <option value="20" selected>20 分钟：刚刚好</option>
+                <option value="45">45 分钟：可以认真玩玩</option>
+                <option value="60">60+ 分钟：今晚交给它了</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label>今天更想碰哪一类东西？</label>
+              <div class="chips" id="chips">
+                <label class="chip"><input type="checkbox" value="code" checked><span>代码 / GitHub</span></label>
+                <label class="chip"><input type="checkbox" value="ai" checked><span>AI / 小实验</span></label>
+                <label class="chip"><input type="checkbox" value="creative"><span>创作 / 设计</span></label>
+                <label class="chip"><input type="checkbox" value="blog"><span>博客 / 个人项目</span></label>
+                <label class="chip"><input type="checkbox" value="offline"><span>离开屏幕</span></label>
+                <label class="chip"><input type="checkbox" value="random"><span>随便来点怪的</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="diagnoseBtn">开始诊断</button>
+            <button class="btn ghost" id="resetBtn">重置</button>
+          </div>
+        </article>
+
+        <article class="card history">
+          <div class="section-title" style="margin-bottom:0">
+            <h2>最近的处方</h2>
+            <button class="btn ghost" id="clearHistory" style="padding:8px 10px;font-size:12px">清空</button>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="history-item">还没有记录。先测一次。</div>
+          </div>
+        </article>
+      </div>
+
+      <article class="card result-card" id="resultCard">
+        <div class="score-head">
+          <div>
+            <div class="score-label">BOREDOM INDEX</div>
+            <div class="score"><span id="score">--</span><small>%</small></div>
+          </div>
+          <div class="status"><span class="dot"></span><span id="statusText">等待诊断</span></div>
+        </div>
+
+        <div class="meter"><div id="meterBar"></div></div>
+
+        <section class="prescription">
+          <div class="rx">Rx / 今日处方</div>
+          <h2 class="task" id="taskTitle">点击「开始诊断」</h2>
+          <div class="task-note" id="taskNote">
+            系统会根据你的无聊程度、精力和可支配时间，给你分配一个现在就能开始的小任务。
+          </div>
+          <div class="meta" id="taskMeta">
+            <span>无需登录</span>
+            <span>本地运行</span>
+            <span>不保证科学</span>
+          </div>
+        </section>
+
+        <div class="result-actions">
+          <button class="btn primary" id="rerollBtn">换一剂</button>
+          <button class="btn ghost" id="copyBtn">复制结果</button>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer">Made for those moments when even choosing what to do feels like work.</div>
+  </main>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => [...document.querySelectorAll(s)];
+
+    const tasks = [
+      {cat:"code", min:10, energy:3, title:"去 GitHub 找一个 Star < 100 的项目", note:"只给自己 15 分钟：读 README，找出它最有趣或最离谱的一处设计，然后记一句吐槽。", tag:"探索"},
+      {cat:"code", min:20, energy:5, title:"给一个旧项目修掉一个“看着就烦”的小问题", note:"不准开大坑。只处理一个 TODO、一个 UI 小瑕疵、一个命名问题，做完就停。", tag:"微改造"},
+      {cat:"code", min:45, energy:7, title:"复刻一个你今天见过的小功能", note:"限定 45 分钟，例如随机句子、倒计时、拖拽卡片、快捷搜索。能跑就算完成。", tag:"Coding"},
+      {cat:"ai", min:10, energy:2, title:"让 AI 给你出一个“完全没必要存在”的工具点子", note:"然后挑最荒谬的那个，写下它的输入、输出和一句产品介绍。", tag:"脑洞"},
+      {cat:"ai", min:20, energy:4, title:"做一个 20 分钟 AI 小实验", note:"随便选一段文字、一张图或一份数据，让 AI 做一种你平时不会想到的转换，并记录结果。", tag:"AI"},
+      {cat:"ai", min:45, energy:6, title:"做一个只有你自己会用的 AI 小工具原型", note:"例如论文术语解释器、GitHub README 速读器、随机研究灵感机。只求跑通，不求产品化。", tag:"原型"},
+      {cat:"creative", min:10, energy:2, title:"给一个不存在的作品取 10 个名字", note:"可以是武器、游戏、小说章节、AI 模型、咖啡馆。选出最喜欢的一个，给它补一句设定。", tag:"创作"},
+      {cat:"creative", min:20, energy:4, title:"设计一个三元素主题物件", note:"随机选三个词，例如“月亮 / 锈迹 / 玻璃”，把它们合成一件武器、徽章或建筑。", tag:"设计"},
+      {cat:"creative", min:45, energy:6, title:"做一张“只为自己存在”的视觉设定页", note:"选一个主题，收集 6 个关键词 + 3 个颜色 + 1 个核心意象，做成极简 moodboard。", tag:"视觉"},
+      {cat:"blog", min:10, energy:2, title:"给博客加一个一句话彩蛋", note:"比如页脚随机句子、控制台彩蛋、隐藏按钮。越没用越好。", tag:"博客"},
+      {cat:"blog", min:20, energy:4, title:"给博客做一个微型互动页面", note:"从“随机决定器 / 今日状态 / 研究摸鱼机 / 文章盲盒”里任选一个，今天只做 MVP。", tag:"Web"},
+      {cat:"blog", min:45, energy:6, title:"整理一个“个人数字展柜”页面", note:"把最近做过的 3 个项目、3 张图、3 个想法放进去，不追求正式，只追求有个人味。", tag:"个人项目"},
+      {cat:"offline", min:10, energy:2, title:"离开屏幕，走到一个平时不会停下来的地方", note:"阳台、楼下便利店、楼梯间都行。观察 3 个细节，回来后写下一句。", tag:"离屏"},
+      {cat:"offline", min:20, energy:4, title:"进行一次没有目的地的 20 分钟散步", note:"规则只有一个：前 10 分钟不走平时最熟的路线。", tag:"散步"},
+      {cat:"offline", min:45, energy:5, title:"带着相机或手机去拍 12 张“没有主角”的照片", note:"只拍光、影子、纹理、路面、门窗、反射。拍完选 1 张留下。", tag:"观察"},
+      {cat:"random", min:10, energy:1, title:"打开维基百科随机条目，连续跳 5 次链接", note:"最后停在哪一页，就用一句话解释它为什么会出现在你今晚的人生里。", tag:"随机"},
+      {cat:"random", min:20, energy:3, title:"给未来的自己制造一个小型谜题", note:"藏一句提示、一个文件或一张图，设置成一周后你才看得懂的形式。", tag:"怪东西"},
+      {cat:"random", min:45, energy:5, title:"做一个“禁止实用”的小项目", note:"唯一规则：它不能提高效率。比如按钮逃跑网页、随机废话生成器、电子许愿池。", tag:"反效率"},
+    ];
+
+    const state = {lastTask:null, score:null};
+
+    function updateNow(){
+      const d = new Date();
+      $("#nowText").textContent = d.toLocaleString("zh-CN",{
+        month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false
+      });
+    }
+
+    function getSelectedCats(){
+      const cats = $$("#chips input:checked").map(x=>x.value);
+      return cats.length ? cats : ["random","offline","blog","code","ai","creative"];
+    }
+
+    function calcScore(){
+      const mood = Number($("#mood").value);
+      const activity = Number($("#activity").value);
+      const energy = Number($("#energy").value);
+      const hour = new Date().getHours();
+
+      let score = 25 + mood*6 + activity*7;
+      score += Math.max(0, energy-5)*2.4;
+      if(hour >= 22 || hour < 2) score += 7;
+      else if(hour >= 18) score += 4;
+
+      score += Math.random()*8 - 4;
+      return Math.max(8, Math.min(98, Math.round(score)));
+    }
+
+    function pickTask(){
+      const cats = getSelectedCats();
+      const time = Number($("#time").value);
+      const energy = Number($("#energy").value);
+
+      let pool = tasks.filter(t =>
+        cats.includes(t.cat) &&
+        t.min <= Math.max(time,10) &&
+        t.energy <= energy + 2 &&
+        t.title !== state.lastTask
+      );
+
+      if(!pool.length){
+        pool = tasks.filter(t => cats.includes(t.cat) && t.title !== state.lastTask);
+      }
+      if(!pool.length) pool = tasks;
+
+      // 高无聊指数稍微偏向更怪、更有新鲜感的任务
+      let weighted = [];
+      pool.forEach(t=>{
+        let n = 2;
+        if(state.score >= 75 && ["random","creative","offline"].includes(t.cat)) n += 2;
+        if(state.score <= 45 && ["blog","code","ai"].includes(t.cat)) n += 1;
+        for(let i=0;i<n;i++) weighted.push(t);
+      });
+
+      return weighted[Math.floor(Math.random()*weighted.length)];
+    }
+
+    function statusFor(score){
+      if(score < 35) return ["轻微无聊","你只是刚好有空。"];
+      if(score < 55) return ["中度空转","再刷下去大概率只会更无聊。"];
+      if(score < 75) return ["明显无聊","需要一点新鲜刺激。"];
+      if(score < 90) return ["重度无聊","建议立刻做一件有明确终点的事。"];
+      return ["无聊警报","系统建议：别再选了，直接执行。"];
+    }
+
+    function render(task, save=true){
+      const score = state.score ?? calcScore();
+      state.score = score;
+      state.lastTask = task.title;
+
+      const [status, desc] = statusFor(score);
+      $("#score").textContent = score;
+      $("#meterBar").style.width = score + "%";
+      $("#statusText").textContent = status;
+      $("#taskTitle").textContent = task.title;
+      $("#taskNote").textContent = desc + " " + task.note;
+      $("#taskMeta").innerHTML = `
+        <span>${task.min} 分钟起</span>
+        <span>精力 ${task.energy}/10</span>
+        <span>${task.tag}</span>
+      `;
+
+      const card = $("#resultCard");
+      card.classList.remove("shake");
+      void card.offsetWidth;
+      card.classList.add("shake");
+
+      if(save){
+        saveHistory({
+          score,
+          title:task.title,
+          at:new Date().toISOString()
+        });
+      }
+    }
+
+    function diagnose(){
+      state.score = calcScore();
+      render(pickTask(), true);
+    }
+
+    function reroll(){
+      if(state.score === null) state.score = calcScore();
+      render(pickTask(), true);
+    }
+
+    function saveHistory(item){
+      const old = JSON.parse(localStorage.getItem("boredom-history") || "[]");
+      const next = [item, ...old].slice(0,5);
+      localStorage.setItem("boredom-history", JSON.stringify(next));
+      renderHistory();
+    }
+
+    function renderHistory(){
+      const data = JSON.parse(localStorage.getItem("boredom-history") || "[]");
+      const box = $("#historyList");
+      if(!data.length){
+        box.innerHTML = `<div class="history-item">还没有记录。先测一次。</div>`;
+        return;
+      }
+      box.innerHTML = data.map(x=>{
+        const d = new Date(x.at);
+        const time = d.toLocaleString("zh-CN",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false});
+        return `<div class="history-item"><strong>${x.score}%</strong> · ${x.title}<br><span>${time}</span></div>`;
+      }).join("");
+    }
+
+    async function copyResult(){
+      if(state.score === null){
+        diagnose();
+        return;
+      }
+      const text = `我的无聊指数：${state.score}%\n今日处方：${$("#taskTitle").textContent}\n${$("#taskNote").textContent}`;
+      try{
+        await navigator.clipboard.writeText(text);
+        const btn = $("#copyBtn");
+        const old = btn.textContent;
+        btn.textContent = "已复制";
+        setTimeout(()=>btn.textContent=old,1200);
+      }catch{
+        window.prompt("复制下面的内容：",text);
+      }
+    }
+
+    function reset(){
+      $("#mood").value="3";
+      $("#activity").value="6";
+      $("#energy").value="6";
+      $("#energyVal").textContent="6";
+      $("#time").value="20";
+      $$("#chips input").forEach((x,i)=>x.checked = i < 2);
+      state.lastTask=null;
+      state.score=null;
+      $("#score").textContent="--";
+      $("#meterBar").style.width="0";
+      $("#statusText").textContent="等待诊断";
+      $("#taskTitle").textContent="点击「开始诊断」";
+      $("#taskNote").textContent="系统会根据你的无聊程度、精力和可支配时间，给你分配一个现在就能开始的小任务。";
+      $("#taskMeta").innerHTML="<span>无需登录</span><span>本地运行</span><span>不保证科学</span>";
+    }
+
+    $("#energy").addEventListener("input",e=>$("#energyVal").textContent=e.target.value);
+    $("#diagnoseBtn").addEventListener("click",diagnose);
+    $("#rerollBtn").addEventListener("click",reroll);
+    $("#copyBtn").addEventListener("click",copyResult);
+    $("#resetBtn").addEventListener("click",reset);
+    $("#clearHistory").addEventListener("click",()=>{
+      localStorage.removeItem("boredom-history");
+      renderHistory();
+    });
+
+    updateNow();
+    setInterval(updateNow,30000);
+    renderHistory();
+  </script>
+</body>
+</html>
