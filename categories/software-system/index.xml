@@ -844,7 +844,8 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
         <pubDate>Fri, 11 Apr 2025 16:12:04 +0800</pubDate>
         
         <guid>https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/</guid>
-        <description>&lt;img src="https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
+        <description>&lt;img src="https://shawpenn.qzz.io/p/win10%E9%80%8F%E6%98%8E%E4%BB%BB%E5%8A%A1%E6%A0%8F/bg.jpg" alt="Featured image of post win10透明任务栏" /&gt;&lt;h1 id=&#34;windows-10-透明任务栏&#34;&gt;Windows 10 透明任务栏
+&lt;/h1&gt;&lt;h2 id=&#34;设置-颜色-打开-透明效果&#34;&gt;设置-颜色-打开 透明效果；
 &lt;/h2&gt;&lt;h2 id=&#34;打开注册表找到路径&#34;&gt;打开注册表，找到路径：
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -863,6 +864,21 @@ HKEY_CLASSES_ROOT\DesktopBackground\Shell
 		&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
+&lt;h1 id=&#34;windows-11-透明任务栏&#34;&gt;Windows 11 透明任务栏
+&lt;/h1&gt;&lt;p&gt;目前体验Windows11要实现透明任务栏效果，使用第三方软件的体验最佳。&lt;/p&gt;
+&lt;h2 id=&#34;方法一系统设置开启透明效果-适用于-win10win11操作简单但仅支持半透明&#34;&gt;方法一：系统设置开启透明效果 适用于 Win10/Win11，操作简单但仅支持半透明。
+&lt;/h2&gt;&lt;p&gt;Win + I 打开 设置 → 个性化 → 颜色&lt;/p&gt;
+&lt;p&gt;打开 透明效果 开关，即可在任务栏、开始菜单等处生效。&lt;/p&gt;
+&lt;h2 id=&#34;方法二注册表增强透明度-可实现更高透明度甚至接近全透明&#34;&gt;方法二：注册表增强透明度 可实现更高透明度甚至接近全透明。
+&lt;/h2&gt;&lt;p&gt;Win10 可用 TaskbarAcrylicOpacity 控制精度&lt;/p&gt;
+&lt;p&gt;Win11 原有 UseOLEDTaskbarTransparency 已失效，需配合第三方工具。&lt;/p&gt;
+&lt;h2 id=&#34;方法三使用-translucenttb-完全透明-支持多种模式clearbluracrylic-等实时预览效果&#34;&gt;方法三：使用 TranslucentTB 完全透明 支持多种模式（Clear、Blur、Acrylic 等），实时预览效果。
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;Microsoft Store 搜索并安装 &lt;strong&gt;TranslucentTB&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;启动后右键托盘图标 → Desktop → Clear&lt;/li&gt;
+&lt;li&gt;可为不同状态（桌面/开始菜单/任务视图）设置不同效果
+该工具轻量且可随系统启动。&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         </item>
         
